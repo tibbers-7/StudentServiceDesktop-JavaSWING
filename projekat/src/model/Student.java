@@ -6,7 +6,7 @@ import java.util.List;
 import enums.StatusEnum;
 
 public class Student {
-	private String studentId;
+	private int studentId;
 	private String surname;
 	private String name;
 	private Date birthDate;
@@ -25,7 +25,7 @@ public class Student {
 		super();
 	}
 
-	public Student(String studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
+	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status,
 			double averageGrade, List<Grade> passedExam, List<Subject> failedExam) {
 		super();
@@ -45,11 +45,11 @@ public class Student {
 		this.failedExam = failedExam;
 	}
 
-	public String getStudentId() {
+	public int getStudentId() {
 		return studentId;
 	}
 
-	public void setStudentId(String studentId) {
+	public void setStudentId(int studentId) {
 		this.studentId = studentId;
 	}
 

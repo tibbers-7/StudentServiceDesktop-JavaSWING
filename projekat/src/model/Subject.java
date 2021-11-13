@@ -5,7 +5,7 @@ import java.util.List;
 import enums.SemesterEnum;
 
 public class Subject {
-	private String subjectId;
+	private int subjectId;
 	private String subjectKey; // slika 8. ovo je sifra predmeta
 	private String name;
 	private SemesterEnum semester;
@@ -19,7 +19,7 @@ public class Subject {
 		super();
 	}
 
-	public Subject(String subjectId, String subjectKey, String name, SemesterEnum semester, int year,
+	public Subject(int subjectId, String subjectKey, String name, SemesterEnum semester, int year,
 			Professor professor, int espbPoints, List<Student> studentsPassed, List<Student> studentsNotPassed) {
 		super();
 		this.subjectId = subjectId;
@@ -33,11 +33,11 @@ public class Subject {
 		this.studentsNotPassed = studentsNotPassed;
 	}
 
-	public String getSubjectId() {
+	public int getSubjectId() {
 		return subjectId;
 	}
 
-	public void setSubjectId(String subjectId) {
+	public void setSubjectId(int subjectId) {
 		this.subjectId = subjectId;
 	}
 

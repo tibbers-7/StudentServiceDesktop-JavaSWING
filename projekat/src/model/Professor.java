@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Professor {
-	private String professorId;
+	private int professorId;
 	private String surname;
 	private String name;
 	private Date birthDate;
@@ -19,7 +19,7 @@ public class Professor {
 	public Professor() {
 		super();
 	}
-	public Professor(String professorId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
+	public Professor(int professorId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, Address officeAddress, Long personalNumber, String title, int trailYears,
 			List<Subject> subjects) {
 		super();
@@ -36,10 +36,10 @@ public class Professor {
 		this.trailYears = trailYears;
 		this.subjects = subjects;
 	}
-	public String getProfessorId() {
+	public int getProfessorId() {
 		return professorId;
 	}
-	public void setProfessorId(String professorId) {
+	public void setProfessorId(int professorId) {
 		this.professorId = professorId;
 	}
 	public String getSurname() {

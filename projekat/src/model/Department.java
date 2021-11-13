@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 
 public class Department {
-	private String departmentId;
+	private int departmentId;
 	private String departmentKey; //sifra katedre
 	private String name;
 	private Professor departmentManager; // sef katedre
@@ -11,7 +11,7 @@ public class Department {
 	public Department() {
 		super();
 	}
-	public Department(String departmentId, String departmentKey, String name, Professor departmentManager,
+	public Department(int departmentId, String departmentKey, String name, Professor departmentManager,
 			List<Professor> departmentProfessors) {
 		super();
 		this.departmentId = departmentId;
@@ -20,10 +20,10 @@ public class Department {
 		this.departmentManager = departmentManager;
 		this.departmentProfessors = departmentProfessors;
 	}
-	public String getDepartmentId() {
+	public int getDepartmentId() {
 		return departmentId;
 	}
-	public void setDepartmentId(String departmentId) {
+	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
 	}
 	public String getDepartmentKey() {

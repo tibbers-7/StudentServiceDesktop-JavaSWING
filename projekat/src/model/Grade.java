@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Grade {
 	
-	private String gradeId;
+	private int gradeId;
 	private Student student;
 	private Subject subject;
 	private int grade;
@@ -14,7 +14,7 @@ public class Grade {
 		super();
 	}
 
-	public Grade(String gradeId, Student student, Subject subject, int grade, Date examDate) {
+	public Grade(int gradeId, Student student, Subject subject, int grade, Date examDate) {
 		super();
 		this.gradeId = gradeId;
 		this.student = student;
@@ -23,11 +23,11 @@ public class Grade {
 		this.examDate = examDate;
 	}
 
-	public String getGradeId() {
+	public int getGradeId() {
 		return gradeId;
 	}
 
-	public void setGradeId(String gradeId) {
+	public void setGradeId(int gradeId) {
 		this.gradeId = gradeId;
 	}
 
@@ -52,7 +52,9 @@ public class Grade {
 	}
 
 	public void setGrade(int grade) {
-		this.grade = grade;
+		if(grade>=6 && grade<=10) {
+			this.grade = grade;
+		}
 	}
 
 	public Date getExamDate() {
