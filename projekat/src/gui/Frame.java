@@ -18,5 +18,8 @@ public class Frame extends JFrame {
 	MenuBar menu = new MenuBar();
 	this.setJMenuBar(menu);
 	
+	ToolBar toolbar= new ToolBar();
+	add(toolbar, BorderLayout.NORTH);
+	
 	}
 }

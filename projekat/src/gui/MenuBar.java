@@ -6,10 +6,7 @@ import java.awt.event.*;
 
 
 import javax.swing.*;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
+import javax.swing.event.*;
 
 public class MenuBar extends JMenuBar {
 	
@@ -26,7 +23,7 @@ public class MenuBar extends JMenuBar {
 //FILE 		
 		JMenuItem _new = new JMenuItem("New");
 		JMenuItem _save = new JMenuItem("Save");
-		JMenuItem _open = new JMenuItem("Open");
+		JMenu _open = new JMenu("Open");	//ima submenu
 		JMenuItem _close = new JMenuItem("Close");
 		
 	//Ikone	
@@ -64,32 +61,41 @@ public class MenuBar extends JMenuBar {
 		
 			_new.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 			_save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-			_open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+//			_open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 			_close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+	
 			
-			//dodavanje itema
+			//Submenu "open" menija
+			JMenuItem _studenti = new JMenuItem("Studenti");
+			JMenuItem _predmeti = new JMenuItem("Predmeti");
+			JMenuItem _profesori = new JMenuItem("Profesori");
+			JMenuItem _katedre = new JMenuItem("Katedre");
+	
+			_open.add(_studenti);
+			_open.addSeparator();
+			_open.add(_predmeti);
+			_open.addSeparator();
+			_open.add(_profesori);
+			_open.addSeparator();
+			_open.add(_katedre);
+
+
+			
+			
+	//dodavanje itema
 			_file.add(_new);
 			_file.addSeparator();
 			_file.add(_save);
 			_file.addSeparator();
 			_file.add(_open);
+		
+			
 			_file.addSeparator();
 			_file.add(_close);
 		
+			add(_file);
+			
 		
-		
-//Button group NE RADI
-//		ButtonGroup _bg = new ButtonGroup();
-//		JRadioButtonMenuItem _studenti = new JRadioButtonMenuItem("Studenti");
-//		JRadioButtonMenuItem _predmeti = new JRadioButtonMenuItem("Predmeti");
-//		JRadioButtonMenuItem _profesori = new JRadioButtonMenuItem("Profesori");
-//		JRadioButtonMenuItem _katedre = new JRadioButtonMenuItem("Katedre");
-//		_bg.add(_studenti);
-//		_bg.add(_predmeti);
-//		_bg.add(_profesori);
-//		_bg.add(_katedre);
-//			
-//		add(_file);
 		
 //EDIT (isto kao i za file sve)
 		

@@ -7,10 +7,16 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import java.awt.event.*;
+
+import org.w3c.dom.events.MouseEvent;
+
 public class ToolBar extends JToolBar {
 
 	public ToolBar() {
 		super(SwingConstants.HORIZONTAL);
+		
+
 		
 		JButton btnNew = new JButton();
 		btnNew.setToolTipText("New");
@@ -32,7 +38,18 @@ public class ToolBar extends JToolBar {
 
 		
 		JTextField textField = new JTextField("search");
+		
+		
+		//Trebalo da obrise "search" kad se klikne (ali ne radi)
+			textField.addMouseListener(new MouseAdapter() {
+				  @SuppressWarnings("unused")
+				public void mouseClicked(MouseEvent e) {
+				    textField.setText("");
+				  }
+				});
+			
 		add(textField);
+		
 		
 		
 		
