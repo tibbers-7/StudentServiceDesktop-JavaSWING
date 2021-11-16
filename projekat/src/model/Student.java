@@ -18,8 +18,8 @@ public class Student {
 	private int currentStudyYear;
 	private StatusEnum status;
 	private double averageGrade;
-	private List<Grade> passedExam;
-	private List<Subject> failedExam;
+	private List<Grade> passedExams;
+	private List<Grade> failedExams;
 	
 	public Student() {
 		super();
@@ -27,7 +27,7 @@ public class Student {
 
 	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status,
-			double averageGrade, List<Grade> passedExam, List<Subject> failedExam) {
+			double averageGrade, List<Grade> passedExams, List<Grade> failedExams) {
 		super();
 		this.studentId = studentId;
 		this.surname = surname;
@@ -41,8 +41,8 @@ public class Student {
 		this.currentStudyYear = currentStudyYear;
 		this.status = status;
 		this.averageGrade = averageGrade;
-		this.passedExam = passedExam;
-		this.failedExam = failedExam;
+		this.passedExams = passedExams;
+		this.failedExams = failedExams;
 	}
 
 	public int getStudentId() {
@@ -141,20 +141,20 @@ public class Student {
 		this.averageGrade = averageGrade;
 	}
 
-	public List<Grade> getPassedExam() {
-		return passedExam;
+	public List<Grade> getPassedExams() {
+		return passedExams;
 	}
 
-	public void setPassedExam(List<Grade> passedExam) {
-		this.passedExam = passedExam;
+	public void setPassedExams(List<Grade> passedExams) {
+		this.passedExams = passedExams;
 	}
 
-	public List<Subject> getFailedExam() {
-		return failedExam;
+	public List<Grade> getFailedExams() {
+		return failedExams;
 	}
 
-	public void setFailedExam(List<Subject> failedExam) {
-		this.failedExam = failedExam;
+	public void setFailedExams(List<Grade> failedExams) {
+		this.failedExams = failedExams;
 	}
 	
 	
