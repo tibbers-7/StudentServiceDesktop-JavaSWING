@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 public class ToolBar extends JToolBar {
 
+	private JButton btnNew;
 	public ToolBar() {
 		super(SwingConstants.HORIZONTAL);
 		
@@ -56,6 +57,10 @@ public class ToolBar extends JToolBar {
 		setFloatable(false);
 		setBackground(new Color(204,204,204)); 
 		
+	}
+	
+	public JButton getNewButton() {
+		return btnNew;
 	}
 
 }

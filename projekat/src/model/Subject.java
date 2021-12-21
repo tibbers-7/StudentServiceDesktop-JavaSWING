@@ -1,10 +1,12 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.SemesterEnum;
+import tableInterfaces.subjTable;
 
-public class Subject {
+public class Subject implements subjTable{
 	private int subjectId;
 	private String subjectKey; // slika 8. ovo je sifra predmeta
 	private String name;
@@ -14,6 +16,9 @@ public class Subject {
 	private int espbPoints;
 	private List<Student> studentsPassed;
 	private List<Student> studentsNotPassed;
+	
+	private ArrayList<Object> subjects= new ArrayList<Object>();
+
 	
 	public Subject() {
 		super();
@@ -104,6 +109,42 @@ public class Subject {
 	public void setStudentsNotPassed(List<Student> studentsNotPassed) {
 		this.studentsNotPassed = studentsNotPassed;
 	}
+
+
+
+	@Override
+	public Object[] getColumns() {
+//		Šifra predmeta subjectKey
+//		Naziv predmeta name
+//		Broj ESPB bodova espbPoints
+//		Godina na kojoj se predmet izvodi year
+//		Semestar u kome se predmet izvodi semester
+		Object[] cols= {"Sifra","Naziv","ESPB","Godina","Semestar"};
+
+		return cols;
+	}
+
+	public Object[] getData() {
+		Object[] rowData= {};
+		return null;
+	}
+
+	@Override
+	public boolean addEntity(Subject s) {
+		try {
+			subjects.add(s);
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<Object> getListOfEntites() {
+		return subjects;
+	}
+
 	
 	
 	

@@ -1,11 +1,14 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import enums.StatusEnum;
+import tableInterfaces.GetTableData;
+import tableInterfaces.studentTable;
 
-public class Student {
+public class Student implements studentTable{
 	private int studentId;
 	private String surname;
 	private String name;
@@ -20,6 +23,8 @@ public class Student {
 	private double averageGrade;
 	private List<Grade> passedExams;
 	private List<Grade> failedExams;
+	
+	private ArrayList<Object> students= new ArrayList<Object>();
 	
 	public Student() {
 		super();
@@ -156,6 +161,53 @@ public class Student {
 	public void setFailedExams(List<Grade> failedExams) {
 		this.failedExams = failedExams;
 	}
+
+	
+	public static Object[] getData(Object o) {
+		Student s= (Student) o;
+		Object index=Integer.toString(s.getStudentId());
+		Object currStudyYear=Integer.toString(s.getCurrentStudyYear());
+		Object status= s.getStatus().name();
+		Object avgGrade=Double.toString(s.getAverageGrade());
+		
+		
+		Object[] rowData={index,s.getName(), s.getSurname(), currStudyYear,status,avgGrade};
+		return rowData;
+	}
+
+	@Override
+	public Object[] getColumns() {
+
+//		Indeks studentId
+//		Ime name
+//		Prezime surname
+//		Godina studija currentStudyYear
+//		Status status
+//		Prosek averageGrade
+
+		Object[] colNames={ "Indeks", "Ime", "Prezime", "Godina Studija", "Status","Prosek"};
+		return colNames;
+	}
+
+	@Override
+	public boolean addEntity(Student s) {
+		try {
+			students.add(s);
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<Object> getListOfEntites() {
+		return students;
+	}
+
+
+
+
 	
 	
 	

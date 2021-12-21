@@ -1,11 +1,16 @@
 package gui;
-
 import java.awt.*;
 import java.awt.Toolkit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 
 public class Frame extends JFrame {
+	
+	private JButton newButton=new JButton();
+	
+	
 	
 	public Frame() {
 	Toolkit kit = Toolkit.getDefaultToolkit();
@@ -21,5 +26,12 @@ public class Frame extends JFrame {
 	ToolBar toolbar= new ToolBar();
 	add(toolbar, BorderLayout.NORTH);
 	
+	this.newButton=toolbar.getNewButton();
+	}
+	
+	
+	//Treba mi za prosledjivanje dugmadi iz frejma
+	public JButton getNewButton() {
+		return this.newButton;
 	}
 }

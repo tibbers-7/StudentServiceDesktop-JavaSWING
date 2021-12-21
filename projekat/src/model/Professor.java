@@ -1,9 +1,14 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Professor {
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import tableInterfaces.profTable;
+public class Professor implements profTable{
 	private int professorId;
 	private String surname;
 	private String name;
@@ -16,6 +21,9 @@ public class Professor {
 	private String title;
 	private int trailYears; // godine staza
 	private List<Subject> subjects;
+	
+	private ArrayList<Object> professors= new ArrayList<Object>();
+	
 	public Professor() {
 		super();
 	}
@@ -109,6 +117,35 @@ public class Professor {
 		this.subjects = subjects;
 	}
 	
+	
+	
+	
+	public Object[] getData(Object o) {
+		
+		Object[] rowData= {this.getName(),this.getSurname(),this.getTitle(),this.getEmail()};
+		return rowData;
+	}
+	@Override
+	public Object[] getColumns() {
+
+		Object[] cols= {"Ime", "Prezime", "Zvanje", "E-mail"};
+		return cols;
+	}
+	@Override
+	public boolean addEntity(Professor p) {
+		try {
+			professors.add(p);
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Override
+	public ArrayList<Object> getListOfEntites() {
+		return professors;
+	}
+
 	
 
 }
