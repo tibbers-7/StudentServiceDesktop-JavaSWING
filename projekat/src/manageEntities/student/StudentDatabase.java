@@ -35,6 +35,7 @@ public class StudentDatabase extends Student{
 	}
 	
 	public static void delStudent(int id) {
+		id--;
 		studenti.remove(id);
 	}
 

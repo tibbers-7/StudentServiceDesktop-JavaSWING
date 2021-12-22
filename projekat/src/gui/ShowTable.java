@@ -11,7 +11,7 @@ import model.Student;
 import model.Subject;
 public class ShowTable {
 
-	public static JTable showEntityTable(int index,StudentDatabase sdb) {
+	public static JTable showEntityTable(int index) {
 		
 
 	    Object cols[]= null;
@@ -25,7 +25,7 @@ public class ShowTable {
 	    
 	    case 1: 
 	    	
-	    	entities= sdb.getListOfEntites();
+	    	entities= StudentDatabase.getListOfEntites();
 		    cols= s.getColumns();
 		    
 		    break;

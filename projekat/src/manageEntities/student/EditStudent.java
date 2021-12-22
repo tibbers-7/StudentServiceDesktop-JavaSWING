@@ -37,7 +37,7 @@ public class EditStudent extends MouseAdapter{
 //        }
     }
 
-	public static StudentPane editClick(int studentId,StudentDatabase sdb) {
+	public static StudentPane editClick(int studentId) {
 		Student s=StudentDatabase.findByID(studentId);
 		if(s!=null) {
 			DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -56,7 +56,7 @@ public class EditStudent extends MouseAdapter{
 			String string=s.getAddress().addressToStr();
 			ClassNameHere.infoBox(string, "Greska");
 			
-			StudentPane sOp=new StudentPane(sdb);
+			StudentPane sOp=new StudentPane();
 			sOp.setName(name);
 			sOp.setSurname(surname);
 			sOp.setBirthDate(birthDate);

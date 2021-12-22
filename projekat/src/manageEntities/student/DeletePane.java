@@ -9,7 +9,7 @@ public class DeletePane {
 		String message="Da li ste sigurni da zelite da obrisete oznacenu kolonu?";
 		int option = JOptionPane.showConfirmDialog(null, message, "Potvrda", JOptionPane.OK_CANCEL_OPTION);
 		if(option==0) {
-			id++;
+			
 			StudentDatabase.delStudent(id);
 		}
 	}

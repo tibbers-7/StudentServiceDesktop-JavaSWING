@@ -37,7 +37,7 @@ public class Frame extends JFrame {
 		sdb.addStudent(s1);
 //		
 		
-		MenuBar menu = new MenuBar(this,sdb);
+		MenuBar menu = new MenuBar(this);
 		this.setJMenuBar(menu);
 		
 		ToolBar toolbar= new ToolBar();

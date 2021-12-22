@@ -108,27 +108,24 @@ public class StudentPane  extends JFrame{
 	
 	//GLAVNI DEO za prikaz
 	//Konstruktor
-	public StudentPane(StudentDatabase sdb){
-		this.sdb=sdb;
-		
+	public StudentPane(){
+		super();
 	}
 		
 		
 
-		
-//		
-		
+		//Prihvatanje user inputa i pravljenje novog objekta koji se stavlja u bazu
 		public void ispisDijaloga(int sel,int rowClicked) {
 			
-//			this.name= new JTextField("Anja");
-////			
-//			this.surname= new JTextField("Dmitrovic");
-//			this.birthDate= new JTextField("14-April-2001");
-//			this.address= new JTextField("Stevana Sremca,57,Indjija,Srbija");
-//			this.phoneNumber= new JTextField("0691442001");
-//			this.email= new JTextField("anja.dmitrovic@gmail.com");
-//			this.index= new JTextField("41");
-//			this.enrollmentYear= new JTextField("2019");
+			this.name= new JTextField("Anja");
+//			
+			this.surname= new JTextField("Dmitrovic");
+			this.birthDate= new JTextField("14-April-2001");
+			this.address= new JTextField("Stevana Sremca,57,Indjija,Srbija");
+			this.phoneNumber= new JTextField("0691442001");
+			this.email= new JTextField("anja.dmitrovic@gmail.com");
+			this.index= new JTextField("41");
+			this.enrollmentYear= new JTextField("2019");
 //			
 		
 			ArrayList<JTextField> options=new ArrayList<JTextField>();
@@ -191,13 +188,13 @@ public class StudentPane  extends JFrame{
 		    					
 		    					switch(sel) {
 		    						case 1:
-		    							this.sdb.addStudent(s);
+		    							StudentDatabase.addStudent(s);
 					    				String string="Uspesno unet student!";
 							    		ClassNameHere.infoBox(string, "Obavestenje");
 							    		break;
 		    						case 2:
 		    							
-		    							this.sdb.changeStudent(s,rowClicked);
+		    							StudentDatabase.changeStudent(s,rowClicked);
 		    					}
 		    					
 		    				}
@@ -208,10 +205,7 @@ public class StudentPane  extends JFrame{
 	    		
 	    		
 	    		
-	
-	public StudentDatabase getSdb() {
-		return this.sdb;
-	}
+
 	
 	
 	

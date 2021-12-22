@@ -14,16 +14,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
-
-import manageEntities.student.StudentDatabase;
-import manageEntities.ClassNameHere;
 import manageEntities.student.DeletePane;
 import manageEntities.student.EditStudent;
+import manageEntities.student.StudentDatabase;
 import manageEntities.student.StudentPane;
+import model.Student;
 
 public class MenuBar extends JMenuBar {
 	
-	StudentDatabase sdb=new StudentDatabase();
 	private static int selRow=0;
 
 	public static int getSelRow() {
@@ -34,10 +32,8 @@ public class MenuBar extends JMenuBar {
 		MenuBar.selRow = selRow;
 	}
 
-	public MenuBar(Frame f,StudentDatabase sdb) {
+	public MenuBar(Frame f) {
 		
-		MenuBar tempMenubar=this;
-		this.sdb=sdb;
 		JMenu _file = new JMenu("File");
 		JMenu _edit = new JMenu("Edit");
 		JMenu _help = new JMenu("Help");
@@ -95,16 +91,15 @@ public class MenuBar extends JMenuBar {
 			JMenuItem _profesori = new JMenuItem("Profesori");
 			JMenuItem _katedre = new JMenuItem("Katedre");
 			
-			final StudentDatabase sDB1=sdb;
+			
 			
 			//Klik na Studenti->Prikaz studenata->newBtn->Dodavanje novog studenta/Edit
 			_studenti.addActionListener(new ActionListener() {
 				JScrollPane table= new JScrollPane();
 				
-				StudentDatabase sDB=sDB1;
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JTable tableTemp=ShowTable.showEntityTable(1,sDB);
+						JTable tableTemp=ShowTable.showEntityTable(1);
 						
 						tableTemp.setRowSelectionAllowed(true);
 						table=new JScrollPane(tableTemp);
@@ -117,11 +112,10 @@ public class MenuBar extends JMenuBar {
 							@Override
 							public void actionPerformed(ActionEvent e1) {
 								EditStudent.rowClick(tableTemp,f.getEditButton());
-								StudentPane sOp=new StudentPane(sDB);  
+								StudentPane sOp=new StudentPane();  
 								sOp.ispisDijaloga(1,0);
-								sDB=sOp.getSdb();
 								f.remove(table);
-								JTable tableNew=ShowTable.showEntityTable(1,sDB);
+								JTable tableNew=ShowTable.showEntityTable(1);
 								tableNew.setRowSelectionAllowed(true);
 								
 								EditStudent.rowClick(tableNew,f.getEditButton());
@@ -138,14 +132,13 @@ public class MenuBar extends JMenuBar {
 								
 								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
 								
-								StudentPane sp=EditStudent.editClick(selRow,sDB);
+								StudentPane sp=EditStudent.editClick(selRow);
 								sp.ispisDijaloga(2,selRow);
 								if(sp!=null) {
 									
 								}
-								sDB=sp.getSdb();
 								f.remove(table);
-								JTable tableNew=ShowTable.showEntityTable(1,sDB);
+								JTable tableNew=ShowTable.showEntityTable(1);
 								tableNew.setRowSelectionAllowed(true);
 								
 								table=new JScrollPane(tableNew);
@@ -159,23 +152,23 @@ public class MenuBar extends JMenuBar {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
+								System.out.printf("SelRow= %s\n",selRow);
+								Student pera=StudentDatabase.findByID(selRow);
+								System.out.printf("Ime: %s",pera.getName());
 								DeletePane.delMessage(selRow);
 								
+								JTable tableNew=ShowTable.showEntityTable(1);
+								tableNew.setRowSelectionAllowed(true);
+								
+								f.remove(table);
+								table=new JScrollPane(tableNew);
+								f.add(table);
+								
 							}
-							
-							
+
 						});
-						
-						
-						
-						
-						
-							
-						
-						
 					}
-					
-					
+	
 				});
 			
 			_predmeti.addActionListener(new ActionListener() {
