@@ -118,9 +118,6 @@ public class StudentPane  extends JFrame{
 		
 //		
 		
-		
-		
-		
 		public void ispisDijaloga(int sel,int rowClicked) {
 			
 //			this.name= new JTextField("Anja");

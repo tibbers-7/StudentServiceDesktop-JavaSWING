@@ -79,6 +79,10 @@ public class Student{
 		rowNum++;
 		this.studentId = rowNum;
 	}
+	
+	public void setStudentId(int id) {
+		this.studentId = id;
+	}
 
 	public String getSurname() {
 		return surname;

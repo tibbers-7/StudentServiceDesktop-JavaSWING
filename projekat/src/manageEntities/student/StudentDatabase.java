@@ -8,11 +8,11 @@ public class StudentDatabase extends Student{
 	
 	private static ArrayList<Object> studenti=new ArrayList<Object>();
 	
-	public ArrayList<Object> getListOfEntites() {
+	public static ArrayList<Object> getListOfEntites() {
 		return studenti;
 	}
 	
-	public void addStudent(Student s) {
+	public static void addStudent(Student s) {
 		Student.rowNum++;
    	 	studenti.add(s);
 	}
@@ -28,10 +28,14 @@ public class StudentDatabase extends Student{
 		return null;
 	}
 	
-	public void changeStudent(Student sNew,int id) {
-		Student sOld=findByID(id);
-		sOld=sNew;
+	public static void changeStudent(Student sNew,int id) {
+		
+		sNew.setStudentId(id);
 		studenti.set(id-1, sNew);
+	}
+	
+	public static void delStudent(int id) {
+		studenti.remove(id);
 	}
 
 }

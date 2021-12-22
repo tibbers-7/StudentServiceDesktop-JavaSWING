@@ -15,7 +15,8 @@ public class Frame extends JFrame {
 	
 	private JButton newButton=new JButton();
 	private JButton editButton=new JButton();
-	
+	private JButton deleteButton=new JButton();
+
 	
 	public Frame() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -43,6 +44,7 @@ public class Frame extends JFrame {
 		add(toolbar, BorderLayout.NORTH);
 		this.newButton=toolbar.getNewButton();
 		this.editButton=toolbar.getEditButton();
+		this.deleteButton=toolbar.getDeleteButton();
 		
 	}
 	
@@ -53,6 +55,12 @@ public class Frame extends JFrame {
 	public JButton getEditButton() {
 		return this.editButton;
 	}
+	
+	public JButton getDeleteButton() {
+		return this.deleteButton;
+	}
+	
+	
 	
 	
 }

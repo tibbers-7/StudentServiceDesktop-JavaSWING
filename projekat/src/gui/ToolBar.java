@@ -14,6 +14,8 @@ public class ToolBar extends JToolBar {
 
 	private JButton btnNew=new JButton();
 	private JButton btnEdit=new JButton();;
+	private JButton btnDelete=new JButton();;
+
 	public ToolBar() {
 		super(SwingConstants.HORIZONTAL);
 		
@@ -31,10 +33,10 @@ public class ToolBar extends JToolBar {
 		add(this.btnEdit);
 		addSeparator();
 	//Delete
-		JButton btnDelete = new JButton();
-		btnDelete.setToolTipText("Delete");
-		btnDelete.setPreferredSize(new Dimension(25,25));
-		btnDelete.setIcon(new ImageIcon("src/images/delete1.png"));
+		
+		this.btnDelete.setToolTipText("Delete");
+		this.btnDelete.setPreferredSize(new Dimension(25,25));
+		this.btnDelete.setIcon(new ImageIcon("src/images/delete1.png"));
 		add(btnDelete);
 		
         add(Box.createHorizontalGlue()); 
@@ -65,5 +67,10 @@ public class ToolBar extends JToolBar {
 	public JButton getEditButton() {
 		return this.btnEdit;
 	}
+	
+	public JButton getDeleteButton() {
+		return this.btnDelete;
+	}
+	
 
 }

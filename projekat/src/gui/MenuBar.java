@@ -17,6 +17,7 @@ import javax.swing.KeyStroke;
 
 import manageEntities.student.StudentDatabase;
 import manageEntities.ClassNameHere;
+import manageEntities.student.DeletePane;
 import manageEntities.student.EditStudent;
 import manageEntities.student.StudentPane;
 
@@ -94,16 +95,19 @@ public class MenuBar extends JMenuBar {
 			JMenuItem _profesori = new JMenuItem("Profesori");
 			JMenuItem _katedre = new JMenuItem("Katedre");
 			
+			final StudentDatabase sDB1=sdb;
+			
 			//Klik na Studenti->Prikaz studenata->newBtn->Dodavanje novog studenta/Edit
 			_studenti.addActionListener(new ActionListener() {
 				JScrollPane table= new JScrollPane();
 				
+				StudentDatabase sDB=sDB1;
 					@Override
-					
 					public void actionPerformed(ActionEvent e) {
-						JTable tableTemp=ShowTable.showEntityTable(1,sdb);
-						table=new JScrollPane(tableTemp);
+						JTable tableTemp=ShowTable.showEntityTable(1,sDB);
+						
 						tableTemp.setRowSelectionAllowed(true);
+						table=new JScrollPane(tableTemp);
 						f.add(table);
 						
 						
@@ -113,11 +117,13 @@ public class MenuBar extends JMenuBar {
 							@Override
 							public void actionPerformed(ActionEvent e1) {
 								EditStudent.rowClick(tableTemp,f.getEditButton());
-								StudentPane sOp=new StudentPane(sdb);  
+								StudentPane sOp=new StudentPane(sDB);  
 								sOp.ispisDijaloga(1,0);
-								StudentDatabase newSdb=sOp.getSdb();
+								sDB=sOp.getSdb();
 								f.remove(table);
-								JTable tableNew=ShowTable.showEntityTable(1,newSdb);
+								JTable tableNew=ShowTable.showEntityTable(1,sDB);
+								tableNew.setRowSelectionAllowed(true);
+								
 								EditStudent.rowClick(tableNew,f.getEditButton());
 								table=new JScrollPane(tableNew);
 								
@@ -132,17 +138,32 @@ public class MenuBar extends JMenuBar {
 								
 								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
 								
-								StudentPane sp=EditStudent.editClick(selRow,sdb);
+								StudentPane sp=EditStudent.editClick(selRow,sDB);
 								sp.ispisDijaloga(2,selRow);
 								if(sp!=null) {
 									
 								}
-								StudentDatabase newSdb=sp.getSdb();
+								sDB=sp.getSdb();
 								f.remove(table);
-								JTable tableNew=ShowTable.showEntityTable(1,newSdb);
+								JTable tableNew=ShowTable.showEntityTable(1,sDB);
+								tableNew.setRowSelectionAllowed(true);
+								
 								table=new JScrollPane(tableNew);
 								f.add(table);
 							}
+						});
+						
+						//DELETE dugme
+						f.getDeleteButton().addActionListener(new ActionListener(){
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
+								DeletePane.delMessage(selRow);
+								
+							}
+							
+							
 						});
 						
 						
