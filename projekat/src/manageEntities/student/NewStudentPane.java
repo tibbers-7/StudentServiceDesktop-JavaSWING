@@ -20,12 +20,11 @@ import model.Address;
 import model.Student;
 
 //Frejm dijaloga za dodavanje studenta
-public class StudentOptionPane  extends JFrame{
+public class NewStudentPane  extends JFrame{
 	
-	private static final Pattern p = Pattern.compile("^(\\D+),(\\d+),(\\D+),(\\D+)");
 	StudentDatabase sdb=new StudentDatabase();
 	
-	public StudentOptionPane(StudentDatabase sdb){
+	public NewStudentPane(StudentDatabase sdb){
 		this.sdb=sdb;
 		JPanel panel=new JPanel();
 		Student s=new Student();
@@ -72,8 +71,6 @@ public class StudentOptionPane  extends JFrame{
 			 options.add(index);
 			 options.add(enrollmentYear);
 			 
-			 String addressPattern = "(\\D+),(\\d+),(\\D+),(\\D+)";
-			 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 			 
 
 	    		int option = JOptionPane.showConfirmDialog(null, message, "Dodavanje Studenta", JOptionPane.OK_CANCEL_OPTION);
@@ -94,70 +91,17 @@ public class StudentOptionPane  extends JFrame{
 	    			
 	    			//Ako su sva polja popunjena:
 	    			else {
-	    				s.setName(name.getText());
-	    				s.setSurname(surname.getText());
-	    				s.setIndex(index.getText());
-	    				
-	    				//Dobavljanje datuma,provera formata
-	    					Date d=Student.formatDate(birthDate.getText());
-							if (d!=null) {
-								s.setBirthDate(d);
-							} else {
-								String string="Datum nije dobro unesen (dd-MMM-yyyy)";
-					    		ClassNameHere.infoBox(string, "Greska");
-							}
-							
-//						Dobavljanje adrese i provera jel dobro ukucana
-//							REGEX provera
-							String adresa=address.getText();
-							Matcher m = p.matcher(adresa);
-							
-							if(m.find()) {
-								
-								int num=Integer.parseInt(m.group(2));
-								Address a=new Address(m.group(1),num,m.group(3),m.group(4));
-								
-								s.setAddress(a);
-							} else {
-								String string="Format adrese nije dobro unesen (Ulica,Broj,Grad,Zemlja)";
-					    		ClassNameHere.infoBox(string, "Greska");
-							}
+	    				if(CheckValidity.checkValidityStudent(s,name.getText(),surname.getText(),birthDate.getText(),
+	    							 address.getText(),phoneNumber.getText(),email.getText(),
+	    							 index.getText(),enrollmentYear.getText(),
+	    							 (String)currentStudyYear.getSelectedItem(),(String)status.getSelectedItem())) {
 	    					
-	    				s.setEmail(email.getText());
-	    				s.setIndex(index.getText());
-	    				s.setPhoneNumber(Long.parseLong(phoneNumber.getText()));
-	    				s.setEnrollmentYear(Integer.parseInt(enrollmentYear.getText()));
-	    				
-	    				//Dobavljanje statusa
-	    				String statVal = (String) status.getSelectedItem();
-	    				if(statVal=="Budzet") {
-	    					s.setStatus(StatusEnum.BUDGET);
-	    				} else s.setStatus(StatusEnum.SELF_FINANCING);
-	    					
-	    				//Dobavljanje godine studija
-	    				String currYear=(String) currentStudyYear.getSelectedItem();
-	    				switch(currYear) {
-	    					case "I (prva)":
-	    						s.setCurrentStudyYear(1);
-	    						break;
-	    					case "II (druga)":
-	    						s.setCurrentStudyYear(2);
-	    						break;
-	    					case "III (treca)":
-	    						s.setCurrentStudyYear(3);
-	    						break;
-	    					case "IV (cetvrta)":
-	    						s.setCurrentStudyYear(4);
-	    						break;
+	    					this.sdb.addStudent(s);
+		    				String string="Uspesno unet student!";
+				    		ClassNameHere.infoBox(string, "Obavestenje");
 	    				}
-//	    				
-	    				this.sdb.addStudent(s);
-	    				
-	    				
-	    				
-	    				String string="Uspesno unet student!";
-			    		ClassNameHere.infoBox(string, "Obavestenje");
-	    				}
+
+	    			}
 	    		}
 	    		
 	    		
@@ -167,4 +111,6 @@ public class StudentOptionPane  extends JFrame{
 	public StudentDatabase getSdb() {
 		return this.sdb;
 	}
+	
+	
 };

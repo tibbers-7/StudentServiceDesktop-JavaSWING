@@ -13,14 +13,7 @@ public class ShowTable {
 
 	public static JScrollPane showEntityTable(int index,StudentDatabase sdb) {
 		
-//		ToolBar tb= new ToolBar();
-//		 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-//
-//		String ds1="14-April-2001";
-//		Date d1 = formatter.parse(ds1);
-//		Student s1=new Student(41,"Dmitrovic","Anja",d1,);
-//		
-//		StudentDatabase.addStudent(s)
+
 	    Object cols[]= null;
 	    ArrayList<Object> entities= new ArrayList<Object>();
 	    Student s= new Student();

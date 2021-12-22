@@ -14,7 +14,7 @@ import model.*;
 public class Frame extends JFrame {
 	
 	private JButton newButton=new JButton();
-	
+	private JButton editButton=new JButton();
 	
 	
 	public Frame() {
@@ -41,12 +41,17 @@ public class Frame extends JFrame {
 		
 		ToolBar toolbar= new ToolBar();
 		add(toolbar, BorderLayout.NORTH);
-		newButton=toolbar.getNewButton();
+		this.newButton=toolbar.getNewButton();
+		this.editButton=toolbar.getEditButton();
 		
 	}
 	
 	public JButton getNewButton() {
 		return this.newButton;
+	}
+	
+	public JButton getEditButton() {
+		return this.editButton;
 	}
 	
 	

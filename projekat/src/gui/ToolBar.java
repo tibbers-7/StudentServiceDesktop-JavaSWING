@@ -12,24 +12,23 @@ import javax.swing.SwingConstants;
 
 public class ToolBar extends JToolBar {
 
-	private JButton btnNew;
+	private JButton btnNew=new JButton();
+	private JButton btnEdit=new JButton();;
 	public ToolBar() {
 		super(SwingConstants.HORIZONTAL);
 		
 
 	//New
-		btnNew = new JButton();
-		btnNew.setToolTipText("New");
-		btnNew.setPreferredSize(new Dimension(25,25));
-		btnNew.setIcon(new ImageIcon("src/images/new1.png"));
-		add(btnNew);
+		this.btnNew.setToolTipText("New");
+		this.btnNew.setPreferredSize(new Dimension(25,25));
+		this.btnNew.setIcon(new ImageIcon("src/images/new1.png"));
+		add(this.btnNew);
 		addSeparator();
 	//Edit
-		JButton btnEdit = new JButton();
-		btnEdit.setToolTipText("Edit");
-		btnEdit.setPreferredSize(new Dimension(25,25));
-		btnEdit.setIcon(new ImageIcon("src/images/edit1.png"));
-		add(btnEdit);
+		this.btnEdit.setToolTipText("Edit");
+		this.btnEdit.setPreferredSize(new Dimension(25,25));
+		this.btnEdit.setIcon(new ImageIcon("src/images/edit1.png"));
+		add(this.btnEdit);
 		addSeparator();
 	//Delete
 		JButton btnDelete = new JButton();
@@ -60,7 +59,11 @@ public class ToolBar extends JToolBar {
 	}
 	
 	public JButton getNewButton() {
-		return btnNew;
+		return this.btnNew;
+	}
+	
+	public JButton getEditButton() {
+		return this.btnEdit;
 	}
 
 }

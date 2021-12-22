@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import manageEntities.student.StudentDatabase;
-import manageEntities.student.StudentOptionPane;
+import manageEntities.student.NewStudentPane;
 
 public class MenuBar extends JMenuBar {
 	
@@ -94,7 +94,7 @@ public class MenuBar extends JMenuBar {
 
 							@Override
 							public void actionPerformed(ActionEvent e1) {
-								StudentOptionPane sOp=new StudentOptionPane(sdb);  
+								NewStudentPane sOp=new NewStudentPane(sdb);  
 								StudentDatabase newSdb=sOp.getSdb();
 								f.remove(table);
 								table=ShowTable.showEntityTable(1,newSdb);
