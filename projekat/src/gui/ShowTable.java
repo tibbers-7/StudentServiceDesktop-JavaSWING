@@ -20,24 +20,18 @@ public class ShowTable {
 	    Professor p=new Professor();
 	    Subject subj=new Subject();
 	    
-	    //Ovo treba da zavisi od toga koje je dugme kliknuto ali jos uvek nisam implementirala
+	    //Zavisi od toga koja tabela je upaljena
 	    switch(index) {
-	    
 	    case 1: 
-	    	
 	    	entities= StudentDatabase.getListOfEntites();
 		    cols= s.getColumns();
-		    
 		    break;
 	    case 2:
-	    	
 	    	entities=p.getListOfEntites();
 	    	cols= p.getColumns();
 		    break;
-		    
-	    case 3:
-	    	
-	    	entities=subj.getListOfEntites();
+		case 3:
+			entities=subj.getListOfEntites();
 	    	cols=subj.getColumns();
 	    	break;
 	    }

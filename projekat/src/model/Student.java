@@ -76,7 +76,6 @@ public class Student{
 	}
 
 	public void setStudentId() {
-		rowNum++;
 		this.studentId = rowNum;
 	}
 	
@@ -203,6 +202,7 @@ public class Student{
 		return rowData;
 	}
 
+	//nazivi kolona
 	public Object[] getColumns() {
 
 //		Indeks studentId

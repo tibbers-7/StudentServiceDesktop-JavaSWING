@@ -1,9 +1,8 @@
-package manageEntities.student;
+package manageEntities;
 
 import java.util.Date;
 
 import enums.StatusEnum;
-import manageEntities.ClassNameHere;
 import model.Address;
 import model.Student;
 

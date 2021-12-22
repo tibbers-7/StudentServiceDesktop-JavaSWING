@@ -2,11 +2,7 @@ package manageEntities.student;
 import java.awt.event.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.*;
-
-import gui.MenuBar;
 import manageEntities.ClassNameHere;
 import model.Student;
 
@@ -25,16 +21,7 @@ public class EditStudent extends MouseAdapter{
     {
         JTable jtable = (JTable) e.getSource();
         selection= jtable.getSelectedRow();
-//        Student s=StudentDatabase.findByID(selection+1);
-//        if(s!=null) {
-//	        String string="Student pronadjen";
-//			ClassNameHere.infoBox(string, "Obavestenje");
-//			
-//			
-//        } else {
-//        	String string="Student nije pronadjen";
-//			ClassNameHere.infoBox(string, "Greska");
-//        }
+
     }
 
 	public static StudentPane editClick(int studentId) {

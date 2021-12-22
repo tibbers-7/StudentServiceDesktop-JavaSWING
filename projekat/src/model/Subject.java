@@ -17,6 +17,9 @@ public class Subject implements subjTable{
 	private List<Student> studentsPassed;
 	private List<Student> studentsNotPassed;
 	
+	protected static int rowNum=0;
+
+	
 	private ArrayList<Object> subjects= new ArrayList<Object>();
 
 	

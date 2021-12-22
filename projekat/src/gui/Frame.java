@@ -26,7 +26,7 @@ public class Frame extends JFrame {
 		
 		setSize(3*screenWidth / 4, 3*screenHeight / 4);
 		
-		StudentDatabase sdb=new StudentDatabase();
+
 		
 		String adS="Branka Copica,15,Beograd,Srbija";
 		Address a=Address.formatAddress(adS);
@@ -34,7 +34,7 @@ public class Frame extends JFrame {
 		Date d=Student.formatDate(dS);
 		Long l=38162559482L;
 		Student s1=new Student(1,"Peric","Pera",d,a,l,"pericpera@gmail.com","RA15/2019",2019,3,StatusEnum.SELF_FINANCING);
-		sdb.addStudent(s1);
+		StudentDatabase.addStudent(s1);
 //		
 		
 		MenuBar menu = new MenuBar(this);
