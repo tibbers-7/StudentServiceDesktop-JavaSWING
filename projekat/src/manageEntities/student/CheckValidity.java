@@ -15,6 +15,7 @@ public class CheckValidity {
 				s.setName(name);
 				s.setSurname(surname);
 				s.setIndex(index);
+				s.setStudentId();
 				
 				//Dobavljanje datuma,provera formata
 				Date d=Student.formatDate(birthDate);

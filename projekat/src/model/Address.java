@@ -69,6 +69,11 @@ public class Address {
 		}
 	}
 	
+	public String addressToStr() {
+		String ret=this.street+","+this.number+","+this.city+","+this.country;
+		return ret;
+	}
+	
 	
 
 }

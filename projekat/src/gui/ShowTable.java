@@ -11,7 +11,7 @@ import model.Student;
 import model.Subject;
 public class ShowTable {
 
-	public static JScrollPane showEntityTable(int index,StudentDatabase sdb) {
+	public static JTable showEntityTable(int index,StudentDatabase sdb) {
 		
 
 	    Object cols[]= null;
@@ -77,7 +77,7 @@ public class ShowTable {
 	    }
 	    
 		JTable table = new JTable(rowData,cols);
-	    JScrollPane scrollPane = new JScrollPane(table);
-	    return scrollPane;
+//	    JScrollPane scrollPane = new JScrollPane(table);
+	    return table;
 	}
 }

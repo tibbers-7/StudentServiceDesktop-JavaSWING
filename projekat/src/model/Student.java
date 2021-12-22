@@ -10,7 +10,7 @@ import java.util.Locale;
 import enums.StatusEnum;
 import tableInterfaces.studentTable;
 
-public class Student implements studentTable{
+public class Student{
 	private int studentId;
 	private String surname;
 	private String name;
@@ -26,10 +26,11 @@ public class Student implements studentTable{
 	private List<Grade> passedExams;
 	private List<Grade> failedExams;
 	
-	private static ArrayList<Object> students= new ArrayList<Object>();
+	protected static int rowNum=0;
 	
 	public Student() {
 		super();
+		
 	}
 	
 	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
@@ -46,6 +47,7 @@ public class Student implements studentTable{
 		this.enrollmentYear = enrollmentYear;
 		this.currentStudyYear = currentStudyYear;
 		this.status = status;
+		
 	}
 
 	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
@@ -66,14 +68,16 @@ public class Student implements studentTable{
 		this.averageGrade = averageGrade;
 		this.passedExams = passedExams;
 		this.failedExams = failedExams;
+		
 	}
 
 	public int getStudentId() {
 		return studentId;
 	}
 
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
+	public void setStudentId() {
+		rowNum++;
+		this.studentId = rowNum;
 	}
 
 	public String getSurname() {
@@ -182,18 +186,19 @@ public class Student implements studentTable{
 
 	
 	public static Object[] getData(Object o) {
+		
 		Student s= (Student) o;
-		Object index=Integer.toString(s.getStudentId());
+		Object index=s.getIndex();
 		Object currStudyYear=Integer.toString(s.getCurrentStudyYear());
 		Object status= s.getStatus().name();
 		Object avgGrade=Double.toString(s.getAverageGrade());
+		Object sID=Integer.toString(s.getStudentId());
 		
 		
-		Object[] rowData={index,s.getName(), s.getSurname(), currStudyYear,status,avgGrade};
+		Object[] rowData={sID,index,s.getName(), s.getSurname(), currStudyYear,status,avgGrade};
 		return rowData;
 	}
 
-	@Override
 	public Object[] getColumns() {
 
 //		Indeks studentId
@@ -203,31 +208,11 @@ public class Student implements studentTable{
 //		Status status
 //		Prosek averageGrade
 
-		Object[] colNames={ "Indeks", "Ime", "Prezime", "Godina Studija", "Status","Prosek"};
+		Object[] colNames={"StID", "Indeks", "Ime", "Prezime", "Godina Studija", "Status","Prosek"};
 		return colNames;
 	}
 
-	@Override
-	public boolean addEntity(Student s) {
-		try {
-			students.add(s);
-			return true;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 
-	@Override
-	public ArrayList<Object> getListOfEntites() {
-		return students;
-	}
-	
-	public static void addStudent(Student s) {
-   	 	students.add(s);
-	}
-	
-	
 	public static Date formatDate(String s) {
 		 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 		 try {
