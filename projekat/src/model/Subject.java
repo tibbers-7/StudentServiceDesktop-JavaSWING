@@ -124,9 +124,14 @@ public class Subject implements subjTable{
 		return cols;
 	}
 
-	public Object[] getData() {
-		Object[] rowData= {};
-		return null;
+	public static Object[] getData(Object o) {
+		Subject s=(Subject) o;
+		String espb=Integer.toString(s.espbPoints);
+		String year=Integer.toString(s.getYear());
+		SemesterEnum sem=s.getSemester();
+		String semester=sem.name();
+		Object[] rowData= {s,s.getName(),espb,year,semester};
+		return rowData;
 	}
 
 	@Override

@@ -1,11 +1,13 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import enums.StatusEnum;
-import tableInterfaces.GetTableData;
 import tableInterfaces.studentTable;
 
 public class Student implements studentTable{
@@ -24,10 +26,26 @@ public class Student implements studentTable{
 	private List<Grade> passedExams;
 	private List<Grade> failedExams;
 	
-	private ArrayList<Object> students= new ArrayList<Object>();
+	private static ArrayList<Object> students= new ArrayList<Object>();
 	
 	public Student() {
 		super();
+	}
+	
+	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
+			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status) {
+		super();
+		this.studentId = studentId;
+		this.surname = surname;
+		this.name = name;
+		this.birthDate = birthDate;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.index = index;
+		this.enrollmentYear = enrollmentYear;
+		this.currentStudyYear = currentStudyYear;
+		this.status = status;
 	}
 
 	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
@@ -203,6 +221,24 @@ public class Student implements studentTable{
 	@Override
 	public ArrayList<Object> getListOfEntites() {
 		return students;
+	}
+	
+	public static void addStudent(Student s) {
+   	 	students.add(s);
+	}
+	
+	
+	public static Date formatDate(String s) {
+		 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+		 try {
+			Date d = formatter.parse(s);
+			return d;
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+			return null;
+		}
+		 
 	}
 
 

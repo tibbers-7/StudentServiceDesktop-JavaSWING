@@ -2,18 +2,28 @@ package gui;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import manageEntities.student.StudentDatabase;
+import manageEntities.student.StudentOptionPane;
 
 public class MenuBar extends JMenuBar {
 	
+	StudentDatabase sdb=new StudentDatabase();
 
-	public MenuBar() {
+	public MenuBar(Frame f,StudentDatabase sdb) {
 		
-		
+		this.sdb=sdb;
 		JMenu _file = new JMenu("File");
 		JMenu _edit = new JMenu("Edit");
 		JMenu _help = new JMenu("Help");
@@ -70,6 +80,43 @@ public class MenuBar extends JMenuBar {
 			JMenuItem _predmeti = new JMenuItem("Predmeti");
 			JMenuItem _profesori = new JMenuItem("Profesori");
 			JMenuItem _katedre = new JMenuItem("Katedre");
+			
+			//Klik na Studenti->Prikaz studenata->newBtn->Dodavanje novog studenta
+			_studenti.addActionListener(new ActionListener() {
+				JScrollPane table= new JScrollPane();
+				
+					@Override
+					
+					public void actionPerformed(ActionEvent e) {
+						table=ShowTable.showEntityTable(1,sdb);
+						f.add(table);
+						f.getNewButton().addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent e1) {
+								StudentOptionPane sOp=new StudentOptionPane(sdb);  
+								StudentDatabase newSdb=sOp.getSdb();
+								f.remove(table);
+								table=ShowTable.showEntityTable(1,newSdb);
+								
+								f.add(table);
+							}
+						});
+					}
+					
+					
+				});
+			
+			_predmeti.addActionListener(new ActionListener() {
+				JScrollPane table= new JScrollPane();
+					@Override
+					public void actionPerformed(ActionEvent e) {
+//						table=ShowTable.showEntityTable(3);
+						f.add(table);
+					}
+					
+				});
+				
 	
 			_open.add(_studenti);
 			_open.addSeparator();
@@ -78,6 +125,8 @@ public class MenuBar extends JMenuBar {
 			_open.add(_profesori);
 			_open.addSeparator();
 			_open.add(_katedre);
+			
+			
 
 
 			

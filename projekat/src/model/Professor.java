@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 import tableInterfaces.profTable;
 public class Professor implements profTable{
 	private int professorId;

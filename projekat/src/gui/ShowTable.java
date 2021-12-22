@@ -1,43 +1,51 @@
-package tableInterfaces;
+package gui;
 
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import enums.StatusEnum;
-import gui.Frame;
-import gui.ToolBar;
-import manageEntities.AddEntity;
-import model.*;
-import gui.ToolBar;
+import manageEntities.student.StudentDatabase;
+import model.Professor;
+import model.Student;
+import model.Subject;
 public class ShowTable {
 
-	public static JScrollPane showEntityTable(int index) {
+	public static JScrollPane showEntityTable(int index,StudentDatabase sdb) {
 		
 //		ToolBar tb= new ToolBar();
-
+//		 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+//
+//		String ds1="14-April-2001";
+//		Date d1 = formatter.parse(ds1);
+//		Student s1=new Student(41,"Dmitrovic","Anja",d1,);
+//		
+//		StudentDatabase.addStudent(s)
 	    Object cols[]= null;
 	    ArrayList<Object> entities= new ArrayList<Object>();
+	    Student s= new Student();
+	    Professor p=new Professor();
+	    Subject subj=new Subject();
 	    
 	    //Ovo treba da zavisi od toga koje je dugme kliknuto ali jos uvek nisam implementirala
 	    switch(index) {
 	    
-	    case 1: //
-	    	Student s= new Student();
-	    	entities= s.getListOfEntites();
+	    case 1: 
+	    	
+	    	entities= sdb.getListOfEntites();
 		    cols= s.getColumns();
+		    
 		    break;
 	    case 2:
-	    	Professor p=new Professor();
+	    	
 	    	entities=p.getListOfEntites();
 	    	cols= p.getColumns();
 		    break;
 		    
 	    case 3:
-	    	Subject subj=new Subject();
+	    	
 	    	entities=subj.getListOfEntites();
+	    	cols=subj.getColumns();
 	    	break;
 	    }
 	    
