@@ -143,7 +143,7 @@ public class MenuBar extends JMenuBar {
 				});
 			
 			_predmeti.addActionListener(new ActionListener() {
-				JScrollPane table= new JScrollPane();
+				
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {

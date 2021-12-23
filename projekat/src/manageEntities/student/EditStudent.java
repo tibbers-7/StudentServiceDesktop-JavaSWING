@@ -12,20 +12,15 @@ public class EditStudent extends MouseAdapter{
 	
 //	StudentPane sp=new StudentPane();
 	public static int rowClick(JTable table,JButton editB) {
-		table.addMouseListener(new EditStudent());
+
+		selection=table.getSelectedRow();
 		return selection+1;
 	}
 	
-	@Override
-    public void mousePressed(MouseEvent e)
-    {
-        JTable jtable = (JTable) e.getSource();
-        selection= jtable.getSelectedRow();
-
-    }
 
 	public static StudentPane editClick(int studentId) {
 		Student s=StudentDatabase.findByID(studentId);
+
 		if(s!=null) {
 			DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 			String dateToStr = df.format(s.getBirthDate());
@@ -40,8 +35,6 @@ public class EditStudent extends MouseAdapter{
 			JTextField index= new JTextField(s.getIndex());
 			JTextField enrollmentYear= new JTextField(Integer.toString(s.getEnrollmentYear()));
 			
-			String string=s.getAddress().addressToStr();
-			ClassNameHere.infoBox(string, "Greska");
 			
 			StudentPane sOp=new StudentPane();
 			sOp.setName(name);

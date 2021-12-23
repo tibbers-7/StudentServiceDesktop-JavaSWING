@@ -1,3 +1,4 @@
+
 package manageEntities;
 
 import javax.swing.JScrollPane;
@@ -38,6 +39,7 @@ public class Actions {
 		tableNew.setRowSelectionAllowed(true);
 		studTableTemp=tableNew;
 		
+		EditStudent.rowClick(tableNew,f.getEditButton());
 		jsp=new JScrollPane(tableNew);
 		f.add(jsp);
 	}
@@ -46,13 +48,14 @@ public class Actions {
 		//Dobavljanje kliknutog reda i dalji rad s njom
 		int selRow=EditStudent.rowClick(studTableTemp,f.getEditButton());
 		StudentPane sp=EditStudent.editClick(selRow);
-		sp.ispisDijaloga(2,selRow);
+		sp.ispisDijaloga(2,selRow+1);
 		
 		f.remove(jsp);
 		JTable tableNew=ShowTable.showEntityTable(1);
 		tableNew.setRowSelectionAllowed(true);
 		studTableTemp=tableNew;
 		
+		EditStudent.rowClick(tableNew,f.getEditButton());
 		jsp=new JScrollPane(tableNew);
 		f.add(jsp);
 	}
@@ -101,6 +104,7 @@ public class Actions {
 		tableNew.setRowSelectionAllowed(true);
 		subjTableTemp=tableNew;
 		
+		EditStudent.rowClick(tableNew,f.getEditButton());
 		jsp=new JScrollPane(tableNew);
 		f.add(jsp);
 	}
@@ -108,7 +112,6 @@ public class Actions {
 	public static void editClickPred(Frame f) {
 		//Dobavljanje kliknutog reda i dalji rad s njom
 		int selRow=EditSubject.rowClick(subjTableTemp,f.getEditButton());
-		
 		SubjectPane sp=EditSubject.editClick(selRow);
 		sp.ispisDijaloga(2,selRow);
 		
@@ -124,3 +127,4 @@ public class Actions {
 	
 };
 		
+

@@ -197,6 +197,8 @@ public class StudentPane  extends JFrame{
 							    	//ako je dugme edit
 		    						case 2:
 		    							StudentDatabase.changeStudent(s,rowClicked);
+		    							string="Uspesno izmenjen student!";
+							    		ClassNameHere.infoBox(string, "Obavestenje");
 		    					}
 		    					
 		    				}

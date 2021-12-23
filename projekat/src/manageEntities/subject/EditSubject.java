@@ -17,17 +17,12 @@ public class EditSubject extends MouseAdapter{
 	private static int selection=0;
 
 	public static int rowClick(JTable table,JButton editB) {
-		table.addMouseListener(new EditSubject());
+		selection= table.getSelectedRow();
+		
 		return selection+1;
 	}
-	
-	@Override
-    public void mousePressed(MouseEvent e)
-    {
-        JTable jtable = (JTable) e.getSource();
-        selection= jtable.getSelectedRow();
 
-    }
+	
 
 	public static SubjectPane editClick(int subjId) {
 		Subject s=SubjectDatabase.findByID(subjId);
