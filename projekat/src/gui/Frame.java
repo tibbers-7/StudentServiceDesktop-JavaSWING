@@ -97,6 +97,17 @@ public class Frame extends JFrame {
 	public JButton getDeleteButton() {
 		return this.deleteButton;
 	}
+
+	public void setEditButton(JButton editBtn) {
+		this.editButton=editBtn;
+	}
+	public void setNewButton(JButton newBtn) {
+		this.newButton=newBtn;
+	}
+
+	public void setDeleteButton(JButton delBtn) {
+		this.deleteButton=delBtn;
+	}
 	
 	
 	
