@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import enums.SemesterEnum;
-import tableInterfaces.subjTable;
 
 public class Subject{
 	private int subjectId;

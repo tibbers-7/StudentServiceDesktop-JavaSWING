@@ -2,13 +2,11 @@ package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import enums.StatusEnum;
-import tableInterfaces.studentTable;
 
 public class Student{
 	private int studentId;

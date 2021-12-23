@@ -4,18 +4,16 @@ import javax.swing.JFrame;
 
 
 public class MyApp {
+	
+	public static Frame f=new Frame();
 
 	public static void main(String[] args) {
-		
-		Frame frame = new Frame();
-		
-		
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setTitle("Studentska služba");
+
+	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    f.setTitle("Studentska služba");
 	    
-//	    frame.add(ShowTable.showEntityTable(1));
-//	    
-	    frame.setVisible(true);
+
+	    f.setVisible(true);
 	}
 
-}
+};

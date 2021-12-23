@@ -10,19 +10,6 @@ import javax.swing.JTextField;
 import manageEntities.CheckValidity;
 import manageEntities.ClassNameHere;
 import model.Subject;
-import java.util.Date;
-
-import enums.SemesterEnum;
-import enums.StatusEnum;
-import model.Address;
-import model.Student;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import gui.MenuBar;
 
 
 public class SubjectPane extends JFrame{
@@ -38,6 +25,7 @@ public class SubjectPane extends JFrame{
 	protected JTextField prof= new JTextField();
 	protected JTextField espb= new JTextField();
 	protected Subject s=new Subject();
+	public static JComboBox sem= new JComboBox(semester);
 
 	
 	public JTextField getSubjKey() {
@@ -80,19 +68,7 @@ public class SubjectPane extends JFrame{
 		this.espb = espb;
 	}
 
-	public JComboBox getSem() {
-		return sem;
-	}
-
-	public void setSem(JComboBox sem) {
-		this.sem = sem;
-	}
-
-	public static String[] getSemester() {
-		return semester;
-	}
-
-	protected JComboBox sem= new JComboBox(semester);
+	
 	
 	
 	public SubjectPane() {
@@ -114,10 +90,10 @@ public class SubjectPane extends JFrame{
 	      String nazivDijaloga=null;
 			 switch(sel) {
 			 case 1:
-				 nazivDijaloga="Dodavanje Studenta";
+				 nazivDijaloga="Dodavanje Predmeta";
 				 break;
 			 case 2:
-				 nazivDijaloga="Izmena Studenta";
+				 nazivDijaloga="Izmena Predmeta";
 				 break;
 			 }
 			 

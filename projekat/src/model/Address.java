@@ -3,8 +3,6 @@ package model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import manageEntities.ClassNameHere;
-
 public class Address {
 //	private int addressId;
 	private String street;

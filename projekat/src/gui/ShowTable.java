@@ -2,7 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import manageEntities.student.StudentDatabase;
@@ -60,10 +59,8 @@ public class ShowTable {
 	    	}
 	    	
 	    	
-	    	int j=0;
 		    for (Object It2:entityData) {
 		    	data.add(It2);
-		    	j++;
 		    	if (data.size()>largestRowSize) {
 		    		largestRowSize=data.size();
 		    	}

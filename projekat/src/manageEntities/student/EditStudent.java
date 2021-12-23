@@ -1,8 +1,14 @@
 package manageEntities.student;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import enums.StatusEnum;
 import manageEntities.ClassNameHere;
 import model.Student;
 
@@ -35,6 +41,23 @@ public class EditStudent extends MouseAdapter{
 			JTextField index= new JTextField(s.getIndex());
 			JTextField enrollmentYear= new JTextField(Integer.toString(s.getEnrollmentYear()));
 			
+			StatusEnum status=s.getStatus();
+			if (status==StatusEnum.BUDGET) {
+				StudentPane.status.setSelectedItem("Budzet");
+			}else StudentPane.status.setSelectedItem("Samofinansiranje");
+			
+			int year=s.getCurrentStudyYear();
+			switch (year){
+			
+			case 1:
+				StudentPane.currentStudyYear.setSelectedItem("I (prva)");
+			case 2:
+				StudentPane.currentStudyYear.setSelectedItem("II (druga)");
+			case 3:
+				StudentPane.currentStudyYear.setSelectedItem("III (treca)");
+			case 4:
+				StudentPane.currentStudyYear.setSelectedItem("IV (cetvrta)");
+			}
 			
 			StudentPane sOp=new StudentPane();
 			sOp.setName(name);

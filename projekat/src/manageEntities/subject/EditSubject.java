@@ -1,14 +1,12 @@
 package manageEntities.subject;
-import java.awt.event.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import enums.SemesterEnum;
 import manageEntities.ClassNameHere;
-import manageEntities.student.StudentDatabase;
 import model.Subject;
 
 
@@ -32,14 +30,20 @@ public class EditSubject extends MouseAdapter{
 			JTextField name= new JTextField(s.getName());
 			JTextField year= new JTextField(Integer.toString(s.getYear()));
 			JTextField espb= new JTextField(Integer.toString(s.getEspbPoints()));
-
 			
+			
+			
+			SemesterEnum sem=s.getSemester();
+			if (sem==SemesterEnum.WINTER) {
+				SubjectPane.sem.setSelectedItem("Zimski");
+			} else SubjectPane.sem.setSelectedItem("Letnji");
 			
 			SubjectPane sSP=new SubjectPane();
 			sSP.setSubjKey(subjectKey);
 			sSP.setName(name);
 			sSP.setYear(year);
 			sSP.setEspb(espb);
+			sSP.setProf(new JTextField("X"));
 
 			return sSP;
 			

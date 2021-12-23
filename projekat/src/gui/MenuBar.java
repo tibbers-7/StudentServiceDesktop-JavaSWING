@@ -3,26 +3,18 @@ package gui;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.KeyStroke;
 
-import manageEntities.Actions;
-import manageEntities.student.DeletePane;
-import manageEntities.student.EditStudent;
-import manageEntities.student.StudentDatabase;
-import manageEntities.student.StudentPane;
-import manageEntities.subject.EditSubject;
-import manageEntities.subject.SubjectPane;
-import model.Student;
+import manageEntities.student.ActionStudent;
+import manageEntities.subject.ActionSubject;
 
 
 
@@ -30,6 +22,9 @@ public class MenuBar extends JMenuBar {
 	
 	private static final long serialVersionUID = 1L;
 	private static int selRow=0;
+	
+	public static ActionStudent aStud=new ActionStudent();
+	public static ActionSubject aSubj=new ActionSubject();
 	
 	//globalni panel da bi mogla da se pamti unesena tabela i kasnije obrise
 	public static JScrollPane jsp=new JScrollPane();
@@ -42,7 +37,7 @@ public class MenuBar extends JMenuBar {
 		MenuBar.selRow = selRow;
 	}
 
-	public MenuBar(Frame f) {
+	public MenuBar() {
 		
 		JMenu _file = new JMenu("File");
 		JMenu _edit = new JMenu("Edit");
@@ -101,88 +96,9 @@ public class MenuBar extends JMenuBar {
 			JMenuItem _profesori = new JMenuItem("Profesori");
 			JMenuItem _katedre = new JMenuItem("Katedre");
 			
+			_studenti.addActionListener(aStud);
+			_predmeti.addActionListener(aSubj); 
 			
-			
-			//Klik na Studenti->Prikaz studenata->newBtn->Dodavanje novog studenta/Edit
-			_studenti.addActionListener(new ActionListener() {
-				
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						Actions.studentClick(f);
-						
-						//NEW dugme
-						
-						
-						f.getNewButton().addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e1) {
-								Actions.newClickStudent(f);
-							}
-						});
-						
-						//EDIT dugme
-						f.getEditButton().addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								Actions.editClickStudent(f);
-							}
-						});
-						
-						//DELETE dugme
-						f.getDeleteButton().addActionListener(new ActionListener(){
-
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								Actions.delClickStudent(f);
-								
-							}
-
-						});
-					}
-	
-				});
-			
-			_predmeti.addActionListener(new ActionListener() {
-				
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						Actions.predmetiClick(f);
-						
-						//NEW dugme
-						f.getNewButton().addActionListener(new ActionListener() {
-						
-							@Override
-							public void actionPerformed(ActionEvent e1) {
-								Actions.newClickPred(f);
-							}
-						});
-						
-						//EDIT dugme
-						f.getEditButton().addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								Actions.editClickPred(f);	
-							}
-						});
-						
-						//DELETE dugme
-						//IMPLEMENTIRATI
-						f.getDeleteButton().addActionListener(new ActionListener(){
-
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								
-								
-							}
-
-							
-
-						});
-					}
-	
-				});
-				
 	
 			_open.add(_studenti);
 			_open.addSeparator();
@@ -191,11 +107,7 @@ public class MenuBar extends JMenuBar {
 			_open.add(_profesori);
 			_open.addSeparator();
 			_open.add(_katedre);
-			
-			
-
-
-			
+		
 			
 	//dodavanje itema
 			_file.add(_new);
@@ -265,4 +177,6 @@ public class MenuBar extends JMenuBar {
 		
 		add(_help);
 	}
+	
+	
 }

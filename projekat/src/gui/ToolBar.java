@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class ToolBar extends JToolBar {
 
 	private JButton btnNew=new JButton();

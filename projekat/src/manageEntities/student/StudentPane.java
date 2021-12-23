@@ -1,27 +1,21 @@
 package manageEntities.student;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import enums.StatusEnum;
-import gui.MenuBar;
 import manageEntities.CheckValidity;
 import manageEntities.ClassNameHere;
-import model.Address;
 import model.Student;
 
-//Frejm dijaloga za dodavanje studenta
+
+@SuppressWarnings("serial")
+
+
+//Frejm dijaloga za dodavanje i izmenu studenta
 public class StudentPane  extends JFrame{
 	public static final String[] studyYears= {"I (prva)","II (druga)","III (treca)","IV (cetvrta)"};
 	public static final String[] finansije= {"Budzet","Samofinansiranje"};
@@ -35,8 +29,9 @@ public class StudentPane  extends JFrame{
 	protected JTextField email= new JTextField();
 	protected JTextField index= new JTextField();
 	protected JTextField enrollmentYear= new JTextField();
-	protected JComboBox currentStudyYear= new JComboBox(studyYears);
-	protected JComboBox status= new JComboBox(finansije);
+	
+	public static JComboBox currentStudyYear= new JComboBox(studyYears);
+	public static JComboBox status= new JComboBox(finansije);
 	
 	
 	
@@ -103,6 +98,7 @@ public class StudentPane  extends JFrame{
 	public void setEnrollmentYear(JTextField enrollmentYear) {
 		this.enrollmentYear = enrollmentYear;
 	}
+	
 
 	
 
@@ -116,14 +112,6 @@ public class StudentPane  extends JFrame{
 		//Prihvatanje user inputa i pravljenje novog objekta koji se stavlja u bazu
 		public void ispisDijaloga(int sel,int rowClicked) {
 			
-//			this.name= new JTextField("Anja");			
-//			this.surname= new JTextField("Dmitrovic");
-//			this.birthDate= new JTextField("14-April-2001");
-//			this.address= new JTextField("Stevana Sremca,57,Indjija,Srbija");
-//			this.phoneNumber= new JTextField("0691442001");
-//			this.email= new JTextField("anja.dmitrovic@gmail.com");
-//			this.index= new JTextField("41");
-//			this.enrollmentYear= new JTextField("2019");
 			
 		
 			ArrayList<JTextField> options=new ArrayList<JTextField>();
@@ -191,13 +179,13 @@ public class StudentPane  extends JFrame{
 		    						//Ako je dugme new
 		    						case 1:
 		    							StudentDatabase.addStudent(s);
-					    				String string="Uspesno unet student!";
+					    				String string="Uspesno unet student! (Klik na File)";
 							    		ClassNameHere.infoBox(string, "Obavestenje");
 							    		break;
 							    	//ako je dugme edit
 		    						case 2:
 		    							StudentDatabase.changeStudent(s,rowClicked);
-		    							string="Uspesno izmenjen student!";
+		    							string="Uspesno izmenjen student! (Klik na File)";
 							    		ClassNameHere.infoBox(string, "Obavestenje");
 		    					}
 		    					
@@ -206,6 +194,8 @@ public class StudentPane  extends JFrame{
 		    			}
 		    		}
 			}
+
+
 	    		
 	    		
 	    		

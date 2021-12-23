@@ -11,10 +11,15 @@ import enums.SemesterEnum;
 import enums.StatusEnum;
 import manageEntities.student.StudentDatabase;
 import manageEntities.subject.SubjectDatabase;
-import model.*;
+import model.Address;
+import model.Professor;
+import model.Student;
+import model.Subject;
 
 public class Frame extends JFrame {
 	
+
+	private static final long serialVersionUID = 1L;
 	private JButton newButton=new JButton();
 	private JButton editButton=new JButton();
 	private JButton deleteButton=new JButton();
@@ -75,14 +80,16 @@ public class Frame extends JFrame {
 		
 //--------------------------------------------------------------------
 		
-		MenuBar menu = new MenuBar(this);
-		this.setJMenuBar(menu);
+		
 		
 		ToolBar toolbar= new ToolBar();
 		add(toolbar, BorderLayout.NORTH);
 		this.newButton=toolbar.getNewButton();
 		this.editButton=toolbar.getEditButton();
 		this.deleteButton=toolbar.getDeleteButton();
+		
+		MenuBar menu = new MenuBar();
+		this.setJMenuBar(menu);
 		
 	}
 	

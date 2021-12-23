@@ -2,7 +2,6 @@ package manageEntities.subject;
 
 import java.util.ArrayList;
 
-import model.Student;
 import model.Subject;
 
 public class SubjectDatabase extends Subject{
