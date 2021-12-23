@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import manageEntities.student.StudentDatabase;
+import manageEntities.subject.SubjectDatabase;
 import model.Professor;
 import model.Student;
 import model.Subject;
@@ -31,7 +32,7 @@ public class ShowTable {
 	    	cols= p.getColumns();
 		    break;
 		case 3:
-			entities=subj.getListOfEntites();
+			entities=SubjectDatabase.getListOfEntites();
 	    	cols=subj.getColumns();
 	    	break;
 	    }
@@ -45,7 +46,20 @@ public class ShowTable {
 	    int i=0;
 	    for (Object It: entities) {
 	    	ArrayList<Object> data=new ArrayList<Object>();
-	    	Object[] entityData = Student.getData(It);
+	    	
+	    	Object[] entityData=null;
+	    	switch(index) {
+	    		case 1:
+	    			entityData = Student.getData(It);
+	    			break;
+	    		case 2:
+	    			
+	    			break;
+	    		case 3:
+	    			entityData=Subject.getData(It);
+	    	}
+	    	
+	    	
 	    	int j=0;
 		    for (Object It2:entityData) {
 		    	data.add(It2);

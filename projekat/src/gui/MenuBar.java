@@ -7,22 +7,32 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+
+import manageEntities.Actions;
 import manageEntities.student.DeletePane;
 import manageEntities.student.EditStudent;
 import manageEntities.student.StudentDatabase;
 import manageEntities.student.StudentPane;
+import manageEntities.subject.EditSubject;
+import manageEntities.subject.SubjectPane;
 import model.Student;
+
+
 
 public class MenuBar extends JMenuBar {
 	
 	private static final long serialVersionUID = 1L;
 	private static int selRow=0;
+	
+	//globalni panel da bi mogla da se pamti unesena tabela i kasnije obrise
+	public static JScrollPane jsp=new JScrollPane();
 
 	public static int getSelRow() {
 		return selRow;
@@ -95,39 +105,18 @@ public class MenuBar extends JMenuBar {
 			
 			//Klik na Studenti->Prikaz studenata->newBtn->Dodavanje novog studenta/Edit
 			_studenti.addActionListener(new ActionListener() {
-				JScrollPane table= new JScrollPane();
 				
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
-						//Prikaz tabele
-						JTable tableTemp=ShowTable.showEntityTable(1);
-						tableTemp.setRowSelectionAllowed(true);
-						EditStudent.rowClick(tableTemp,f.getEditButton()); 
-						
-						table=new JScrollPane(tableTemp);
-						f.add(table);
-						
+						Actions.studentClick(f);
 						
 						//NEW dugme
-						f.getNewButton().addActionListener(new ActionListener() {
 						
+						
+						f.getNewButton().addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e1) {
-								
-								//Iskace dijalog za unos studenta
-								StudentPane sOp=new StudentPane();  
-								sOp.ispisDijaloga(1,0);
-								
-								//Rasciscavanje stare tabele
-								f.remove(table);
-								
-								//Prikaz nove tabele s dodatim studentom
-								JTable tableNew=ShowTable.showEntityTable(1);
-								tableNew.setRowSelectionAllowed(true);
-								EditStudent.rowClick(tableNew,f.getEditButton());
-								table=new JScrollPane(tableNew);
-								f.add(table);
+								Actions.newClickStudent(f);
 							}
 						});
 						
@@ -135,19 +124,7 @@ public class MenuBar extends JMenuBar {
 						f.getEditButton().addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								
-								//Dobavljanje kliknutog reda i dalji rad s njom
-								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
-								StudentPane sp=EditStudent.editClick(selRow);
-								sp.ispisDijaloga(2,selRow);
-								
-								f.remove(table);
-								JTable tableNew=ShowTable.showEntityTable(1);
-								tableNew.setRowSelectionAllowed(true);
-								
-								EditStudent.rowClick(tableNew,f.getEditButton());
-								table=new JScrollPane(tableNew);
-								f.add(table);
+								Actions.editClickStudent(f);
 							}
 						});
 						
@@ -156,18 +133,7 @@ public class MenuBar extends JMenuBar {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
-								System.out.printf("SelRow= %s\n",selRow);
-								Student pera=StudentDatabase.findByID(selRow);
-								System.out.printf("Ime: %s",pera.getName());
-								DeletePane.delMessage(selRow);
-								
-								JTable tableNew=ShowTable.showEntityTable(1);
-								tableNew.setRowSelectionAllowed(true);
-								
-								f.remove(table);
-								table=new JScrollPane(tableNew);
-								f.add(table);
+								Actions.delClickStudent(f);
 								
 							}
 
@@ -178,38 +144,17 @@ public class MenuBar extends JMenuBar {
 			
 			_predmeti.addActionListener(new ActionListener() {
 				JScrollPane table= new JScrollPane();
-				
+					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
-						//Prikaz tabele
-						JTable tableTemp=ShowTable.showEntityTable(2);
-						tableTemp.setRowSelectionAllowed(true);
-						EditSubject.rowClick(tableTemp,f.getEditButton()); 
-						
-						table=new JScrollPane(tableTemp);
-						f.add(table);
-						
+						Actions.predmetiClick(f);
 						
 						//NEW dugme
 						f.getNewButton().addActionListener(new ActionListener() {
 						
 							@Override
 							public void actionPerformed(ActionEvent e1) {
-								
-								//Iskace dijalog za unos studenta
-								SubjectPane sOp=new SubjectPane();  
-								sOp.ispisDijaloga(1,0);
-								
-								//Rasciscavanje stare tabele
-								f.remove(table);
-								
-								//Prikaz nove tabele s dodatim studentom
-								JTable tableNew=ShowTable.showEntityTable(2);
-								tableNew.setRowSelectionAllowed(true);
-								EditStudent.rowClick(tableNew,f.getEditButton());
-								table=new JScrollPane(tableNew);
-								f.add(table);
+								Actions.newClickPred(f);
 							}
 						});
 						
@@ -217,41 +162,21 @@ public class MenuBar extends JMenuBar {
 						f.getEditButton().addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								
-								//Dobavljanje kliknutog reda i dalji rad s njom
-								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
-								StudentPane sp=EditStudent.editClick(selRow);
-								sp.ispisDijaloga(2,selRow);
-								
-								f.remove(table);
-								JTable tableNew=ShowTable.showEntityTable(1);
-								tableNew.setRowSelectionAllowed(true);
-								
-								EditStudent.rowClick(tableNew,f.getEditButton());
-								table=new JScrollPane(tableNew);
-								f.add(table);
+								Actions.editClickPred(f);	
 							}
 						});
 						
 						//DELETE dugme
+						//IMPLEMENTIRATI
 						f.getDeleteButton().addActionListener(new ActionListener(){
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								selRow=EditStudent.rowClick(tableTemp,f.getEditButton());
-								System.out.printf("SelRow= %s\n",selRow);
-								Student pera=StudentDatabase.findByID(selRow);
-								System.out.printf("Ime: %s",pera.getName());
-								DeletePane.delMessage(selRow);
 								
-								JTable tableNew=ShowTable.showEntityTable(1);
-								tableNew.setRowSelectionAllowed(true);
-								
-								f.remove(table);
-								table=new JScrollPane(tableNew);
-								f.add(table);
 								
 							}
+
+							
 
 						});
 					}

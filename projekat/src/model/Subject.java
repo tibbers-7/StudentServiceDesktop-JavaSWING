@@ -6,7 +6,7 @@ import java.util.List;
 import enums.SemesterEnum;
 import tableInterfaces.subjTable;
 
-public class Subject implements subjTable{
+public class Subject{
 	private int subjectId;
 	private String subjectKey; // slika 8. ovo je sifra predmeta
 	private String name;
@@ -28,7 +28,7 @@ public class Subject implements subjTable{
 	}
 
 	public Subject(int subjectId, String subjectKey, String name, SemesterEnum semester, int year,
-			Professor professor, int espbPoints, List<Student> studentsPassed, List<Student> studentsNotPassed) {
+			Professor professor, int espbPoints) {
 		super();
 		this.subjectId = subjectId;
 		this.subjectKey = subjectKey;
@@ -37,16 +37,20 @@ public class Subject implements subjTable{
 		this.year = year;
 		this.professor = professor;
 		this.espbPoints = espbPoints;
-		this.studentsPassed = studentsPassed;
-		this.studentsNotPassed = studentsNotPassed;
+//		this.studentsPassed = studentsPassed;
+//		this.studentsNotPassed = studentsNotPassed;
 	}
 
 	public int getSubjectId() {
 		return subjectId;
 	}
 
-	public void setSubjectId(int subjectId) {
-		this.subjectId = subjectId;
+	public void setSubjectId() {
+		this.subjectId = rowNum;
+	}
+	
+	public void setSubjectId(int id) {
+		this.subjectId = id;
 	}
 
 	public String getSubjectKey() {
@@ -115,29 +119,29 @@ public class Subject implements subjTable{
 
 
 
-	@Override
 	public Object[] getColumns() {
 //		Šifra predmeta subjectKey
 //		Naziv predmeta name
 //		Broj ESPB bodova espbPoints
 //		Godina na kojoj se predmet izvodi year
 //		Semestar u kome se predmet izvodi semester
-		Object[] cols= {"Sifra","Naziv","ESPB","Godina","Semestar"};
+		Object[] cols= {"ID","Sifra","Naziv","ESPB","Godina","Semestar"};
 
 		return cols;
 	}
 
 	public static Object[] getData(Object o) {
 		Subject s=(Subject) o;
+		String id=Integer.toString(s.getSubjectId());
+		String sifra=s.getSubjectKey();
 		String espb=Integer.toString(s.espbPoints);
 		String year=Integer.toString(s.getYear());
 		SemesterEnum sem=s.getSemester();
 		String semester=sem.name();
-		Object[] rowData= {s,s.getName(),espb,year,semester};
+		Object[] rowData= {id,sifra,s.getName(),espb,year,semester};
 		return rowData;
 	}
 
-	@Override
 	public boolean addEntity(Subject s) {
 		try {
 			subjects.add(s);
@@ -148,10 +152,7 @@ public class Subject implements subjTable{
 		}
 	}
 
-	@Override
-	public ArrayList<Object> getListOfEntites() {
-		return subjects;
-	}
+
 
 	
 	

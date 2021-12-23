@@ -6,7 +6,8 @@ import model.Student;
 import model.Subject;
 
 public class SubjectDatabase extends Subject{
-	private static ArrayList<Object> subjects=new ArrayList<Object>();
+	
+	protected static ArrayList<Object> subjects=new ArrayList<Object>();
 		
 		public static ArrayList<Object> getListOfEntites() {
 			return subjects;
@@ -14,7 +15,7 @@ public class SubjectDatabase extends Subject{
 		
 		public static void addSubject(Subject s) {
 			Subject.rowNum++;
-			s.setSubjectId(rowNum);
+			s.setSubjectId();
 	   	 	subjects.add(s);
 		}
 		
@@ -28,12 +29,12 @@ public class SubjectDatabase extends Subject{
 			return null;
 		}
 		
-		public static void changeStudent(Student sNew,int id) {
-			sNew.setStudentId(id);
+		public static void changeSubject(Subject sNew,int id) {
+			sNew.setSubjectId(id);
 			subjects.set(id-1, sNew);
 		}
 		
-		public static void delStudent(int id) {
+		public static void delSubject(int id) {
 			id--;
 			Subject sCurr=new Subject();
 			Subject sNew=new Subject();

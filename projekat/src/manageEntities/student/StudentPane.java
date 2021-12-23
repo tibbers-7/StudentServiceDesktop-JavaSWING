@@ -27,7 +27,6 @@ public class StudentPane  extends JFrame{
 	public static final String[] finansije= {"Budzet","Samofinansiranje"};
 	
 	protected Student s=new Student();
-	StudentDatabase sdb=new StudentDatabase();
 	protected JTextField name=new JTextField();
 	protected JTextField surname= new JTextField();
 	protected JTextField birthDate= new JTextField();
@@ -140,15 +139,7 @@ public class StudentPane  extends JFrame{
 		    		    "Trenutna godina studija* ",this.currentStudyYear,
 		    		    "Nacin finansiranja* ",this.status
 		    		};
-		      	//Dodajem u listu da bi proverila jel ima praznih polja
-		         options.add(name);
-			     options.add(surname);
-				 options.add(birthDate);
-				 options.add(address);
-				 options.add(phoneNumber);
-				 options.add(email);
-				 options.add(index);
-				 options.add(enrollmentYear);
+		      	
 				 
 				 String nazivDijaloga=null;
 				 switch(sel) {
@@ -159,10 +150,22 @@ public class StudentPane  extends JFrame{
 					 nazivDijaloga="Izmena Studenta";
 					 break;
 				 }
+				 
+				
 				 	
 				 	//Ovde iskace dijalog
 		    		int option = JOptionPane.showConfirmDialog(null, message, nazivDijaloga, JOptionPane.OK_CANCEL_OPTION);
 		    		
+		    		//Dodajem u listu da bi proverila jel ima praznih polja
+			         options.add(name);
+				     options.add(surname);
+					 options.add(birthDate);
+					 options.add(address);
+					 options.add(phoneNumber);
+					 options.add(email);
+					 options.add(index);
+					 options.add(enrollmentYear);
+					 
 		    		if (option==0) {
 		    			boolean isEmpty=false;
 		    			//Proverava jel ima praznih polja

@@ -2,9 +2,12 @@ package manageEntities;
 
 import java.util.Date;
 
+import enums.SemesterEnum;
 import enums.StatusEnum;
 import model.Address;
+import model.Professor;
 import model.Student;
+import model.Subject;
 
 public class CheckValidity {
 	public static boolean checkValidityStudent(Student s,String name,String surname,String birthDate,
@@ -69,4 +72,27 @@ public class CheckValidity {
 
 				return true;
 	}
-}
+	
+	public static boolean checkValiditySubject(Subject s,String subjectKey,
+			   String name,String year, String professor,
+			   String espbPoints,String sem) {
+
+			s.setSubjectKey(subjectKey);
+			s.setName(name);
+			s.setEspbPoints(Integer.parseInt(espbPoints));
+			s.setYear(Integer.parseInt(year));
+			
+			if (sem=="Zimski") {
+				s.setSemester(SemesterEnum.WINTER);
+			} else s.setSemester(SemesterEnum.SUMMER);
+			
+			Professor p=new Professor();
+			//TREBA IMPLEMENTIRATI
+			s.setProfessor(p);
+			
+			return true;
+	}
+	
+	
+	
+};

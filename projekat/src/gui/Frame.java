@@ -7,8 +7,10 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import enums.SemesterEnum;
 import enums.StatusEnum;
 import manageEntities.student.StudentDatabase;
+import manageEntities.subject.SubjectDatabase;
 import model.*;
 
 public class Frame extends JFrame {
@@ -27,7 +29,9 @@ public class Frame extends JFrame {
 		setSize(3*screenWidth / 4, 3*screenHeight / 4);
 		
 
-		
+		//rucno dodavanje studenata i predmeta
+
+//---------------------------------------------------------------------------
 		String adS="Branka Copica,15,Beograd,Srbija";
 		Address a=Address.formatAddress(adS);
 		String dS="12-May-1999";
@@ -35,7 +39,41 @@ public class Frame extends JFrame {
 		Long l=38162559482L;
 		Student s1=new Student(1,"Peric","Pera",d,a,l,"pericpera@gmail.com","RA15/2019",2019,3,StatusEnum.SELF_FINANCING);
 		StudentDatabase.addStudent(s1);
-//		
+		
+		adS="Milunke Savic,22,Loznica,Srbija";
+		a=Address.formatAddress(adS);
+		dS="09-December-2001";
+		d=Student.formatDate(dS);
+		l=3816538882L;
+		Student s2=new Student(1,"Stojanovic","Milena",d,a,l,"milenastoj@gmail.com","RA222/2020",2020,3,StatusEnum.BUDGET);
+		StudentDatabase.addStudent(s2);
+		
+		String sifraPr="E328";
+		String name="Ruski";
+		SemesterEnum sem=SemesterEnum.WINTER;
+		int y=2;
+		int espb=12;
+		Professor p=new Professor();
+		Subject subj1=new Subject(1,sifraPr,name,sem,y,p,espb);
+		SubjectDatabase.addSubject(subj1);
+		
+		sifraPr="R58";
+		name="Engleski";
+		sem=SemesterEnum.SUMMER;
+		y=1;
+		espb=6;
+		Subject subj2=new Subject(1,sifraPr,name,sem,y,p,espb);
+		SubjectDatabase.addSubject(subj2);
+		
+		sifraPr="A85";
+		name="Japanski";
+		sem=SemesterEnum.WINTER;
+		y=4;
+		espb=16;
+		Subject subj3=new Subject(1,sifraPr,name,sem,y,p,espb);
+		SubjectDatabase.addSubject(subj3);
+		
+//--------------------------------------------------------------------
 		
 		MenuBar menu = new MenuBar(this);
 		this.setJMenuBar(menu);
@@ -63,4 +101,4 @@ public class Frame extends JFrame {
 	
 	
 	
-}
+};

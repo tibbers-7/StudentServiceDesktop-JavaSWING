@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import tableInterfaces.profTable;
 public class Professor implements profTable{
@@ -142,6 +144,8 @@ public class Professor implements profTable{
 	public ArrayList<Object> getListOfEntites() {
 		return professors;
 	}
+	
+	
 
 	
 
