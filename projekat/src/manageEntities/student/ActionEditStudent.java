@@ -15,7 +15,9 @@ public class ActionEditStudent implements ActionListener {
 
 		int selRow=EditStudent.rowClick(ActionStudent.studTableTemp,MyApp.f.getEditButton());
 		StudentPane sp=EditStudent.editClick(selRow);
-		sp.ispisDijaloga(2,selRow);
+		if (sp!=null) {
+			sp.ispisDijaloga(2,selRow);
+		}
 		
 		MyApp.f.remove(ActionStudent.jsp);
 		JTable tableNew=ShowTable.showEntityTable(1);

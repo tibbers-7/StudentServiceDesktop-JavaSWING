@@ -3,6 +3,7 @@ package gui;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import manageEntities.student.StudentDatabase;
 import manageEntities.subject.SubjectDatabase;
@@ -10,7 +11,10 @@ import model.Professor;
 import model.Student;
 import model.Subject;
 public class ShowTable {
-
+	
+	public static JTable table=new JTable();
+//	private static DefaultTableModel contactTableModel=new DefaultTableModel();
+	
 	public static JTable showEntityTable(int index) {
 		
 
@@ -81,8 +85,13 @@ public class ShowTable {
 	    	i++;
 	    }
 	    
-		JTable table = new JTable(rowData,cols);
-//	    JScrollPane scrollPane = new JScrollPane(table);
+		table = new JTable(rowData,cols);
+//		contactTableModel=(DefaultTableModel) table.getModel();
+//		table.setModel(contactTableModel);
 	    return table;
 	}
+	
+//	public void updateTable() {
+//		contactTableModel.fireTableDataChanged();
+//	}
 }

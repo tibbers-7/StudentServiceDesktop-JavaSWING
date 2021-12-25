@@ -15,9 +15,6 @@ public class ActionDeleteStudent implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		int selRow=EditStudent.rowClick(ActionStudent.studTableTemp,MyApp.f.getEditButton());
-		System.out.printf("SelRow= %s\n",selRow);
-		Student pera=StudentDatabase.findByID(selRow);
-		System.out.printf("Ime: %s",pera.getName());
 		DeletePane.delMessage(selRow);
 		
 		JTable tableNew=ShowTable.showEntityTable(1);

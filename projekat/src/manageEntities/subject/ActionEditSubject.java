@@ -17,7 +17,10 @@ public class ActionEditSubject implements ActionListener{
 				int selRow=EditSubject.rowClick(ActionSubject.subjTableTemp,MyApp.f.getEditButton());
 				
 				SubjectPane sp=EditSubject.editClick(selRow);
-				sp.ispisDijaloga(2,selRow);
+				if (sp!=null) {
+					sp.ispisDijaloga(2,selRow);
+				}
+				
 				
 				MyApp.f.remove(ActionSubject.jsp);
 				JTable tableNew=ShowTable.showEntityTable(3);

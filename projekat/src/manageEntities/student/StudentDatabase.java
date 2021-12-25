@@ -44,8 +44,19 @@ public class StudentDatabase extends Student {
 			sNew.setStudentId(sCurr.getStudentId()-1);
 			studenti.set(i, sNew);
 		}
+		
 		studenti.remove(id);
 		Student.rowNum--;
+	}
+	
+	public static boolean idExists(int id) {
+		for(Object it:studenti) {
+			Student s=(Student) it;
+			if (s.getStudentId()==id) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

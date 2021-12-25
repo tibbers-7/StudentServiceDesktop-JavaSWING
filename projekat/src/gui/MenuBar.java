@@ -25,6 +25,9 @@ public class MenuBar extends JMenuBar {
 	
 	public static ActionStudent aStud=new ActionStudent();
 	public static ActionSubject aSubj=new ActionSubject();
+	public static JMenuItem _new = new JMenuItem("New");
+	public static JMenuItem _edit2 = new JMenuItem("Edit");
+	public static JMenuItem _delete = new JMenuItem("Delete");
 	
 	//globalni panel da bi mogla da se pamti unesena tabela i kasnije obrise
 	public static JScrollPane jsp=new JScrollPane();
@@ -46,7 +49,6 @@ public class MenuBar extends JMenuBar {
 		
 		
 //FILE 		
-		JMenuItem _new = new JMenuItem("New");
 		JMenuItem _save = new JMenuItem("Save");
 		JMenu _open = new JMenu("Open");	//ima submenu
 		JMenuItem _close = new JMenuItem("Close");
@@ -126,8 +128,7 @@ public class MenuBar extends JMenuBar {
 		
 //EDIT (isto kao i za file sve)
 		
-		JMenuItem _edit2 = new JMenuItem("Edit");
-		JMenuItem _delete = new JMenuItem("Delete");
+		
 		
 		_edit2.setMnemonic(KeyEvent.VK_E);
 		_delete.setMnemonic(KeyEvent.VK_D);
