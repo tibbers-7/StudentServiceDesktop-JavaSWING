@@ -28,6 +28,7 @@ public class StudentDatabase extends Student {
 		return null;
 	}
 	
+	
 	public static void changeStudent(Student sNew,int id) {
 		sNew.setStudentId(id);
 		studenti.set(id-1, sNew);
@@ -53,6 +54,16 @@ public class StudentDatabase extends Student {
 		for(Object it:studenti) {
 			Student s=(Student) it;
 			if (s.getStudentId()==id) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean indexExists(String index) {
+		for(Object it:studenti) {
+			Student s=(Student) it;
+			if (s.getIndex().equals(index)) {
 				return true;
 			}
 		}

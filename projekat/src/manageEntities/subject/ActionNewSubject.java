@@ -8,14 +8,14 @@ import javax.swing.JTable;
 
 import gui.MyApp;
 import gui.ShowTable;
-import manageEntities.student.ActionStudent;
+import manageEntities.student.MenuBarActionStudent;
 
 public class ActionNewSubject implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Ciscenje stare akcije
-				MyApp.f.getNewButton().removeActionListener(ActionStudent.aNStud);
+				MyApp.f.getNewButton().removeActionListener(MenuBarActionStudent.aNStud);
 				SubjectPane.sem.setSelectedItem("Zimski");
 				//Iskace dijalog za unos studenta
 				SubjectPane sSP=new SubjectPane();  

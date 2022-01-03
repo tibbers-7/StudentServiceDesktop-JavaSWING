@@ -10,7 +10,7 @@ import manageEntities.subject.SubjectDatabase;
 import model.Professor;
 import model.Student;
 import model.Subject;
-public class ShowTable {
+public class ShowTable{
 	
 	public static JTable table=new JTable();
 //	private static DefaultTableModel contactTableModel=new DefaultTableModel();
@@ -84,14 +84,13 @@ public class ShowTable {
 	    	}
 	    	i++;
 	    }
+
+	    MyStudentPanel.contactTableModel=new DefaultTableModel(rowData,cols);
+		table.setModel(MyStudentPanel.contactTableModel);
+		
+		return table;
 	    
-		table = new JTable(rowData,cols);
-//		contactTableModel=(DefaultTableModel) table.getModel();
-//		table.setModel(contactTableModel);
-	    return table;
 	}
 	
-//	public void updateTable() {
-//		contactTableModel.fireTableDataChanged();
-//	}
+	
 }

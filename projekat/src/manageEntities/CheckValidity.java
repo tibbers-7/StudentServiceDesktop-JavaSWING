@@ -1,7 +1,8 @@
 package manageEntities;
 
-import java.util.Date;
+import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import enums.SemesterEnum;
 import enums.StatusEnum;
 import model.Address;
@@ -14,6 +15,7 @@ public class CheckValidity {
 			String address,String phoneNumber,String email, 
 			String index,String enrollmentYear,String currentStudyYear, 
 			String status) {
+				String string;
 				s.setName(name);
 				s.setSurname(surname);
 				s.setIndex(index);
@@ -22,9 +24,9 @@ public class CheckValidity {
 				//Dobavljanje datuma,provera formata
 				Date d=Student.formatDate(birthDate);
 				if (d!=null) {
-				s.setBirthDate(d);
+					s.setBirthDate(d);
 				} else {
-					String string="Datum nije dobro unesen (dd-MMM-yyyy)";
+					string="Datum nije dobro unesen (dd-MMM-yyyy)";
 					ClassNameHere.infoBox(string, "Greska");
 					return false;
 				}
@@ -36,7 +38,7 @@ public class CheckValidity {
 				if(a!=null) {
 					s.setAddress(a);
 				} else {
-					String string="Format adrese nije dobro unesen (Ulica,Broj,Grad,Zemlja)";
+					string="Format adrese nije dobro unesen (Ulica,Broj,Grad,Zemlja)";
 					ClassNameHere.infoBox(string, "Greska");
 					return false;
 
@@ -44,7 +46,15 @@ public class CheckValidity {
 				
 				s.setEmail(email);
 				s.setIndex(index);
-				s.setPhoneNumber(Long.parseLong(phoneNumber));
+				
+				if (StringUtils.isNumeric(phoneNumber)){
+					s.setPhoneNumber(Long.parseLong(phoneNumber));
+				} else {
+					string="Broj telefona sme da sadrzi samo cifre!";
+					ClassNameHere.infoBox(string, "Greska");
+					return false;
+				}
+				
 				s.setEnrollmentYear(Integer.parseInt(enrollmentYear));
 				
 				//Dobavljanje statusa

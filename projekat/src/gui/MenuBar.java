@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
-import manageEntities.student.ActionStudent;
+import manageEntities.student.MenuBarActionStudent;
 import manageEntities.subject.ActionSubject;
 
 
@@ -23,7 +23,7 @@ public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
 	private static int selRow=0;
 	
-	public static ActionStudent aStud=new ActionStudent();
+	public static MenuBarActionStudent aStud=new MenuBarActionStudent();
 	public static ActionSubject aSubj=new ActionSubject();
 	public static JMenuItem _new = new JMenuItem("New");
 	public static JMenuItem _edit2 = new JMenuItem("Edit");
@@ -98,6 +98,8 @@ public class MenuBar extends JMenuBar {
 			JMenuItem _profesori = new JMenuItem("Profesori");
 			JMenuItem _katedre = new JMenuItem("Katedre");
 			
+			
+			//DODAVANJE AKCIJE
 			_studenti.addActionListener(aStud);
 			_predmeti.addActionListener(aSubj); 
 			

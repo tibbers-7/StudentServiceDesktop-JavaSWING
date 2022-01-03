@@ -31,10 +31,9 @@ public class Student{
 		
 	}
 	
-	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
+	public Student(String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status) {
 		super();
-		this.studentId = studentId;
 		this.surname = surname;
 		this.name = name;
 		this.birthDate = birthDate;
@@ -48,11 +47,10 @@ public class Student{
 		
 	}
 
-	public Student(int studentId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
+	public Student( String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status,
 			double averageGrade, List<Grade> passedExams, List<Grade> failedExams) {
 		super();
-		this.studentId = studentId;
 		this.surname = surname;
 		this.name = name;
 		this.birthDate = birthDate;

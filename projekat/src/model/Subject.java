@@ -26,10 +26,9 @@ public class Subject{
 		super();
 	}
 
-	public Subject(int subjectId, String subjectKey, String name, SemesterEnum semester, int year,
+	public Subject(String subjectKey, String name, SemesterEnum semester, int year,
 			Professor professor, int espbPoints) {
 		super();
-		this.subjectId = subjectId;
 		this.subjectKey = subjectKey;
 		this.name = name;
 		this.semester = semester;
