@@ -33,10 +33,7 @@ public class EditSubjectDialogUpdate {
 			
 			
 			
-			SemesterEnum sem=s.getSemester();
-			if (sem==SemesterEnum.WINTER) {
-				SubjectDialog.sem.setSelectedItem("Zimski");
-			} else SubjectDialog.sem.setSelectedItem("Letnji");
+			SubjectDialog.sem.setSelectedItem(s.getSemesterString());
 			
 			SubjectDialog sSP=new SubjectDialog();
 			sSP.setSubjKey(subjectKey);

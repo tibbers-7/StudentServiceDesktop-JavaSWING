@@ -22,7 +22,16 @@ public class Grade {
 		this.grade = grade;
 		this.examDate = examDate;
 		this.gradeId = student.passedGradeID;
-		student.addPassedExam(this);
+		
+	}
+
+	public Grade(Student student, Subject subject) {
+		super();
+		this.student = student;
+		this.subject = subject;
+		this.grade = 5;
+		this.examDate = null;
+		this.gradeId = 0;
 	}
 
 	public int getGradeId() {

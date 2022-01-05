@@ -29,7 +29,7 @@ public class Student{
 	private StatusEnum status;
 	private double averageGrade;
 	private ArrayList<Grade> passedExams=new ArrayList<Grade>();
-	private List<Grade> failedExams;
+	private ArrayList<Grade> failedExams=new ArrayList<Grade>();
 	
 	protected int passedGradeID=1;
 	protected static int rowNum=0;
@@ -59,7 +59,7 @@ public class Student{
 
 	public Student( String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status,
-			double averageGrade, ArrayList<Grade> passedExams, List<Grade> failedExams) {
+			double averageGrade, ArrayList<Grade> passedExams, ArrayList<Grade> failedExams) {
 		super();
 		this.surname = surname;
 		this.name = name;
@@ -177,7 +177,7 @@ public class Student{
 		this.averageGrade = averageGrade;
 	}
 
-	public List<Grade> getPassedExams() {
+	public ArrayList<Grade> getPassedExams() {
 		return passedExams;
 	}
 
@@ -185,17 +185,23 @@ public class Student{
 		this.passedExams = passedExams;
 	}
 
-	public List<Grade> getFailedExams() {
+	public ArrayList<Grade> getFailedExams() {
 		return failedExams;
 	}
 
-	public void setFailedExams(List<Grade> failedExams) {
+	public void setFailedExams(ArrayList<Grade> failedExams) {
 		this.failedExams = failedExams;
 	}
 	
 	public void addPassedExam(Grade g) {
 		passedGradeID++;
 		this.passedExams.add(g);
+		
+	}
+	
+	public void addFailedExam(Grade g) {
+		
+		this.failedExams.add(g);
 		
 	}
 	
@@ -280,18 +286,18 @@ public class Student{
 		 
 	}
 	
-	public static JTable getPassedGrade(Object o) {
+	public static JTable getPassedExams(Object o) {
 		Student s=(Student) o;
 		Object[] cols={"Sifra", "Naziv", "ESPB", "Ocena", "Datum"};
-		
 		Object[][] rowData=new Object[s.getPassedExams().size()][5];
+		
+		
 		
 		int i=0;
 		for (Grade g: s.getPassedExams()) {
-			rowData[i][0]=Integer.toString(g.getGradeId());
-			rowData[i][1]=g.getSubject().getName();
-			
 			Subject subj=g.getSubject();
+			rowData[i][0]=subj.getSubjectKey();
+			rowData[i][1]=g.getSubject().getName();
 			
 			rowData[i][2]=Integer.toString(subj.getEspbPoints());
 			rowData[i][3]=Integer.toString(g.getGrade());
@@ -303,6 +309,28 @@ public class Student{
 		JTable table=new JTable(StudentDialog.dtm);
 		return table;
 	}
+	
+	public static JTable getFailedExams(Object o) {
+		Student s=(Student) o;
+		Object[] cols={"Sifra", "Naziv", "ESPB","Semestar"};
+		Object[][] rowData=new Object[s.getFailedExams().size()][4];
+		
+		int i=0;
+		for (Grade g: s.getFailedExams()) {
+			Subject subj=g.getSubject();
+			rowData[i][0]=subj.getSubjectKey();
+			rowData[i][1]=g.getSubject().getName();
+			
+			rowData[i][2]=Integer.toString(subj.getEspbPoints());
+			rowData[i][3]=subj.getSemester();
+			i++;
+		}
+		
+		StudentDialog.dtm2=new DefaultTableModel(rowData,cols);
+		JTable table=new JTable(StudentDialog.dtm2);
+		return table;
+	}
+	
 	
 	
 

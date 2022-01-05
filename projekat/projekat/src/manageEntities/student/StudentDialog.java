@@ -1,6 +1,9 @@
 package manageEntities.student;
 
 import java.awt.LayoutManager;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -43,7 +46,9 @@ public class StudentDialog  extends JPanel{
 	protected JTextField index= new JTextField();
 	protected JTextField enrollmentYear= new JTextField();
 	private static JTable passedTable=new JTable();
+	private static JTable failedTable=new JTable();
 	public static DefaultTableModel dtm=new DefaultTableModel();
+	public static DefaultTableModel dtm2=new DefaultTableModel();
 	private static int option=-1;
 	private static boolean isEmpty=true;
 	private static int selRow=-1;
@@ -53,6 +58,7 @@ public class StudentDialog  extends JPanel{
 	public static JComboBox currentStudyYear= new JComboBox(studyYears);
 	public static JComboBox status= new JComboBox(finansije);
 	public static JComboBox subjects= new JComboBox(finansije);
+	
 	
 	
 	
@@ -199,6 +205,8 @@ public class StudentDialog  extends JPanel{
 		   isEmpty=false;
 		   
 		   ArrayList<JTextField> options=new ArrayList<JTextField>();
+		   
+		   //Panel za dodavanje novog studenta
 		      Object[] message = {
 		    		    "Ime* ", this.name,
 		    		    "Prezime* ", this.surname,
@@ -211,15 +219,18 @@ public class StudentDialog  extends JPanel{
 		    		    "Trenutna godina studija* ",this.currentStudyYear,
 		    		    "Nacin finansiranja* ",this.status
 		    		};
-		      JTabbedPane tp=new JTabbedPane();
 		      
+		      //Panel za edit
+		      JTabbedPane tp=new JTabbedPane();
 		      JPanel info=informations();
 		      tp.add("Informacije",info);
 		      
-		      //treba mi student iz EditStudentAction
 		      Student s=StudentDatabase.findByID(EditStudentAction.selRow);
 		      JPanel passedSubj=passedSubj(s);
 		      tp.add("Polozeni ispiti",passedSubj);
+		      
+		      JPanel failedSubj=failedExams(s);
+		      tp.add("Nepolozeni ispiti",failedSubj);
 		      
 		    
 		   String nazivDijaloga=null;
@@ -288,7 +299,7 @@ public class StudentDialog  extends JPanel{
 		   
 		   
 		   JButton b=new JButton("Ponisti ocenu");
-		   passedTable=Student.getPassedGrade(s);
+		   passedTable=Student.getPassedExams(s);
 		   JPanel pS=new JPanel();
 		   pS.setLayout((LayoutManager) new BoxLayout(pS, BoxLayout.PAGE_AXIS));
 		   
@@ -304,7 +315,7 @@ public class StudentDialog  extends JPanel{
 							String string="Uspesno izbrisan ispit!";
 							ClassNameHere.infoBox(string, "Obavestenje");
 							found=true;
-							passedTable=Student.getPassedGrade(s);
+							passedTable=Student.getPassedExams(s);
 							
 							
 							updateExamTable();
@@ -336,6 +347,26 @@ public class StudentDialog  extends JPanel{
 		   
 		return pS;
 		   
+	   }
+	   
+	   private JPanel failedExams(Student s) {
+		   JPanel pF=new JPanel();
+		   pF.setLayout((LayoutManager) new BoxLayout(pF, BoxLayout.PAGE_AXIS));
+		   
+		   JPanel controls = new JPanel(new FlowLayout(FlowLayout.CENTER,5,5));
+		   JButton addSubject=new JButton("Dodaj");
+		   JButton delSubject=new JButton("Obrisi");
+		   JButton passSubject=new JButton("Polaganje");
+		   controls.add(addSubject);
+		   controls.add(delSubject);
+		   controls.add(passSubject);
+		   
+		   failedTable=Student.getFailedExams(s);
+		   
+		   pF.add(controls,BorderLayout.SOUTH);
+		   pF.add(new JScrollPane(failedTable));
+		   
+		   return pF;
 	   }
 	   
 	   public static void updateExamTable() {

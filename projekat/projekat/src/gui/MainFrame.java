@@ -91,6 +91,7 @@ public class MainFrame extends JFrame {
 		Subject subj2=new Subject("R58","Engleski",SemesterEnum.SUMMER,1,new Professor(),12);
 		Subject subj3=new Subject("A85","Japanski",SemesterEnum.WINTER,4,new Professor(),16);
 		Subject subj4=new Subject("E08","Nemacki",SemesterEnum.SUMMER,3,new Professor(),6);
+		Subject subj5=new Subject("P90","Korejski",SemesterEnum.SUMMER,2,new Professor(),15);
 		
 		Grade g1=new Grade(s1, subj1, 8, Student.formatDate("18-July-2019"));
 		Grade g2=new Grade(s1, subj2, 10, Student.formatDate("12-June-2019"));
@@ -101,6 +102,22 @@ public class MainFrame extends JFrame {
 		Grade g7=new Grade(s4, subj1, 7, Student.formatDate("10-May-2021"));
 		Grade g8=new Grade(s4, subj4, 6, Student.formatDate("31-March-2020"));
 		
+		Grade g9=new Grade(s1, subj3);
+		Grade g10=new Grade(s1, subj4);
+		
+		
+		s1.addPassedExam(g1);
+		s1.addPassedExam(g2);
+		s2.addPassedExam(g3);
+		s2.addPassedExam(g4);
+		s3.addPassedExam(g5);
+		s4.addPassedExam(g6);
+		s4.addPassedExam(g7);
+		s4.addPassedExam(g8);
+		
+		s1.addFailedExam(g9);
+		s1.addFailedExam(g10);
+		
 		StudentDatabase.addStudent(s1);
 		StudentDatabase.addStudent(s2);
 		StudentDatabase.addStudent(s3);
@@ -108,6 +125,8 @@ public class MainFrame extends JFrame {
 		SubjectDatabase.addSubject(subj1);
 		SubjectDatabase.addSubject(subj2);
 		SubjectDatabase.addSubject(subj3);
+		SubjectDatabase.addSubject(subj4);
+		SubjectDatabase.addSubject(subj5);
 //-------------------------------------------------------------------- 
 //	
 		
