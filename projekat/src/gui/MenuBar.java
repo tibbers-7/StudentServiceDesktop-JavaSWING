@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import manageEntities.student.MenuBarActionStudent;
-import manageEntities.subject.ActionSubject;
+import manageEntities.subject.MenuBarActionSubject;
 
 
 
@@ -24,10 +24,10 @@ public class MenuBar extends JMenuBar {
 	private static int selRow=0;
 	
 	public static MenuBarActionStudent aStud=new MenuBarActionStudent();
-	public static ActionSubject aSubj=new ActionSubject();
-	public static JMenuItem _new = new JMenuItem("New");
-	public static JMenuItem _edit2 = new JMenuItem("Edit");
-	public static JMenuItem _delete = new JMenuItem("Delete");
+	public static MenuBarActionSubject aSubj=new MenuBarActionSubject();
+	public JMenuItem _new = new JMenuItem("New");
+	public JMenuItem _edit2 = new JMenuItem("Edit");
+	public JMenuItem _delete = new JMenuItem("Delete");
 	
 	//globalni panel da bi mogla da se pamti unesena tabela i kasnije obrise
 	public static JScrollPane jsp=new JScrollPane();

@@ -11,59 +11,69 @@ import gui.ShowTable;
 import manageEntities.student.DeleteStudentAction;
 import manageEntities.student.EditStudentAction;
 import manageEntities.student.NewStudentAction;
-import manageEntities.subject.ActionSubject;
+import manageEntities.subject.MenuBarActionSubject;
 
+@SuppressWarnings("serial")
 public class MyStudentPanel extends JPanel{
-	private static MyStudentPanel instance=null;
+	private static MyStudentPanel instanceStud=null;
 	
-	public static JScrollPane jsp=new JScrollPane();
 	public static NewStudentAction aNStud=new NewStudentAction();
 	public static EditStudentAction aEStud=new EditStudentAction();
 	public static DeleteStudentAction aDStud=new DeleteStudentAction();
-	public static JTable studTable=ShowTable.showEntityTable(1);
-	public static DefaultTableModel contactTableModel=new DefaultTableModel();
+	
+	
+	
+	
 
 	public static MyStudentPanel getInstance() {
-		if (instance==null) {
-			instance=new MyStudentPanel();
+		if (instanceStud==null) {
+			instanceStud=new MyStudentPanel();
 		}
-		return instance;
+		return instanceStud;
 	}
 	
 	private MyStudentPanel() {
 		
 		//Prikaz tabele
 		
-		studTable=ShowTable.showEntityTable(1);
-		contactTableModel=(DefaultTableModel) studTable.getModel();
-		add(new JScrollPane(studTable));
+		MainFrame.studTable=ShowTable.showEntityTable(1);
+		
+		actionsStudent();
+		add(new JScrollPane(MainFrame.studTable));
+		MainFrame.updateTableStud();
 		
 		
+	}
+	
+	public static void actionsStudent() {
+		MainFrame.studTable=ShowTable.showEntityTable(1);
 		//Brisanje nepozeljnih akcija
-		MainFrame.newButton.removeActionListener(ActionSubject.aNSubj);
-		MainFrame.editButton.removeActionListener(ActionSubject.aESubj);
-//		MainFrame.deleteButton.removeActionListener(ActionSubject.aDSubj);
+		MainFrame.newButton.removeActionListener(MainFrame.aNSubj);
+		MainFrame.editButton.removeActionListener(MainFrame.aESubj);
+//		MainFrame.deleteButton.removeActionListener(MainFrame.aDSubj);
 		
-		MenuBar._new.removeActionListener(ActionSubject.aNSubj);
-		MenuBar._edit2.removeActionListener(ActionSubject.aNSubj);
-//		MenuBar._delete.removeActionListener(ActionSubject.aDSubj);
+		MainFrame.menu._new.removeActionListener(MainFrame.aNSubj);
+		MainFrame.menu._edit2.removeActionListener(MainFrame.aNSubj);
+//		MainFrame.menu._delete.removeActionListener(MainFrame.aDSubj);
 		
 //----------------------------------------------------------------------
 		//Dodavanje novih akcija
 		
 		
-		MainFrame.newButton.addActionListener(aNStud);
-		MainFrame.editButton.addActionListener(aEStud);
-		MainFrame.deleteButton.addActionListener(aDStud);
+		MainFrame.newButton.addActionListener(MainFrame.aNStud);
+		MainFrame.editButton.addActionListener(MainFrame.aEStud);
+		MainFrame.deleteButton.addActionListener(MainFrame.aDStud);
 		
-		MenuBar._new.addActionListener(aNStud);
-		MenuBar._edit2.addActionListener(aEStud);
-		MenuBar._delete.addActionListener(aDStud);
+		MainFrame.menu._new.addActionListener(MainFrame.aNStud);
+		MainFrame.menu._edit2.addActionListener(MainFrame.aEStud);
+		MainFrame.menu._delete.addActionListener(MainFrame.aDStud);
 		
+		MainFrame.updateTableStud();
 		
 	}
 	
-	public static void updateTable() {
-		contactTableModel.fireTableDataChanged();
-	}
+	
+	
+	
+	
 }

@@ -12,7 +12,7 @@ import enums.StatusEnum;
 import manageEntities.ClassNameHere;
 import model.Student;
 
-public class EditStudentDialogUpdate extends MouseAdapter{
+public class EditStudentDialogUpdate {
 	private static int selection=0;
 	
 	

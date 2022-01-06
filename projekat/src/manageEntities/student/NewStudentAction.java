@@ -20,15 +20,14 @@ public class NewStudentAction implements ActionListener {
 		StudentDialog sOp=new StudentDialog();  
 		sOp.ispisDijaloga(1,0);
 		
-//		//Rasciscavanje stare tabele
-//		MyApp.f.remove(MenuBarActionStudent.jsp);
+
 		
 		//Prikaz nove tabele s dodatim studentom
 		JTable tableNew=ShowTable.showEntityTable(1);
 		tableNew.setRowSelectionAllowed(true);
 	
-		MyStudentPanel.studTable=tableNew;
-		MyStudentPanel.updateTable();
+		MainFrame.studTable=tableNew;
+		MainFrame.updateTableStud();
 		
 	}
 

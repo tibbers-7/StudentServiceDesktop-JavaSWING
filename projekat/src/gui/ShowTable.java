@@ -17,6 +17,7 @@ public class ShowTable{
 	
 	public static JTable showEntityTable(int index) {
 		
+		table=new JTable();
 
 	    Object cols[]= null;
 	    ArrayList<Object> entities= new ArrayList<Object>();
@@ -26,15 +27,16 @@ public class ShowTable{
 	    
 	    //Zavisi od toga koja tabela je upaljena
 	    switch(index) {
-	    case 1: 
+	    case 1: //STUDENT
 	    	entities= StudentDatabase.getListOfEntites();
 		    cols= s.getColumns();
+		    
 		    break;
-	    case 2:
+	    case 2: //PROFESOR
 	    	entities=p.getListOfEntites();
 	    	cols= p.getColumns();
 		    break;
-		case 3:
+		case 3: //PREDMET
 			entities=SubjectDatabase.getListOfEntites();
 	    	cols=subj.getColumns();
 	    	break;
@@ -60,6 +62,7 @@ public class ShowTable{
 	    			break;
 	    		case 3:
 	    			entityData=Subject.getData(It);
+	    			break;
 	    	}
 	    	
 	    	
@@ -84,9 +87,23 @@ public class ShowTable{
 	    	}
 	    	i++;
 	    }
-
-	    MyStudentPanel.contactTableModel=new DefaultTableModel(rowData,cols);
-		table.setModel(MyStudentPanel.contactTableModel);
+	    switch(index) {
+	    case 1: //STUDENT
+	    	MainFrame.tableModelStud=new DefaultTableModel(rowData,cols);
+	    	table.setModel(MainFrame.tableModelStud);
+		    break;
+	    case 2: //PROFESOR
+	    	
+		    break;
+		case 3: //PREDMET
+			MainFrame.tableModelSubj=new DefaultTableModel(rowData,cols);
+	    	table.setModel(MainFrame.tableModelSubj);
+	    	break;
+		case 4: //POLOZENI ISPITI
+			
+			break;
+	    }
+		
 		
 		return table;
 	    

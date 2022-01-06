@@ -28,6 +28,16 @@ public class SubjectDatabase extends Subject{
 			return null;
 		}
 		
+		public static Subject findByKey(String id) {
+			for(Object it:subjects) {
+				Subject s=(Subject) it;
+				if (s.getSubjectKey().equals(id)) {
+					return s;
+				}
+			}
+			return null;
+		}
+		
 		public static void changeSubject(Subject sNew,int id) {
 			sNew.setSubjectId(id);
 			subjects.set(id-1, sNew);
@@ -46,5 +56,15 @@ public class SubjectDatabase extends Subject{
 			}
 			subjects.remove(id);
 			Subject.rowNum--;
+		}
+		
+		public static Subject findByName(String name) {
+			for(Object it:subjects) {
+				Subject s=(Subject) it;
+				if (s.getName().equals(name)) {
+					return s;
+				}
+			}
+			return null;
 		}
 }

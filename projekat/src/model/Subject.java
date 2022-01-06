@@ -70,6 +70,15 @@ public class Subject{
 	public SemesterEnum getSemester() {
 		return semester;
 	}
+	
+	public String getSemesterString() {
+		String s;
+		if (semester==SemesterEnum.WINTER) {
+			s="Zimski";
+		} else s="Letnji";
+		
+		return s;
+	}
 
 	public void setSemester(SemesterEnum semester) {
 		this.semester = semester;
@@ -116,6 +125,10 @@ public class Subject{
 	}
 
 
+	public String subjStringified() {
+		String s=name+subjectKey;
+		return s;
+	}
 
 	public Object[] getColumns() {
 //		Šifra predmeta subjectKey
@@ -149,6 +162,8 @@ public class Subject{
 			return false;
 		}
 	}
+	
+	
 
 
 

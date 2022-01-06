@@ -16,14 +16,15 @@ public class DeleteStudentAction implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		int selRow=EditStudentDialogUpdate.rowClick(MyStudentPanel.studTable);
+		int selRow=EditStudentDialogUpdate.rowClick(MainFrame.studTable);
+		System.out.printf("\n selRow= "+selRow);
 		DeleteStudentDialog.delMessage(selRow);
 		
 		JTable tableNew=ShowTable.showEntityTable(1);
 		tableNew.setRowSelectionAllowed(true);
 		
-		MyStudentPanel.studTable=tableNew;
-		MyStudentPanel.updateTable();
+		MainFrame.studTable=tableNew;
+		MainFrame.updateTableStud();
 	
 		
 	}

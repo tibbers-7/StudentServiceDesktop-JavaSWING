@@ -10,25 +10,41 @@ public class Grade {
 	private int grade;
 	private Date examDate;
 	
+	
 	public Grade() {
 		super();
 	}
 
-	public Grade(int gradeId, Student student, Subject subject, int grade, Date examDate) {
+	public Grade(Student student, Subject subject, int grade, Date examDate) {
 		super();
-		this.gradeId = gradeId;
 		this.student = student;
 		this.subject = subject;
 		this.grade = grade;
 		this.examDate = examDate;
+		this.gradeId = student.passedGradeID;
+		
+	}
+
+	public Grade(Student student, Subject subject) {
+		super();
+		this.student = student;
+		this.subject = subject;
+		this.grade = 5;
+		this.examDate = null;
+		this.gradeId = 0;
 	}
 
 	public int getGradeId() {
 		return gradeId;
 	}
 
-	public void setGradeId(int gradeId) {
-		this.gradeId = gradeId;
+	public void setGradeId() {
+		this.gradeId = student.passedGradeID;
+	}
+	
+	public void setGradeId(int i) {
+		this.gradeId=i;
+		
 	}
 
 	public Student getStudent() {
@@ -64,6 +80,8 @@ public class Grade {
 	public void setExamDate(Date examDate) {
 		this.examDate = examDate;
 	}
+
+	
 	
 	
 	

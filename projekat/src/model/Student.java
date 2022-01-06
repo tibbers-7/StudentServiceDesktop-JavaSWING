@@ -1,12 +1,21 @@
 package model;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import enums.StatusEnum;
+import manageEntities.student.StudentDialog;
+import manageEntities.subject.SubjectDatabase;
 
 public class Student{
 	private int studentId;
@@ -21,10 +30,13 @@ public class Student{
 	private int currentStudyYear;
 	private StatusEnum status;
 	private double averageGrade;
-	private List<Grade> passedExams;
-	private List<Grade> failedExams;
+	private ArrayList<Grade> passedExams=new ArrayList<Grade>();
+	private ArrayList<Grade> failedExams=new ArrayList<Grade>();
 	
+	protected int passedGradeID=1;
 	protected static int rowNum=0;
+	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+	 private static final DecimalFormat df = new DecimalFormat("0.00");
 	
 	public Student() {
 		super();
@@ -49,7 +61,7 @@ public class Student{
 
 	public Student( String surname, String name, Date birthDate, Address address, Long phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status,
-			double averageGrade, List<Grade> passedExams, List<Grade> failedExams) {
+			double averageGrade, ArrayList<Grade> passedExams, ArrayList<Grade> failedExams) {
 		super();
 		this.surname = surname;
 		this.name = name;
@@ -167,20 +179,118 @@ public class Student{
 		this.averageGrade = averageGrade;
 	}
 
-	public List<Grade> getPassedExams() {
+	public ArrayList<Grade> getPassedExams() {
 		return passedExams;
 	}
 
-	public void setPassedExams(List<Grade> passedExams) {
+	public void setPassedExams(ArrayList<Grade> passedExams) {
 		this.passedExams = passedExams;
 	}
 
-	public List<Grade> getFailedExams() {
+	public ArrayList<Grade> getFailedExams() {
 		return failedExams;
 	}
 
-	public void setFailedExams(List<Grade> failedExams) {
+	public void setFailedExams(ArrayList<Grade> failedExams) {
 		this.failedExams = failedExams;
+	}
+	
+	public void addPassedExam(Grade g) {
+		passedGradeID++;
+		this.passedExams.add(g);
+		
+	}
+	
+	public void addFailedExam(Grade g) {
+		
+		this.failedExams.add(g);
+		
+	}
+	
+	
+	public String getAverage() {
+		float cnt=0;
+		float sum=0;
+		for (Grade g: this.passedExams) {
+			cnt++;
+			sum+=g.getGrade();
+		}
+		String res=df.format(sum/cnt);
+		return res;
+	}
+	
+	public int getEspb() {
+		int sum=0;
+		for (Grade g: this.passedExams) {
+			Subject subj=g.getSubject();
+			int espb=subj.getEspbPoints();
+			sum+=espb;
+		}
+		return sum;
+	}
+	
+	public void removePassedExam(Grade g) {
+		passedGradeID--;
+		Grade gCurr=new Grade();
+		Grade gNew=new Grade();
+		for(int i=passedGradeID+1;i<this.passedExams.size();i++) {
+			int gId=i+1;
+			gCurr=findGradeByID(g.getGradeId());
+			gNew=gCurr;
+			gNew.setGradeId(gCurr.getGradeId()-1);
+			this.passedExams.set(i, gNew);
+		}
+		this.passedExams.remove(g);
+		
+	}
+	
+	public Grade findGradeByID(int id) {
+		for (Grade g: this.passedExams) {
+			if (g.getGradeId()==id) {
+				return g;
+			}
+		}
+		return null;
+	}
+	
+	public String[] getUnaffiliatedSubj() {
+		
+		//Pravim listu svih asociranih predmeta
+		ArrayList<Object> subjects=SubjectDatabase.getListOfEntites();
+		ArrayList<Object> subjectsNew=subjects;
+		ArrayList<Grade> grades=new ArrayList<Grade>(failedExams);
+		grades.addAll(passedExams);
+		
+		int size=subjects.size()-grades.size();
+		String[] res=new String[size];
+		
+		//Cistim listu od asociranih predmeta
+		for(Iterator<Object> itr = subjects.iterator();
+                itr.hasNext();){   
+			
+			Subject s=(Subject) itr.next();
+		
+			for (Grade g: grades) {
+				Subject s1=g.getSubject();
+				if (s1.getSubjectKey()==s.getSubjectKey()) {
+					itr.remove();
+				}
+				
+			}
+		}
+		
+		//Stavljanje u string
+		int i=0;
+		for (Object o: subjects) {
+			Subject s=(Subject) o;
+			String currSubj=s.getSubjectKey()+"-"+s.getName();
+			res[i]=currSubj;
+			i++;
+		}
+		
+		
+		
+		return res;
 	}
 
 	
@@ -201,20 +311,13 @@ public class Student{
 	//nazivi kolona
 	public Object[] getColumns() {
 
-//		Indeks studentId
-//		Ime name
-//		Prezime surname
-//		Godina studija currentStudyYear
-//		Status status
-//		Prosek averageGrade
-
 		Object[] colNames={"StID", "Indeks", "Ime", "Prezime", "Godina Studija", "Status","Prosek"};
 		return colNames;
 	}
 
 
 	public static Date formatDate(String s) {
-		 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+		 
 		 try {
 			Date d = formatter.parse(s);
 			return d;
@@ -225,6 +328,54 @@ public class Student{
 		}
 		 
 	}
+	
+	public static JTable getPassedExams(Object o) {
+		Student s=(Student) o;
+		Object[] cols={"Sifra", "Naziv", "ESPB", "Ocena", "Datum"};
+		Object[][] rowData=new Object[s.getPassedExams().size()][5];
+		
+		
+		
+		int i=0;
+		for (Grade g: s.getPassedExams()) {
+			Subject subj=g.getSubject();
+			rowData[i][0]=subj.getSubjectKey();
+			rowData[i][1]=g.getSubject().getName();
+			
+			rowData[i][2]=Integer.toString(subj.getEspbPoints());
+			rowData[i][3]=Integer.toString(g.getGrade());
+			rowData[i][4]=formatter.format(g.getExamDate());
+			i++;
+		}
+		
+		StudentDialog.dtm=new DefaultTableModel(rowData,cols);
+		JTable table=new JTable(StudentDialog.dtm);
+		return table;
+	}
+	
+	public static JTable getFailedExams(Object o) {
+		Student s=(Student) o;
+		Object[] cols={"Sifra", "Naziv", "ESPB","Semestar"};
+		Object[][] rowData=new Object[s.getFailedExams().size()][4];
+		
+		int i=0;
+		for (Grade g: s.getFailedExams()) {
+			Subject subj=g.getSubject();
+			rowData[i][0]=subj.getSubjectKey();
+			rowData[i][1]=g.getSubject().getName();
+			
+			rowData[i][2]=Integer.toString(subj.getEspbPoints());
+			rowData[i][3]=subj.getSemester();
+			i++;
+		}
+		
+		StudentDialog.dtm2=new DefaultTableModel(rowData,cols);
+		JTable table=new JTable(StudentDialog.dtm2);
+		return table;
+	}
+	
+	
+	
 
 
 
