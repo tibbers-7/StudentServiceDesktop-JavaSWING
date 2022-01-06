@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import gui.MainFrame;
+import gui.ShowTable;
 import manageEntities.CheckValidity;
 import manageEntities.ClassNameHere;
 import model.Subject;
@@ -85,7 +86,7 @@ public class SubjectDialog extends JFrame{
 		
 	      
 			this.dialog(sel);
-	      
+			SubjectDatabase.printSubjects();
 			 loop: while (option!=1) {
 	    			
 	    			while(isEmpty) {
@@ -110,7 +111,7 @@ public class SubjectDialog extends JFrame{
 			    				string="Uspesno unet predmet!";
 					    		ClassNameHere.infoBox(string, "Obavestenje");
 					    		int size=MainFrame.subjTable.getRowCount();
-					    		MainFrame.tableModelSubj.insertRow(0,new Object[]{s.getSubjectId(),subjKey.getText(),
+					    		MainFrame.tableModelSubj.insertRow(size,new Object[]{s.getSubjectId(),subjKey.getText(),
 					    						name.getText(),espb.getText(),year.getText(),s.getSemester()});
 					    		MainFrame.updateTableSubj();
 					    		break loop;
@@ -123,13 +124,13 @@ public class SubjectDialog extends JFrame{
 	//					    		cols= {"ID","Sifra","Naziv","ESPB","Godina","Semestar"};
 				    		
 							
-							int i = MainFrame.subjTable.getSelectedRow();
-				               MainFrame.tableModelStud.setValueAt(s.getSubjectId(), i, 0);
-				               MainFrame.tableModelStud.setValueAt(subjKey.getText(), i, 1);
-				               MainFrame.tableModelStud.setValueAt(name.getText(), i, 2);
-				               MainFrame.tableModelStud.setValueAt(espb.getText(), i, 3);
-				               MainFrame.tableModelStud.setValueAt(year.getText(), i, 4);
-				               MainFrame.tableModelStud.setValueAt(s.getSemester(), i, 5);
+							int i = ShowTable.getSubjTable().getSelectedRow();
+				               MainFrame.tableModelSubj.setValueAt(s.getSubjectId(), i, 0);
+				               MainFrame.tableModelSubj.setValueAt(subjKey.getText(), i, 1);
+				               MainFrame.tableModelSubj.setValueAt(name.getText(), i, 2);
+				               MainFrame.tableModelSubj.setValueAt(espb.getText(), i, 3);
+				               MainFrame.tableModelSubj.setValueAt(year.getText(), i, 4);
+				               MainFrame.tableModelSubj.setValueAt(s.getSemester(), i, 5);
 							MainFrame.updateTableSubj();
 							break loop;
 					 }
@@ -177,11 +178,8 @@ public class SubjectDialog extends JFrame{
 	    		isEmpty=true;
 			}
 		}
-		
-		
 		return options;
 	}
-	
 	
 	
 	};

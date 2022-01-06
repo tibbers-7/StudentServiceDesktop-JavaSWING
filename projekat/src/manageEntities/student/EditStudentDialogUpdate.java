@@ -1,11 +1,6 @@
 package manageEntities.student;
-import java.awt.event.MouseAdapter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import enums.StatusEnum;
@@ -13,15 +8,6 @@ import manageEntities.ClassNameHere;
 import model.Student;
 
 public class EditStudentDialogUpdate {
-	private static int selection=0;
-	
-	
-//	StudentDialog sp=new StudentDialog();
-	public static int rowClick(JTable table) {
-
-		selection=table.getSelectedRow();
-		return selection+1;
-	}
 	
 
 	public static StudentDialog editClick(int studentId) {
@@ -79,10 +65,6 @@ public class EditStudentDialogUpdate {
 			ClassNameHere.infoBox(string, "Greska");
 			return null;
         }
-	}
-	
-	public static int getSel() {
-		return selection;
 	}
 	
 	

@@ -13,25 +13,46 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class ToolBar extends JToolBar {
 
+	private static ToolBar instance=null;
 	private JButton btnNew=new JButton();
 	private JButton btnEdit=new JButton();;
-	private JButton btnDelete=new JButton();;
+	private JButton btnDelete=new JButton();
+	public JTextField search = new JTextField();
+	public JButton btnSearch = new JButton();
 
-	public ToolBar() {
+	public static ToolBar getInstance() {
+		if (instance==null) {
+			instance=new ToolBar();
+		}
+		return instance;
+	}
+	public JTextField getSearch() {
+		return search;
+	}
+	public void setSearch(JTextField search) {
+		this.search = search;
+	}
+	public JButton getBtnSearch() {
+		return btnSearch;
+	}
+	public void setBtnSearch(JButton btnSearch) {
+		this.btnSearch = btnSearch;
+	}
+	private ToolBar() {
 		super(SwingConstants.HORIZONTAL);
 		
 
 	//New
-		this.btnNew.setToolTipText("New");
-		this.btnNew.setPreferredSize(new Dimension(25,25));
-		this.btnNew.setIcon(new ImageIcon("src/images/new1.png"));
+		btnNew.setToolTipText("New");
+		btnNew.setPreferredSize(new Dimension(25,25));
+		btnNew.setIcon(new ImageIcon("src/images/new1.png"));
 		add(this.btnNew);
 		addSeparator();
 	//Edit
-		this.btnEdit.setToolTipText("Edit");
-		this.btnEdit.setPreferredSize(new Dimension(25,25));
-		this.btnEdit.setIcon(new ImageIcon("src/images/edit1.png"));
-		add(this.btnEdit);
+		btnEdit.setToolTipText("Edit");
+		btnEdit.setPreferredSize(new Dimension(25,25));
+		btnEdit.setIcon(new ImageIcon("src/images/edit1.png"));
+		add(btnEdit);
 		addSeparator();
 	//Delete
 		
@@ -43,13 +64,13 @@ public class ToolBar extends JToolBar {
         add(Box.createHorizontalGlue()); 
 	
 	//Tekstualno polje -search
-		JTextField search = new JTextField();
+		
 		search.setColumns(30);
 		search.setMaximumSize(new Dimension(100,35));
 		add(search);
 		
 	//Search
-		JButton btnSearch = new JButton();
+		
 		btnSearch.setToolTipText("Search");
 		btnSearch.setPreferredSize(new Dimension(25,25));
 		btnSearch.setIcon(new ImageIcon("src/images/search1.png"));

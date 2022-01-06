@@ -12,14 +12,6 @@ import model.Subject;
 
 public class EditSubjectDialogUpdate {
 	
-	private static int selection=0;
-
-	public static int rowClick(JTable table) {
-		selection= table.getSelectedRow();
-		
-		return selection+1;
-	}
-
 	
 
 	public static SubjectDialog editClick(int subjId) {

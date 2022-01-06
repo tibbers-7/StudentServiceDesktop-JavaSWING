@@ -8,8 +8,6 @@ import javax.swing.JTable;
 
 import gui.MainFrame;
 import gui.MyApp;
-import gui.MyStudentPanel;
-import gui.MySubjectPanel;
 import gui.ShowTable;
 import manageEntities.student.MenuBarActionStudent;
 

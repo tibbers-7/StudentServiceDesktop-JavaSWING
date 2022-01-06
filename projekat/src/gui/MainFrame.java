@@ -2,7 +2,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -19,25 +18,21 @@ import javax.swing.table.DefaultTableModel;
 
 import enums.SemesterEnum;
 import enums.StatusEnum;
-import manageEntities.student.DeleteStudentAction;
-import manageEntities.student.EditStudentAction;
-import manageEntities.student.NewStudentAction;
-import manageEntities.student.StudentDatabase;
-import manageEntities.subject.EditSubjectAction;
-import manageEntities.subject.NewSubjectAction;
-import manageEntities.subject.SubjectDatabase;
-import model.Address;
-import model.Grade;
-import model.Professor;
-import model.Student;
-import model.Subject;
+import model.*;
+import manageEntities.subject.*;
+import manageEntities.student.*;
 
 public class MainFrame extends JFrame {
 	
+	private static MainFrame instance=null;
+	
 	private static final long serialVersionUID = 1L;
+	
+	public static JTextField searchField=new JTextField();
 	public static JButton newButton=new JButton();
 	public static JButton editButton=new JButton();
 	public static JButton deleteButton=new JButton();
+	public static JButton searchButton=new JButton();
 	public static JPanel p1=new JPanel();
 	public static JPanel p2=new JPanel();
 	public static JPanel p3=new JPanel();
@@ -45,12 +40,12 @@ public class MainFrame extends JFrame {
 	public static NewSubjectAction aNSubj=new NewSubjectAction();
 	public static EditSubjectAction aESubj=new EditSubjectAction();
 //	public static ActionDeleteSubject aDSubj=new ActionDeleteSubject();
-	
 	public static NewStudentAction aNStud=new NewStudentAction();
 	public static EditStudentAction aEStud=new EditStudentAction();
 	public static DeleteStudentAction aDStud=new DeleteStudentAction();
+	public static SearchStudentAction aSStud=new SearchStudentAction();
 	
-	public static MenuBar menu = new MenuBar();
+	public static MenuBar menu = MenuBar.getInstance();
 	
 	public static JTable studTable=ShowTable.showEntityTable(1);
 	public static DefaultTableModel tableModelStud=new DefaultTableModel();
@@ -59,11 +54,17 @@ public class MainFrame extends JFrame {
 	public static int selRowStud=0;
 	public static int selRowSubj=0;
 	
-	private static JTabbedPane tp=new JTabbedPane(); 
+	public static JTabbedPane tp=new JTabbedPane(); 
+	
+	public static MainFrame getInstance() {
+		if (instance==null) {
+			instance=new MainFrame();
+		}
+		return instance;
+	}
 	
 	
-	
-	public MainFrame(){
+	private MainFrame(){
 		
 		
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -92,6 +93,7 @@ public class MainFrame extends JFrame {
 		Subject subj3=new Subject("A85","Japanski",SemesterEnum.WINTER,4,new Professor(),16);
 		Subject subj4=new Subject("E08","Nemacki",SemesterEnum.SUMMER,3,new Professor(),6);
 		Subject subj5=new Subject("P90","Korejski",SemesterEnum.SUMMER,2,new Professor(),15);
+		
 		
 		Grade g1=new Grade(s1, subj1, 8, Student.formatDate("18-July-2019"));
 		Grade g2=new Grade(s1, subj2, 10, Student.formatDate("12-June-2019"));
@@ -127,53 +129,56 @@ public class MainFrame extends JFrame {
 		SubjectDatabase.addSubject(subj3);
 		SubjectDatabase.addSubject(subj4);
 		SubjectDatabase.addSubject(subj5);
+		
+		Subject s100=SubjectDatabase.findByKey("A85");
+		if(s100==null) {
+			System.out.printf("Ne vidi u bazi");
+		} else System.out.printf("\nVidi u bazi: "+s100.getSubjectKey());
 //-------------------------------------------------------------------- 
 //	
 		
 		
-		ToolBar toolbar= new ToolBar();
+		ToolBar toolbar= ToolBar.getInstance();
 		add(toolbar, BorderLayout.NORTH);
 		newButton=toolbar.getNewButton();
 		editButton=toolbar.getEditButton();
 		deleteButton=toolbar.getDeleteButton();
+		searchButton=toolbar.getBtnSearch();
+		searchField=toolbar.getSearch();
 		
-		menu = new MenuBar();
 		setJMenuBar(menu);
 		
 //-------PANELS		
-//		p1=MyStudentPanel.getInstance();
-		studTable=ShowTable.showEntityTable(1);
-		MyStudentPanel.actionsStudent();
+		MyStudentActions.actionsStudent();
 		updateTableStud();
-		studTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		ShowTable.getStudTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selRowStud=studTable.getSelectedRow();
+				selRowStud=ShowTable.getStudTable().getSelectedRow();
+				System.out.printf("\n row: "+selRowStud);
 			}
 			
 		});
-		p1.add(new JScrollPane(studTable));
+		p1.add(new JScrollPane(ShowTable.getStudTable()));
 		
 		
 		
-//		p2=MySubjectPanel.getInstance();
-		subjTable=ShowTable.showEntityTable(3);
-		updateTableSubj();
-		subjTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+		
+		ShowTable.getSubjTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selRowSubj=subjTable.getSelectedRow();
+				selRowSubj=ShowTable.getSubjTable().getSelectedRow();
 				System.out.printf("\n row: "+selRowSubj);
 			}
 			
 		});
-		p2.add(new JScrollPane(subjTable));
+		p2.add(new JScrollPane(ShowTable.getSubjTable()));
 		
-		
+		SubjectDatabase.printSubjects();
 		
 		
 		tp.setBounds(50,50,200,200); 
-	  
 		tp.add("student",p1);  
 	    tp.add("predmet",p2); 
 	    
@@ -187,11 +192,13 @@ public class MainFrame extends JFrame {
                     int sel=pane.getSelectedIndex();
                     switch(sel) {
                     	case 0:
-                    		MyStudentPanel.actionsStudent();
+                    		p1.revalidate();
+                    		p1.repaint();
+                    		MyStudentActions.actionsStudent();
                     		updateTableStud();
                     		break;
                     	case 1:
-                    		MySubjectPanel.actionsSubject();
+                    		MySubjectActions.actionsSubject();
                     		updateTableSubj();
                     		break;
                     }

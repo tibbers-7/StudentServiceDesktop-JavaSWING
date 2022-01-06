@@ -13,7 +13,28 @@ import model.Subject;
 public class ShowTable{
 	
 	public static JTable table=new JTable();
-//	private static DefaultTableModel contactTableModel=new DefaultTableModel();
+	private static JTable studInstance=null;
+	private static JTable subjInstance=null;
+	
+	public static JTable getStudTable() {
+		if (studInstance==null) {
+			studInstance=showEntityTable(1);
+		} return studInstance;
+	}
+	
+	public static JTable getSubjTable() {
+		if (subjInstance==null) {
+			subjInstance=showEntityTable(3);
+		} return subjInstance;
+	}
+	
+	public static void refreshStudTable() {
+		studInstance=showEntityTable(1);
+	}
+	
+	public static void refreshSubjTable() {
+		subjInstance=showEntityTable(3);
+	}
 	
 	public static JTable showEntityTable(int index) {
 		
@@ -98,13 +119,14 @@ public class ShowTable{
 		case 3: //PREDMET
 			MainFrame.tableModelSubj=new DefaultTableModel(rowData,cols);
 	    	table.setModel(MainFrame.tableModelSubj);
+	    	
 	    	break;
 		case 4: //POLOZENI ISPITI
 			
 			break;
 	    }
 		
-		
+	    table.setRowSelectionAllowed(true);
 		return table;
 	    
 	}

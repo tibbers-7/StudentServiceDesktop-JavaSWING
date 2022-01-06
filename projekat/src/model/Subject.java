@@ -19,9 +19,6 @@ public class Subject{
 	protected static int rowNum=0;
 
 	
-	private ArrayList<Object> subjects= new ArrayList<Object>();
-
-	
 	public Subject() {
 		super();
 	}
@@ -35,6 +32,7 @@ public class Subject{
 		this.year = year;
 		this.professor = professor;
 		this.espbPoints = espbPoints;
+		setSubjectId();
 //		this.studentsPassed = studentsPassed;
 //		this.studentsNotPassed = studentsNotPassed;
 	}
@@ -153,15 +151,6 @@ public class Subject{
 		return rowData;
 	}
 
-	public boolean addEntity(Subject s) {
-		try {
-			subjects.add(s);
-			return true;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 	
 	
 

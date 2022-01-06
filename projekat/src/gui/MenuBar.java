@@ -20,6 +20,8 @@ import manageEntities.subject.MenuBarActionSubject;
 
 public class MenuBar extends JMenuBar {
 	
+	private static MenuBar instance=null;
+	
 	private static final long serialVersionUID = 1L;
 	private static int selRow=0;
 	
@@ -29,8 +31,11 @@ public class MenuBar extends JMenuBar {
 	public JMenuItem _edit2 = new JMenuItem("Edit");
 	public JMenuItem _delete = new JMenuItem("Delete");
 	
-	//globalni panel da bi mogla da se pamti unesena tabela i kasnije obrise
-	public static JScrollPane jsp=new JScrollPane();
+	public static MenuBar getInstance() {
+		if (instance==null) {
+			instance=new MenuBar();
+		}return instance;
+	}
 
 	public static int getSelRow() {
 		return selRow;
@@ -40,7 +45,7 @@ public class MenuBar extends JMenuBar {
 		MenuBar.selRow = selRow;
 	}
 
-	public MenuBar() {
+	private MenuBar() {
 		
 		JMenu _file = new JMenu("File");
 		JMenu _edit = new JMenu("Edit");

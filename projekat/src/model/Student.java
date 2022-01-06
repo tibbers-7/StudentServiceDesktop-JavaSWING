@@ -244,6 +244,16 @@ public class Student{
 		
 	}
 	
+	public void removeFailedExam(Grade g) {
+		boolean found=false;
+		for (Grade g1:failedExams) {
+			if (g1==g) {
+				this.failedExams.remove(g);
+			}
+		}
+		
+	}
+	
 	public Grade findGradeByID(int id) {
 		for (Grade g: this.passedExams) {
 			if (g.getGradeId()==id) {
@@ -255,38 +265,40 @@ public class Student{
 	
 	public String[] getUnaffiliatedSubj() {
 		
+		System.out.printf("Student,Linija 268: ");
+		   SubjectDatabase.printSubjects();
 		//Pravim listu svih asociranih predmeta
-		ArrayList<Object> subjects=SubjectDatabase.getListOfEntites();
-		ArrayList<Object> subjectsNew=subjects;
+		ArrayList<Object> subjectsStud=SubjectDatabase.getListOfEntites();
+		ArrayList<Subject> subjectsNew=new ArrayList<Subject>();
 		ArrayList<Grade> grades=new ArrayList<Grade>(failedExams);
 		grades.addAll(passedExams);
 		
-		int size=subjects.size()-grades.size();
-		String[] res=new String[size];
+		int size=subjectsStud.size()-grades.size();
+		if(size<1) return null;
 		
-		//Cistim listu od asociranih predmeta
-		for(Iterator<Object> itr = subjects.iterator();
-                itr.hasNext();){   
-			
-			Subject s=(Subject) itr.next();
 		
+		
+		for(Object o:subjectsStud) {
+			Subject s=(Subject) o;
 			for (Grade g: grades) {
 				Subject s1=g.getSubject();
 				if (s1.getSubjectKey()==s.getSubjectKey()) {
-					itr.remove();
+					subjectsNew.add(s);
 				}
-				
 			}
 		}
 		
+		String[] res=new String[subjectsNew.size()];
 		//Stavljanje u string
 		int i=0;
-		for (Object o: subjects) {
-			Subject s=(Subject) o;
-			String currSubj=s.getSubjectKey()+"-"+s.getName();
+		for (Subject s2: subjectsNew) {
+			String currSubj=s2.getSubjectKey()+"-"+s2.getName();
 			res[i]=currSubj;
 			i++;
 		}
+		
+		System.out.printf("Student,Linija 303: ");
+		   SubjectDatabase.printSubjects();
 		
 		
 		

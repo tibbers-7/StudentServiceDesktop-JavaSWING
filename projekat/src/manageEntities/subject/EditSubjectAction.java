@@ -1,14 +1,9 @@
 package manageEntities.subject;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import gui.MainFrame;
-import gui.MyApp;
-import gui.MyStudentPanel;
-import gui.MySubjectPanel;
 import gui.ShowTable;
 
 public class EditSubjectAction implements ActionListener{

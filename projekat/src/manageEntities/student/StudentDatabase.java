@@ -70,4 +70,13 @@ public class StudentDatabase extends Student {
 		return false;
 	}
 
+	public static void decrementIDs() {
+		for (Object o:studenti) {
+			Student s=(Student) o;
+			int prevId=s.getStudentId();
+			s.setStudentId(prevId-1);
+		}
+		
+	}
+
 }

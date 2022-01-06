@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import enums.SemesterEnum;
 import enums.StatusEnum;
+import manageEntities.subject.SubjectDatabase;
 import model.Address;
+import model.Grade;
 import model.Professor;
 import model.Student;
 import model.Subject;
@@ -45,6 +47,8 @@ public class CheckValidity {
 					return false;
 
 				}
+				
+				
 				
 				s.setEmail(email);
 				s.setIndex(index);
@@ -105,6 +109,15 @@ public class CheckValidity {
 			return true;
 	}
 	
+	public static boolean checkIndex(String index) {
+		Pattern p = Pattern.compile("^([0-Z]*)-*");
+		Matcher m = p.matcher(index);
+		
+		if(m.find()) {
+			return true;
+			
+		} else return false;
+	}
 	
 	
 	
