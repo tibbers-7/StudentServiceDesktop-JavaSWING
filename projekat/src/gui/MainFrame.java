@@ -163,6 +163,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				selRowSubj=subjTable.getSelectedRow();
+				System.out.printf("\n row: "+selRowSubj);
 			}
 			
 		});
@@ -208,20 +209,11 @@ public class MainFrame extends JFrame {
 	
 	public static void updateTableStud() {
 		tableModelStud.fireTableDataChanged();
-		tableModelStud.fireTableStructureChanged();
-		p1.revalidate();
-		p1.repaint();
-		tp.revalidate();
-		tp.repaint();
 	}
 	
 	public static void updateTableSubj() {
 		tableModelSubj.fireTableDataChanged();
-		tableModelSubj.fireTableStructureChanged();
-		p2.revalidate();
-		p2.repaint();
-		tp.revalidate();
-		tp.repaint();
+
 	}
 
 	

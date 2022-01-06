@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import gui.MainFrame;
 import gui.MyApp;
@@ -17,9 +18,9 @@ public class DeleteStudentAction implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		int selRow=EditStudentDialogUpdate.rowClick(MainFrame.studTable);
-		System.out.printf("\n selRow= "+selRow);
 		DeleteStudentDialog.delMessage(selRow);
 		
+		MainFrame.tableModelStud.removeRow(selRow-1);
 		JTable tableNew=ShowTable.showEntityTable(1);
 		tableNew.setRowSelectionAllowed(true);
 		

@@ -6,6 +6,9 @@ import java.awt.*;
 import javax.security.auth.Subject;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class StudentDialog  extends JPanel{
 	private static int selRowPassed=-1;
 	private static int selRowFailed=-1;
 	private boolean found=false;
+	private String string;
 	
 	
 	public static JComboBox currentStudyYear= new JComboBox(studyYears);
@@ -169,7 +173,7 @@ public class StudentDialog  extends JPanel{
 		    							 address.getText(),phoneNumber.getText(),email.getText(),
 		    							 index.getText(),enrollmentYear.getText(),
 		    							 (String)currentStudyYear.getSelectedItem(),(String)status.getSelectedItem())) {
-		    					String string;
+		    					
 		    					switch(sel) {
 		    						//Ako je dugme new
 		    						case 1:
@@ -182,6 +186,10 @@ public class StudentDialog  extends JPanel{
 		    								StudentDatabase.addStudent(s);
 		    								string="Uspesno unet student!";
 								    		ClassNameHere.infoBox(string, "Obavestenje");
+								    		int size=MainFrame.studTable.getRowCount();
+								    		MainFrame.tableModelStud.insertRow(size,new Object[] {s.getStudentId(),index.getText(),name.getText(),surname.getText()
+								    				,s.getCurrentStudyYear(),s.getStatus()});
+								    		
 								    		MainFrame.updateTableStud();
 								    		break loop;
 		    							}
@@ -192,6 +200,13 @@ public class StudentDialog  extends JPanel{
 		    							StudentDatabase.changeStudent(s,MainFrame.selRowStud+1);
 		    							string="Uspesno izmenjen student!";
 							    		ClassNameHere.infoBox(string, "Obavestenje");
+							               int i = MainFrame.studTable.getSelectedRow();
+							               MainFrame.tableModelStud.setValueAt(s.getStudentId(), i, 0);
+							               MainFrame.tableModelStud.setValueAt(index.getText(), i, 1);
+							               MainFrame.tableModelStud.setValueAt(name.getText(), i, 2);
+							               MainFrame.tableModelStud.setValueAt(surname.getText(), i, 3);
+							               MainFrame.tableModelStud.setValueAt(s.getCurrentStudyYear(), i, 4);
+							               MainFrame.tableModelStud.setValueAt(s.getStatus(), i, 5);
 							    		MainFrame.updateTableStud();
 							    		break loop;
 		    					}
@@ -234,11 +249,15 @@ public class StudentDialog  extends JPanel{
 		      tp.add("Informacije",info);
 		      
 		      Student s=StudentDatabase.findByID(EditStudentAction.selRow);
-		      JPanel passedSubj=passedSubj(s);
-		      tp.add("Polozeni ispiti",passedSubj);
+		      if(s!=null) {
+		    	  JPanel passedSubj=passedSubj(s);
+		    	  tp.add("Polozeni ispiti",passedSubj);
+		    	  JPanel failedSubj=failedExams(s);
+			      tp.add("Nepolozeni ispiti",failedSubj);
+		      }
+		     
 		      
-		      JPanel failedSubj=failedExams(s);
-		      tp.add("Nepolozeni ispiti",failedSubj);
+		      
 		      
 		    
 		   String nazivDijaloga=null;
@@ -311,9 +330,15 @@ public class StudentDialog  extends JPanel{
 		   
 		   JButton b=new JButton("Ponisti ocenu");
 		   passedTable=Student.getPassedExams(s);
+		   
 		   JPanel pS=new JPanel();
 		   pS.setLayout((LayoutManager) new BoxLayout(pS, BoxLayout.PAGE_AXIS));
 		   
+		   passedTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			   public void valueChanged(ListSelectionEvent e) {
+					selRowPassed=passedTable.getSelectedRow();
+				}
+		   });
 		   
 		   b.addActionListener(new ActionListener() {
 
@@ -323,7 +348,7 @@ public class StudentDialog  extends JPanel{
 					for(Grade g: s.getPassedExams()) {
 						if(g.getGradeId()==selRowPassed) {
 							s.removePassedExam(g);
-							String string="Uspesno izbrisan ispit!";
+							string="Uspesno izbrisan ispit!";
 							ClassNameHere.infoBox(string, "Obavestenje");
 							found=true;
 							passedTable=Student.getPassedExams(s);
@@ -336,7 +361,7 @@ public class StudentDialog  extends JPanel{
 						}
 					}
 					if(!found) {
-						String string="Nije pronadjen ispit!";
+						string="Nije pronadjen ispit!";
 						ClassNameHere.infoBox(string, "Greska");
 					}
 					
@@ -374,10 +399,6 @@ public class StudentDialog  extends JPanel{
 		   //Dijalog za dodavanje predmeta
 		   JPanel addSubj=new JPanel();
 		   String[] subjOptions=s.getUnaffiliatedSubj();
-		   for(String str:subjOptions) {
-			   System.out.printf("\n"+str+"\n");
-			   
-		   }
 		   newSubj=new JComboBox(subjOptions);
 		   addSubj.add(newSubj);
 		   
@@ -391,10 +412,30 @@ public class StudentDialog  extends JPanel{
 					 String strSubj=(String) newSubj.getSelectedItem();
 					 Grade g=getSubjRegex(strSubj,s);
 					 s.addFailedExam(g);
-					 String string="Uspesno dodat predmet";
+					 model.Subject subj=g.getSubject();
+					 int size=failedTable.getRowCount();
+					 dtm2.insertRow(size,new Object[] {subj.getSubjectKey(),subj.getName(),subj.getEspbPoints(),subj.getSemester()});
+					 string="Uspesno dodat predmet";
 					ClassNameHere.infoBox(string, "Obavestenje");
 					updateExamTable();
 				 }
+			}
+			
+			   
+		   });
+		   delSubject.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selRowFailed=failedTable.getSelectedRow();
+				if(selRowFailed==-1) {
+					string="Problem s selekcijom";
+					ClassNameHere.infoBox(string, "Obavestenje");
+				} else {
+					string="Obrisan predmet";
+					ClassNameHere.infoBox(string, "Obavestenje");
+					((DefaultTableModel)failedTable.getModel()).removeRow(selRowFailed);
+				}
 			}
 			   
 		   });
@@ -406,11 +447,18 @@ public class StudentDialog  extends JPanel{
 		   
 		   failedTable=Student.getFailedExams(s);
 		   
+		   failedTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			   public void valueChanged(ListSelectionEvent e) {
+					selRowFailed=failedTable.getSelectedRow();
+				}
+		   });
+		   
 		   pF.add(controls,BorderLayout.SOUTH);
 		   pF.add(new JScrollPane(failedTable));
 		   
 		   return pF;
 	   }
+		
 	   
 	   
 	   public static void updateExamTable() {
@@ -437,6 +485,8 @@ public class StudentDialog  extends JPanel{
 				return null;
 			}
 		}
+	   
+	   
 	   
 
 	

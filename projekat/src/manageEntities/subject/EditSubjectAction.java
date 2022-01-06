@@ -13,7 +13,7 @@ import gui.ShowTable;
 
 public class EditSubjectAction implements ActionListener{
 
-	private int selRow=0;
+	public static int selRow=0;
 	private JTable tableNew=new JTable();
 	@Override
 	public void actionPerformed(ActionEvent e) {

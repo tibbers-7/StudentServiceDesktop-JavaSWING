@@ -17,12 +17,13 @@ public class NewStudentAction implements ActionListener {
 		//Vracam u default stanje
 		StudentDialog.status.setSelectedItem("Budzet");
 		StudentDialog.currentStudyYear.setSelectedItem("I (prva)");
-		StudentDialog sOp=new StudentDialog();  
+		StudentDialog sOp=new StudentDialog();
 		sOp.ispisDijaloga(1,0);
 		
 
 		
 		//Prikaz nove tabele s dodatim studentom
+		
 		JTable tableNew=ShowTable.showEntityTable(1);
 		tableNew.setRowSelectionAllowed(true);
 	

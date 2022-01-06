@@ -26,6 +26,11 @@ public class SubjectDialog extends JFrame{
 	protected JTextField prof= new JTextField();
 	protected JTextField espb= new JTextField();
 	protected Subject s=new Subject();
+
+	private String string;
+	private boolean isEmpty=false;
+	private int option=-1;
+	
 	public static JComboBox sem= new JComboBox(semester);
 
 	
@@ -77,76 +82,106 @@ public class SubjectDialog extends JFrame{
 	}
 
 	public void ispisDijaloga(int sel,int rowClicked) {
-		ArrayList<JTextField> options=new ArrayList<JTextField>();
-	      Object[] message = {
-	    		    "Sifra Predmeta* ", this.subjKey,
-	    		    "Naziv* ", this.name,
-	    		    "Semestar* ", this.sem,
-	    		    "Godina* ",this.year,
-	    		    "Profesor* ",this.prof,
-	    		    "ESPB* ",this.espb,
-	    		    
-	    		};
+		
 	      
-	      String nazivDijaloga=null;
-			 switch(sel) {
-			 case 1:
-				 nazivDijaloga="Dodavanje Predmeta";
-				 break;
-			 case 2:
-				 nazivDijaloga="Izmena Predmeta";
-				 break;
-			 }
-			 
-	    	int option = JOptionPane.showConfirmDialog(null, message, nazivDijaloga, JOptionPane.OK_CANCEL_OPTION);
-
+			this.dialog(sel);
 	      
-	      	 options.add(subjKey);
-		     options.add(name);
-			 options.add(year);
-			 options.add(prof);
-			 options.add(espb);
-			 
-			 if (option==0) {
-	    			boolean isEmpty=false;
-	    			//Proverava jel ima praznih polja
-	    			for (JTextField tf:options) {
-	    				
-	    				if(tf.getText().isEmpty()){
-				    		isEmpty=true;
-		    			}
-		    		}
-	    			if(isEmpty) {
+			 loop: while (option!=1) {
+	    			
+	    			while(isEmpty) {
+	    				if(option==0) {
 	    				String string="Nisu unesene sve potrebne vrednosti!";
 			    		ClassNameHere.infoBox(string, "Greska");
-	    			} else {
-	    				if(CheckValidity.checkValiditySubject(s,subjKey.getText(),
-	 							 name.getText(),year.getText(),prof.getText(),
-	 							 espb.getText(),(String)sem.getSelectedItem())) {
-			
-	 					switch(sel) {
-	 						//Ako je dugme new
-	 						case 1:
-	 								SubjectDatabase.addSubject(s);
-				    				String string="Uspesno unet predmet! (Klik na File)";
-						    		ClassNameHere.infoBox(string, "Obavestenje");
-						    		MainFrame.updateTableSubj();
-						    		break;
-						    	//ako je dugme edit
-	 						case 2:
-	 							String string1="Uspesno izmenjen predmet! (Klik na File)";
-					    		ClassNameHere.infoBox(string1, "Obavestenje");
-	 							SubjectDatabase.changeSubject(s,rowClicked);
-	 							MainFrame.updateTableSubj();
-	 							break;
-	 					 }
+			    		this.dialog(sel);
+	
+	    			} else break;
 	    			}
+	    			
+				if(isEmpty) return;
+				
+					if(CheckValidity.checkValiditySubject(s,subjKey.getText(),
+							 name.getText(),year.getText(),prof.getText(),
+							 espb.getText(),(String)sem.getSelectedItem())) {
 		
+					switch(sel) {
+						//Ako je dugme new
+						case 1:
+								SubjectDatabase.addSubject(s);
+			    				string="Uspesno unet predmet!";
+					    		ClassNameHere.infoBox(string, "Obavestenje");
+					    		int size=MainFrame.subjTable.getRowCount();
+					    		MainFrame.tableModelSubj.insertRow(0,new Object[]{s.getSubjectId(),subjKey.getText(),
+					    						name.getText(),espb.getText(),year.getText(),s.getSemester()});
+					    		MainFrame.updateTableSubj();
+					    		break loop;
+					    		
+					    	//ako je dugme edit
+						case 2:
+							SubjectDatabase.changeSubject(s,MainFrame.selRowSubj+1);
+							string="Uspesno izmenjen predmet!";
+				    		ClassNameHere.infoBox(string, "Obavestenje");
+	//					    		cols= {"ID","Sifra","Naziv","ESPB","Godina","Semestar"};
+				    		
+							
+							int i = MainFrame.subjTable.getSelectedRow();
+				               MainFrame.tableModelStud.setValueAt(s.getSubjectId(), i, 0);
+				               MainFrame.tableModelStud.setValueAt(subjKey.getText(), i, 1);
+				               MainFrame.tableModelStud.setValueAt(name.getText(), i, 2);
+				               MainFrame.tableModelStud.setValueAt(espb.getText(), i, 3);
+				               MainFrame.tableModelStud.setValueAt(year.getText(), i, 4);
+				               MainFrame.tableModelStud.setValueAt(s.getSemester(), i, 5);
+							MainFrame.updateTableSubj();
+							break loop;
+					 }
+				}
+
 			 }
 			 
 		
 		}
+
+	
+	private ArrayList<JTextField> dialog(int sel){
+		ArrayList<JTextField> options=new ArrayList<JTextField>();
+		
+		Object[] message = {
+    		    "Sifra Predmeta* ", this.subjKey,
+    		    "Naziv* ", this.name,
+    		    "Semestar* ", this.sem,
+    		    "Godina* ",this.year,
+    		    "Profesor* ",this.prof,
+    		    "ESPB* ",this.espb,
+    		    
+    		};
+		options.add(subjKey);
+	     options.add(name);
+		 options.add(year);
+		 options.add(prof);
+		 options.add(espb);
+		 
+		 String nazivDijaloga=null;
+		 switch(sel) {
+		 case 1:
+			 nazivDijaloga="Dodavanje Predmeta";
+			 break;
+		 case 2:
+			 nazivDijaloga="Izmena Predmeta";
+			 break;
+		 }
+		 
+    	option = JOptionPane.showConfirmDialog(null, message, nazivDijaloga, JOptionPane.OK_CANCEL_OPTION);
+    	boolean isEmpty=false;
+		for (JTextField tf:options) {
+			
+			if(tf.getText().isEmpty()){
+	    		isEmpty=true;
+			}
+		}
+		
+		
+		return options;
 	}
+	
 	
 	
 	};

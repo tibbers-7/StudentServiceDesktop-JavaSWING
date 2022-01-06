@@ -18,7 +18,7 @@ public class NewSubjectAction implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-				SubjectDialog.sem.setSelectedItem("Zimski");
+//				SubjectDialog.sem.setSelectedItem("Zimski");
 				//Iskace dijalog za unos studenta
 				SubjectDialog sSP=new SubjectDialog();  
 				sSP.ispisDijaloga(1,0);
