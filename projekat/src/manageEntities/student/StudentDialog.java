@@ -41,14 +41,15 @@ import model.Student;
 //***************************************************************************************
 //***************************************************************************************
 
-	//StudentDialog mi daje: 1. panel za novog studenta: dialog()  258
-	//						 2. dijalog za prihvatanje novog studenta: ispisDijaloga() 185
+	//StudentDialog mi daje: 1. default dijalog za studenta: dialog()  258
+	//						 2. ispis dijaloga studenta na osnovu toga da li je new ili edit: ispisDijaloga() 185
 	//						 3. regex dobavljanje predmeta na osnovu stringa iz comboboxa (format SifraPr-NazivPr)
-	//						 4. panela za informacije studenta
+	//						 4. panel za informacije studenta
 	//						 5. apdejtovanje tabela
 	
 
-
+	//ispisDijaloga: sel=1 NOVI STUDENT
+	//				 sel=2 EDIT STUDENT
 
 //***************************************************************************************
 //***************************************************************************************
@@ -100,12 +101,12 @@ public class StudentDialog  extends JPanel{
 
 	
 	
-	public static StudentDialog getInstance() {
-		if(instance==null) {
-			instance=new StudentDialog();
-		}
-		return instance;
-	}
+//	public static StudentDialog getInstance() {
+//		if(instance==null) {
+//			instance=new StudentDialog();
+//		}
+//		return instance;
+//	}
 	
 	//Konstruktor
 		public StudentDialog(){
@@ -276,7 +277,7 @@ public class StudentDialog  extends JPanel{
 		   
 		   ArrayList<JTextField> options=new ArrayList<JTextField>();
 		   
-		   //Panel za dodavanje novog studenta
+		   //Dijalog za dodavanje novog studenta
 		      Object[] message = {
 		    		    "Ime* ", this.name,
 		    		    "Prezime* ", this.surname,
@@ -295,6 +296,7 @@ public class StudentDialog  extends JPanel{
 		      JPanel info=informations();
 		      tp.add("Informacije",info);
 		      
+		      //Dobavljanje svih potrebnih stvari za edit panel
 		      Student s=StudentDatabase.findByID(MainFrame.selRowStud+1);
 		      if(s!=null) {
 		    	  passedTable=Student.getPassedExams(s);
@@ -353,7 +355,7 @@ public class StudentDialog  extends JPanel{
 			 return options;
 	   }
 	   
-	   private JPanel informations() {
+	   private JPanel informations() { 
 		   JPanel studPan=new JPanel();
 		      studPan.add(new JLabel("Ime*"));
 		      studPan.add(this.name);
@@ -385,13 +387,15 @@ public class StudentDialog  extends JPanel{
 	   
 	   
 	 	   
-	   
+	   //Apdejtujem obe istovremeno jer su povezane
 	   public static void updateExamTable() {
 		   dtm.fireTableDataChanged();
 		   dtm2.fireTableDataChanged();
 	   }
 	   
 	   //Dobavljanje predmeta na osnovu odabrane stavke u JComboBox dodavanje predmeta
+	   // (Ponudjeni odgovori u comboboxu su formata SIFRA-NAZIVpredmeta 
+	   //  ova metoda sluzi da mi nadje u bazi taj predmet i na osnovu njega formira ocenu)
 	   public static Grade getSubjRegex(String str,Student stud) {
 			
 			Pattern p = Pattern.compile("^([0-Z]*)-*");

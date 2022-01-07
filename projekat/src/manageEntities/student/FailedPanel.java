@@ -29,6 +29,7 @@ public class FailedPanel extends JPanel{
 	private static FailedPanel instance=null;
 	public static final String[] gradesS= {"6","7","8","9","10"};
 
+	//TODO:  PROSEK I ESPB UPDATE
 	private static JLabel avgGrade=new JLabel();
 	private static JLabel espbSum=new JLabel();
 	

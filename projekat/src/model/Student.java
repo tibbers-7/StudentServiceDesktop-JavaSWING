@@ -207,7 +207,7 @@ public class Student{
 		
 	}
 	
-	
+	// Prosek svih ocena (String jer mi treba da ubacim u labelu, vrv cu promeniti)
 	public String getAverage() {
 		float cnt=0;
 		float sum=0;
@@ -219,6 +219,7 @@ public class Student{
 		return res;
 	}
 	
+	// Ukupno ESPB
 	public int getEspb() {
 		int sum=0;
 		for (Grade g: this.passedExams) {
@@ -229,6 +230,7 @@ public class Student{
 		return sum;
 	}
 	
+	// Izbrisi ispit iz polozenih
 	public void removePassedExam(Grade g) {
 		passedGradeID--;
 		Grade gCurr=new Grade();
@@ -244,6 +246,7 @@ public class Student{
 		
 	}
 	
+	// Izbrisi ispit iz nepolozenih
 	public void removeFailedExam(Grade g) {
 		boolean found=false;
 		for (Grade g1:failedExams) {
@@ -254,6 +257,7 @@ public class Student{
 		
 	}
 	
+	// Nadji ocenu
 	public Grade findGradeByID(int id) {
 		for (Grade g: this.passedExams) {
 			if (g.getGradeId()==id) {
@@ -263,6 +267,7 @@ public class Student{
 		return null;
 	}
 	
+	// Dobavi sve ispite koji nisu ni polozeni ni nepolozeni
 	public String[] getUnaffiliatedSubj() {
 		
 		System.out.printf("Student,Linija 268: ");
@@ -305,7 +310,7 @@ public class Student{
 		return res;
 	}
 
-	
+	// Dobavi sve potrebne info o studentu za formiranje tabele
 	public static Object[] getData(Object o) {
 		
 		Student s= (Student) o;
@@ -328,6 +333,7 @@ public class Student{
 	}
 
 
+	// Pretvaranje iz stringa u datum (nzm ni zasto je metoda) TODO: nepotrebna metoda
 	public static Date formatDate(String s) {
 		 
 		 try {
@@ -341,6 +347,7 @@ public class Student{
 		 
 	}
 	
+	//Dobavi mi tabelu svih polozenih ispita
 	public static JTable getPassedExams(Object o) {
 		Student s=(Student) o;
 		Object[] cols={"Sifra", "Naziv", "ESPB", "Ocena", "Datum"};
@@ -365,6 +372,7 @@ public class Student{
 		return table;
 	}
 	
+	//Dobavi mi tabelu svih nepolozenih ispita
 	public static JTable getFailedExams(Object o) {
 		Student s=(Student) o;
 		Object[] cols={"Sifra", "Naziv", "ESPB","Semestar"};

@@ -148,8 +148,9 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menu);
 		
 //-------PANELS		
-		MyStudentActions.actionsStudent();
-		updateTableStud();
+		MyStudentActions.actionsStudent(); //podesava akcije za sve dugmadi i brise stare
+		updateTableStud(); //update model tabele
+		//podesavanje tabele da reaguje na promenu selektovanog reda
 		ShowTable.getStudTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -158,10 +159,8 @@ public class MainFrame extends JFrame {
 			
 		});
 		p1.add(new JScrollPane(ShowTable.getStudTable()));
-		
-		
-		
 		ShowTable.getStudTable().setAutoCreateRowSorter(true);
+		
 		
 		ShowTable.getSubjTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -172,56 +171,13 @@ public class MainFrame extends JFrame {
 			
 		});
 		p2.add(new JScrollPane(ShowTable.getSubjTable()));
-//--------------------------------------------------------------------
-		
-		//SEARCH
 
-	    TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModelStud);
-	    ShowTable.getStudTable().setRowSorter(rowSorter);
-		
-		
-		findStudent=new DocumentListener() {
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				String text = searchField.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				String text = searchField.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-				
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				throw new UnsupportedOperationException("Not supported yet.");
-			}
-			
-		};
-		
-		searchField.getDocument().addDocumentListener(findStudent);
-		
-		
-//------------------------------------------------------------------------------
-		
 		tp.setBounds(50,50,200,200); 
 		tp.add("student",p1);  
 	    tp.add("predmet",p2); 
 	    
 	    
+	    //sta se desi kad se promeni tab
 	    tp.addChangeListener(new ChangeListener() {
 
 			@Override

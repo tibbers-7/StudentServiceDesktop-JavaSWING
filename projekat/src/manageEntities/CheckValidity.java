@@ -4,17 +4,17 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import enums.SemesterEnum;
 import enums.StatusEnum;
-import manageEntities.subject.SubjectDatabase;
 import model.Address;
-import model.Grade;
 import model.Professor;
 import model.Student;
 import model.Subject;
 
+//Proverava jesu li dobro uneseni podaci
+
 public class CheckValidity {
+	
 	public static boolean checkValidityStudent(Student s,String name,String surname,String birthDate,
 			String address,String phoneNumber,String email, 
 			String index,String enrollmentYear,String currentStudyYear, 
@@ -65,7 +65,7 @@ public class CheckValidity {
 				}
 				
 				
-				if (StringUtils.isNumeric(phoneNumber)){
+				if (isNumeric(phoneNumber)){
 					s.setPhoneNumber(Long.parseLong(phoneNumber));
 				} else {
 					string="Broj telefona sme da sadrzi samo cifre!";
@@ -122,7 +122,18 @@ public class CheckValidity {
 	}
 	
 	
-	
+	public static boolean isNumeric(CharSequence cs) {
+		if (cs == null) {
+            return false;
+        }
+        int sz = cs.length();
+        for (int i = 0; i < sz; i++) {
+            if (Character.isDigit(cs.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+	}
 	
 	
 	

@@ -3,6 +3,9 @@ package gui;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+
+//Lokalizacija na srpski
+// TODO: sig postoji bolji nacin
 public class Localisation {
 	
 	public static void serbianLoc() {

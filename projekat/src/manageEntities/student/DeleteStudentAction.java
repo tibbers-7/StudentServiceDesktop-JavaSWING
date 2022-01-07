@@ -17,8 +17,9 @@ public class DeleteStudentAction implements ActionListener {
 		
 		MainFrame.tableModelStud.removeRow(selRow-1);
 		StudentDatabase.decrementIDs();
-		ShowTable.refreshStudTable();
 		
+		// TODO: ispraviti ovo da se prikazuje izmena id
+		ShowTable.refreshStudTable();
 		MainFrame.updateTableStud();
 	
 		

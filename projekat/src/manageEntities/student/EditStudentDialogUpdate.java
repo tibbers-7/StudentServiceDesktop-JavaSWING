@@ -7,6 +7,9 @@ import enums.StatusEnum;
 import manageEntities.ClassNameHere;
 import model.Student;
 
+
+//Apdejt dijaloga kako bi pamtio vrednosti selektovanog studenta
+
 public class EditStudentDialogUpdate {
 	
 
@@ -27,7 +30,7 @@ public class EditStudentDialogUpdate {
 			JTextField index= new JTextField(s.getIndex());
 			JTextField enrollmentYear= new JTextField(Integer.toString(s.getEnrollmentYear()));
 			
-			StudentDialog sOp=StudentDialog.getInstance();
+			StudentDialog sOp=new StudentDialog();
 			StatusEnum status=s.getStatus();
 			if (status==StatusEnum.BUDGET) {
 				sOp.status.setSelectedItem("Budzet");

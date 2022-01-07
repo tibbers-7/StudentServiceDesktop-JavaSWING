@@ -10,6 +10,21 @@ import manageEntities.subject.SubjectDatabase;
 import model.Professor;
 import model.Student;
 import model.Subject;
+
+//*********************************************************************************
+//*********************************************************************************
+//*********************************************************************************
+
+		//Klasa za dobavljanje potrebne tabele putem metode showEntityTable(int sel)
+		// sel=1 - STUDENT
+		// sel=2 - PROFESOR (napravi iste metode za dobavljanje podataka za tabelu kao u klasi student i predmet
+		// sel=3 - PREDMET
+
+		// Tabele se instanciraju da bi se koristila samo jedna kroz ceo kod
+
+//*********************************************************************************
+//*********************************************************************************
+//*********************************************************************************
 public class ShowTable{
 	
 	public static JTable table=new JTable();
@@ -121,9 +136,6 @@ public class ShowTable{
 	    	table.setModel(MainFrame.tableModelSubj);
 	    	
 	    	break;
-		case 4: //POLOZENI ISPITI
-			
-			break;
 	    }
 		
 	    table.setRowSelectionAllowed(true);

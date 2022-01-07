@@ -4,6 +4,19 @@ import java.util.ArrayList;
 
 import model.Student;
 
+//*********************************************************************
+//*********************************************************************
+
+	//Baza za rukovanje studentima
+	// 1.dodavanje
+	// 2. trazenje preko id
+	// 3. izmena
+	// 4. brisanje
+	// 5. provera da li id/indeks postoji
+	// 6. izmena id kad se obrise student
+
+//*********************************************************************
+//*********************************************************************
 public class StudentDatabase extends Student {
 	
 	private static ArrayList<Object> studenti=new ArrayList<Object>();
