@@ -1,65 +1,61 @@
 package model;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import enums.StatusEnum;
+import manageEntities.CheckValidity;
+import manageEntities.student.StudentDatabase;
 import manageEntities.student.StudentDialog;
 import manageEntities.subject.SubjectDatabase;
 
 public class Student{
-	private int studentId;
+	protected int studentId;
 	private String surname;
 	private String name;
 	private Date birthDate;
 	private Address address;
-	private Long phoneNumber;
+	private String phoneNumber;
 	private String email;
 	private String index;
 	private int enrollmentYear;
 	private int currentStudyYear;
 	private StatusEnum status;
 	private double averageGrade;
-	private ArrayList<Grade> passedExams=new ArrayList<Grade>();
-	private ArrayList<Grade> failedExams=new ArrayList<Grade>();
-	
+	private ArrayList<Grade> passedExams=new ArrayList<>();
+	private ArrayList<Grade> failedExams=new ArrayList<>();
+
 	protected int passedGradeID=1;
-	protected static int rowNum=0;
-	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-	 private static final DecimalFormat df = new DecimalFormat("0.00");
-	
+
 	public Student() {
 		super();
-		
+
 	}
-	
-	public Student(String surname, String name, Date birthDate, Address address, Long phoneNumber,
+
+	public Student(String surname, String name, Date birthDate, int addressId, String phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status) {
 		super();
 		this.surname = surname;
 		this.name = name;
 		this.birthDate = birthDate;
-		this.address = address;
+		this.address = AddressDatabase.findByID(addressId);
+
+
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.index = index;
 		this.enrollmentYear = enrollmentYear;
 		this.currentStudyYear = currentStudyYear;
 		this.status = status;
-		
+
 	}
 
-	public Student( String surname, String name, Date birthDate, Address address, Long phoneNumber,
+	public Student( String surname, String name, Date birthDate, Address address, String phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status,
 			double averageGrade, ArrayList<Grade> passedExams, ArrayList<Grade> failedExams) {
 		super();
@@ -76,17 +72,229 @@ public class Student{
 		this.averageGrade = averageGrade;
 		this.passedExams = passedExams;
 		this.failedExams = failedExams;
-		
+
 	}
 
+
+	public void addPassedExam(Grade g) {
+		passedGradeID++;
+		this.passedExams.add(g);
+
+	}
+
+	public void addFailedExam(Grade g) {
+		passedGradeID--;
+		this.failedExams.add(g);
+
+	}
+
+	// Ukupno ESPB
+	public int getEspb() {
+		int sum=0;
+		int i=1;
+		for (Grade g: this.passedExams) {
+			Subject subj=g.getSubject();
+			int espb=subj.getEspbPoints();
+			sum+=espb;
+//			System.out.printf("\nIndex:"+i+" espb:"+espb+" ocena:"+g.getGrade()+" avg="+averageGrade);
+			i++;
+		}
+		return sum;
+	}
+
+	// Izbrisi ispit iz polozenih
+	public void removePassedExam(Subject subj) {
+		Grade g1 = null;
+		for (Grade g: passedExams) {
+			if(g.getSubject()==subj) {
+				g1=g;
+			}
+		}
+		passedExams.remove(g1);
+
+	}
+
+	// Izbrisi ispit iz nepolozenih
+	public void removeFailedGrade(Subject subj) {
+		Grade g1 = null;
+		for (Grade g: failedExams) {
+			if(g.getSubject()==subj) {
+				g1=g;
+			}
+		} failedExams.remove(g1);
+	}
+
+
+
+
+	// Nadji ocenu
+	public Grade findGradeByID(int id) {
+		for (Grade g: this.passedExams) {
+			if (g.getGradeId()==id) {
+				return g;
+			}
+		}
+		return null;
+	}
+
+	// Dobavi sve ispite koji nisu ni polozeni ni nepolozeni
+	public String[] getUnaffiliatedSubj() {
+
+		//Pravim listu svih asociranih predmeta
+		ArrayList<Object> subjectsStud=SubjectDatabase.getListOfEntites();
+		ArrayList<Subject> subjectsNew=new ArrayList<>();
+		ArrayList<Grade> grades=new ArrayList<>(failedExams);
+		grades.addAll(passedExams);
+
+		boolean isAffiliated=false;
+
+		int size=subjectsStud.size()-grades.size();
+		if(size<1) return null;
+
+
+
+		for(Object o:subjectsStud) {
+			isAffiliated=false;
+			Subject s=(Subject) o;
+			for (Grade g: grades) {
+				Subject s1=g.getSubject();
+				if (s1.getSubjectKey()==s.getSubjectKey()) {
+					isAffiliated=true;
+					break;
+				}
+			}
+
+			if(!isAffiliated) {
+				subjectsNew.add(s);
+			}
+		}
+
+		String[] res=new String[subjectsNew.size()];
+		//Stavljanje u string
+		int i=0;
+		for (Subject s2: subjectsNew) {
+			String currSubj=s2.getSubjectKey()+"-"+s2.getName();
+			res[i]=currSubj;
+			i++;
+		}
+
+
+
+
+		return res;
+	}
+
+	// Dobavi sve potrebne info o studentu za formiranje tabele
+	public static Object[] getData(Object o) {
+
+		Student s= (Student) o;
+		Object index=s.getIndex();
+		Object currStudyYear=Integer.toString(s.getCurrentStudyYear());
+		Object status= s.getStatus().name();
+		Object avgGrade=Double.toString(s.getAverageGrade());
+		Object sID=Integer.toString(s.getStudentId());
+
+
+		Object[] rowData={sID,index,s.getName(), s.getSurname(), currStudyYear,status,avgGrade};
+		return rowData;
+	}
+
+	//nazivi kolona
+	public Object[] getColumns() {
+
+		Object[] colNames={"StID", "Indeks", "Ime", "Prezime", "Godina Studija", "Status","Prosek"};
+		return colNames;
+	}
+
+
+
+	//Dobavi mi tabelu svih polozenih ispita
+	public static JTable getPassedTable(Student s) {
+
+		if(s==null) {
+			return null;
+		}
+		Object[] cols={"Sifra", "Naziv", "ESPB", "Ocena", "Datum"};
+		Object[][] rowData=new Object[s.getPassedExams().size()][5];
+
+//		System.out.printf("\nbr ocena:"+this.passedExams.size());
+
+
+		int i=0;
+		for (Grade g: s.getPassedExams()) {
+//			System.out.printf("\nocena:"+g.getGrade());
+			Subject subj=g.getSubject();
+			rowData[i][0]=subj.getSubjectKey();
+			rowData[i][1]=g.getSubject().getName();
+
+			rowData[i][2]=Integer.toString(subj.getEspbPoints());
+			rowData[i][3]=Integer.toString(g.getGrade());
+			rowData[i][4]=CheckValidity.formatter.format(g.getExamDate());
+			i++;
+		}
+
+		StudentDialog.dtm=new DefaultTableModel(rowData,cols);
+		JTable table=new JTable(StudentDialog.dtm);
+		return table;
+	}
+
+	//Dobavi mi tabelu svih nepolozenih ispita
+	public JTable getFailedTable() {
+		Object[] cols={"Sifra", "Naziv", "ESPB","Semestar"};
+		Object[][] rowData=new Object[failedExams.size()][4];
+
+		int i=0;
+		for (Grade g: failedExams) {
+			Subject subj=g.getSubject();
+			rowData[i][0]=subj.getSubjectKey();
+			rowData[i][1]=g.getSubject().getName();
+
+			rowData[i][2]=Integer.toString(subj.getEspbPoints());
+			rowData[i][3]=subj.getSemester();
+			i++;
+		}
+
+		StudentDialog.dtm2=new DefaultTableModel(rowData,cols);
+		JTable table=new JTable(StudentDialog.dtm2);
+		return table;
+	}
+
+	public Long formatNum(String phoneNum) {
+		Pattern p = Pattern.compile("^(\\d{3})/(\\d+)-(\\d+)");
+		Matcher m = p.matcher(phoneNum);
+
+		if(m.find()) {
+			String numS=m.group(1)+m.group(2)+m.group(3);
+			Long num=Long.parseLong(numS);
+			return num;
+
+		} else {
+			System.out.printf("Ne radi regex");
+			return null;
+		}
+	}
+
+	public void writePassedGrades() {
+		if (passedExams.isEmpty()) {
+			System.out.printf("Obrisalo se");
+//			System.out.printf("\nStudent="+name);
+
+		} else {
+			System.out.printf("Ima ispita");
+		}
+//		for (Grade g:passedExams) {
+//			System.out.printf("\nStudent="+name+"Ocena="+g.getGrade());
+//		}
+	}
+	
 	public int getStudentId() {
 		return studentId;
 	}
 
 	public void setStudentId() {
-		this.studentId = rowNum;
+		this.studentId = StudentDatabase.rowNum;
 	}
-	
+
 	public void setStudentId(int id) {
 		this.studentId = id;
 	}
@@ -123,11 +331,11 @@ public class Student{
 		this.address = address;
 	}
 
-	public Long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(Long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -172,6 +380,16 @@ public class Student{
 	}
 
 	public double getAverageGrade() {
+		int gradeSum=0;
+		int count=0;
+		for(Grade g:passedExams) {
+			gradeSum+=g.getGrade();
+			count++;
+		}
+		if(count==0) {
+			this.averageGrade=0.0;
+		} else
+			this.averageGrade=(double)gradeSum/(double)count;
 		return averageGrade;
 	}
 
@@ -183,227 +401,16 @@ public class Student{
 		return passedExams;
 	}
 
-	public void setPassedExams(ArrayList<Grade> passedExams) {
-		this.passedExams = passedExams;
-	}
+//	public void setPassedExams(ArrayList<Grade> passedExams) {
+//		this.passedExams = passedExams;
+//	}
 
 	public ArrayList<Grade> getFailedExams() {
 		return failedExams;
 	}
 
-	public void setFailedExams(ArrayList<Grade> failedExams) {
-		this.failedExams = failedExams;
-	}
-	
-	public void addPassedExam(Grade g) {
-		passedGradeID++;
-		this.passedExams.add(g);
-		
-	}
-	
-	public void addFailedExam(Grade g) {
-		
-		this.failedExams.add(g);
-		
-	}
-	
-	// Prosek svih ocena (String jer mi treba da ubacim u labelu, vrv cu promeniti)
-	public String getAverage() {
-		float cnt=0;
-		float sum=0;
-		for (Grade g: this.passedExams) {
-			cnt++;
-			sum+=g.getGrade();
-		}
-		String res=df.format(sum/cnt);
-		return res;
-	}
-	
-	// Ukupno ESPB
-	public int getEspb() {
-		int sum=0;
-		for (Grade g: this.passedExams) {
-			Subject subj=g.getSubject();
-			int espb=subj.getEspbPoints();
-			sum+=espb;
-		}
-		return sum;
-	}
-	
-	// Izbrisi ispit iz polozenih
-	public void removePassedExam(Grade g) {
-		passedGradeID--;
-		Grade gCurr=new Grade();
-		Grade gNew=new Grade();
-		for(int i=passedGradeID+1;i<this.passedExams.size();i++) {
-			int gId=i+1;
-			gCurr=findGradeByID(g.getGradeId());
-			gNew=gCurr;
-			gNew.setGradeId(gCurr.getGradeId()-1);
-			this.passedExams.set(i, gNew);
-		}
-		this.passedExams.remove(g);
-		
-	}
-	
-	// Izbrisi ispit iz nepolozenih
-	public void removeFailedExam(Grade g) {
-		boolean found=false;
-		for (Grade g1:failedExams) {
-			if (g1==g) {
-				this.failedExams.remove(g);
-			}
-		}
-		
-	}
-	
-	// Nadji ocenu
-	public Grade findGradeByID(int id) {
-		for (Grade g: this.passedExams) {
-			if (g.getGradeId()==id) {
-				return g;
-			}
-		}
-		return null;
-	}
-	
-	// Dobavi sve ispite koji nisu ni polozeni ni nepolozeni
-	public String[] getUnaffiliatedSubj() {
-		
-		System.out.printf("Student,Linija 268: ");
-		   SubjectDatabase.printSubjects();
-		//Pravim listu svih asociranih predmeta
-		ArrayList<Object> subjectsStud=SubjectDatabase.getListOfEntites();
-		ArrayList<Subject> subjectsNew=new ArrayList<Subject>();
-		ArrayList<Grade> grades=new ArrayList<Grade>(failedExams);
-		grades.addAll(passedExams);
-		
-		int size=subjectsStud.size()-grades.size();
-		if(size<1) return null;
-		
-		
-		
-		for(Object o:subjectsStud) {
-			Subject s=(Subject) o;
-			for (Grade g: grades) {
-				Subject s1=g.getSubject();
-				if (s1.getSubjectKey()==s.getSubjectKey()) {
-					subjectsNew.add(s);
-				}
-			}
-		}
-		
-		String[] res=new String[subjectsNew.size()];
-		//Stavljanje u string
-		int i=0;
-		for (Subject s2: subjectsNew) {
-			String currSubj=s2.getSubjectKey()+"-"+s2.getName();
-			res[i]=currSubj;
-			i++;
-		}
-		
-		System.out.printf("Student,Linija 303: ");
-		   SubjectDatabase.printSubjects();
-		
-		
-		
-		return res;
-	}
-
-	// Dobavi sve potrebne info o studentu za formiranje tabele
-	public static Object[] getData(Object o) {
-		
-		Student s= (Student) o;
-		Object index=s.getIndex();
-		Object currStudyYear=Integer.toString(s.getCurrentStudyYear());
-		Object status= s.getStatus().name();
-		Object avgGrade=Double.toString(s.getAverageGrade());
-		Object sID=Integer.toString(s.getStudentId());
-		
-		
-		Object[] rowData={sID,index,s.getName(), s.getSurname(), currStudyYear,status,avgGrade};
-		return rowData;
-	}
-
-	//nazivi kolona
-	public Object[] getColumns() {
-
-		Object[] colNames={"StID", "Indeks", "Ime", "Prezime", "Godina Studija", "Status","Prosek"};
-		return colNames;
-	}
-
-
-	// Pretvaranje iz stringa u datum (nzm ni zasto je metoda) TODO: nepotrebna metoda
-	public static Date formatDate(String s) {
-		 
-		 try {
-			Date d = formatter.parse(s);
-			return d;
-		} catch (ParseException e) {
-			
-			e.printStackTrace();
-			return null;
-		}
-		 
-	}
-	
-	//Dobavi mi tabelu svih polozenih ispita
-	public static JTable getPassedExams(Object o) {
-		Student s=(Student) o;
-		Object[] cols={"Sifra", "Naziv", "ESPB", "Ocena", "Datum"};
-		Object[][] rowData=new Object[s.getPassedExams().size()][5];
-		
-		
-		
-		int i=0;
-		for (Grade g: s.getPassedExams()) {
-			Subject subj=g.getSubject();
-			rowData[i][0]=subj.getSubjectKey();
-			rowData[i][1]=g.getSubject().getName();
-			
-			rowData[i][2]=Integer.toString(subj.getEspbPoints());
-			rowData[i][3]=Integer.toString(g.getGrade());
-			rowData[i][4]=formatter.format(g.getExamDate());
-			i++;
-		}
-		
-		StudentDialog.dtm=new DefaultTableModel(rowData,cols);
-		JTable table=new JTable(StudentDialog.dtm);
-		return table;
-	}
-	
-	//Dobavi mi tabelu svih nepolozenih ispita
-	public static JTable getFailedExams(Object o) {
-		Student s=(Student) o;
-		Object[] cols={"Sifra", "Naziv", "ESPB","Semestar"};
-		Object[][] rowData=new Object[s.getFailedExams().size()][4];
-		
-		int i=0;
-		for (Grade g: s.getFailedExams()) {
-			Subject subj=g.getSubject();
-			rowData[i][0]=subj.getSubjectKey();
-			rowData[i][1]=g.getSubject().getName();
-			
-			rowData[i][2]=Integer.toString(subj.getEspbPoints());
-			rowData[i][3]=subj.getSemester();
-			i++;
-		}
-		
-		StudentDialog.dtm2=new DefaultTableModel(rowData,cols);
-		JTable table=new JTable(StudentDialog.dtm2);
-		return table;
-	}
-	
-	
-	
-
-
-
-
-	
-	
-	
-	
-	
+//	public void setFailedExams(ArrayList<Grade> failedExams) {
+//		this.failedExams = failedExams;
+//	}
 
 }

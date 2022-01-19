@@ -2,44 +2,48 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import enums.TitleEnum;
+import manageEntities.professor.ProfessorDialog;
 
 public class Professor {
-	private int professorId;
-	private String surname;
-	private String name;
-	private Date birthDate;
+	protected int professorId;
+	protected String surname;
+	protected String name;
+	protected Date birthDate;
 	private Address address;
-	private Long phoneNumber;
-	private String email;
+	private String phoneNumber;
+	protected String email;
 	private Address officeAddress;
-	private Long personalNumber;
-	private String title;
+	private TitleEnum title;
 	private int trailYears; // godine staza
-	private List<Subject> subjects;
-	
-	private ArrayList<Object> professors= new ArrayList<Object>();
-	
+	private int personalId;
+	private ArrayList<Subject> subjects=new ArrayList<>();
+
+
 	public Professor() {
 		super();
 	}
-	public Professor(int professorId, String surname, String name, Date birthDate, Address address, Long phoneNumber,
-			String email, Address officeAddress, Long personalNumber, String title, int trailYears,
-			List<Subject> subjects) {
+	public Professor(int personalId,String surname, String name, Date birthDate, int address, String phoneNumber,
+			String email, int officeAddress, TitleEnum title, int trailYears) {
 		super();
-		this.professorId = professorId;
+		this.personalId=personalId;
 		this.surname = surname;
 		this.name = name;
 		this.birthDate = birthDate;
-		this.address = address;
+		Address a1=AddressDatabase.findByID(address);
+		this.address = a1;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
-		this.officeAddress = officeAddress;
-		this.personalNumber = personalNumber;
+		Address a2=AddressDatabase.findByID(officeAddress);
+		this.officeAddress = a2;
 		this.title = title;
 		this.trailYears = trailYears;
-		this.subjects = subjects;
 	}
+
 	public int getProfessorId() {
 		return professorId;
 	}
@@ -70,10 +74,10 @@ public class Professor {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public Long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(Long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	public String getEmail() {
@@ -88,16 +92,11 @@ public class Professor {
 	public void setOfficeAddress(Address officeAddress) {
 		this.officeAddress = officeAddress;
 	}
-	public Long getPersonalNumber() {
-		return personalNumber;
-	}
-	public void setPersonalNumber(Long personalNumber) {
-		this.personalNumber = personalNumber;
-	}
-	public String getTitle() {
+
+	public TitleEnum getTitle() {
 		return title;
 	}
-	public void setTitle(String title) {
+	public void setTitle(TitleEnum title) {
 		this.title = title;
 	}
 	public int getTrailYears() {
@@ -106,34 +105,58 @@ public class Professor {
 	public void setTrailYears(int trailYears) {
 		this.trailYears = trailYears;
 	}
-	public List<Subject> getSubjects() {
+	public ArrayList<Subject> getSubjects() {
 		return subjects;
 	}
-	public void setSubjects(List<Subject> subjects) {
+	public void setSubjects(ArrayList<Subject> subjects) {
 		this.subjects = subjects;
 	}
-	
-	
-	
-	
-	public Object[] getData(Object o) {
-		
-		Object[] rowData= {this.getName(),this.getSurname(),this.getTitle(),this.getEmail()};
+
+	public void removeSubject(Subject subj) {
+		subjects.remove(subj);
+	}
+
+	public void addSubject(Subject s) {
+		subjects.add(s);
+	}
+
+
+	public static Object[] getData(Object o) {
+		Professor p=(Professor) o;
+		Object[] rowData= {p.getProfessorId(),p.getName(),p.getSurname(),p.getTitle(),p.getEmail()};
 		return rowData;
 	}
-	
+
 	public Object[] getColumns() {
 
-		Object[] cols= {"Ime", "Prezime", "Zvanje", "E-mail"};
+		Object[] cols= {"ID","Ime", "Prezime", "Zvanje", "E-mail"};
 		return cols;
 	}
-	public ArrayList<Object> getListOfEntites() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 
-	
+	public JTable getSubjectTable() {
+		Object[] cols={"Sifra", "Naziv", "Godina", "Semestar"};
+		Object[][] rowData=new Object[this.subjects.size()][4];
+
+		int i=0;
+		for (Subject s: this.subjects) {
+
+			rowData[i][0]=s.getSubjectKey();
+			rowData[i][1]=s.getName();
+			rowData[i][2]=Integer.toString(s.getYear());
+			switch(s.getSemester()) {
+				case WINTER: {
+					rowData[i][3]="Zimski";
+				}
+				case SUMMER: {
+					rowData[i][3]="Letnji";
+				}
+			}
+			i++;
+		}
+
+		ProfessorDialog.dtm=new DefaultTableModel(rowData,cols);
+		JTable table=new JTable(ProfessorDialog.dtm);
+		return table;
+	}
 
 }

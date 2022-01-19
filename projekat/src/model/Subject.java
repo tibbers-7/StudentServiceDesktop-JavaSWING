@@ -1,9 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import enums.SemesterEnum;
+import manageEntities.professor.ProfessorDatabase;
 
 public class Subject{
 	private int subjectId;
@@ -15,24 +15,33 @@ public class Subject{
 	private int espbPoints;
 	private List<Student> studentsPassed;
 	private List<Student> studentsNotPassed;
-	
-	protected static int rowNum=0;
+	protected static int numProfs=0;
 
-	
+
+//	protected static int rowNum=0;
+
+
 	public Subject() {
 		super();
 	}
 
 	public Subject(String subjectKey, String name, SemesterEnum semester, int year,
-			Professor professor, int espbPoints) {
+			int professorId, int espbPoints) {
 		super();
 		this.subjectKey = subjectKey;
 		this.name = name;
 		this.semester = semester;
 		this.year = year;
-		this.professor = professor;
+
+		if(professorId==0) {
+			numProfs++;
+		} else {
+//			System.out.printf("\nprofID="+professorId);
+			Professor p=ProfessorDatabase.findByID(professorId);
+
+			this.professor = p;
+		}
 		this.espbPoints = espbPoints;
-		setSubjectId();
 //		this.studentsPassed = studentsPassed;
 //		this.studentsNotPassed = studentsNotPassed;
 	}
@@ -41,10 +50,10 @@ public class Subject{
 		return subjectId;
 	}
 
-	public void setSubjectId() {
-		this.subjectId = rowNum;
-	}
-	
+//	public void setSubjectId() {
+//		this.subjectId = rowNum;
+//	}
+
 	public void setSubjectId(int id) {
 		this.subjectId = id;
 	}
@@ -68,13 +77,13 @@ public class Subject{
 	public SemesterEnum getSemester() {
 		return semester;
 	}
-	
+
 	public String getSemesterString() {
 		String s;
 		if (semester==SemesterEnum.WINTER) {
 			s="Zimski";
 		} else s="Letnji";
-		
+
 		return s;
 	}
 
@@ -151,15 +160,15 @@ public class Subject{
 		return rowData;
 	}
 
-	
-	
 
 
 
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 
 }

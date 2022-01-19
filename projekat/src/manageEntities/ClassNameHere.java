@@ -10,5 +10,5 @@ public class ClassNameHere
     {
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
-};
+}
 

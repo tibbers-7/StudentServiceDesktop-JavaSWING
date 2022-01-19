@@ -1,16 +1,17 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Grade {
-	
+
 	private int gradeId;
 	private Student student;
 	private Subject subject;
 	private int grade;
 	private Date examDate;
-	
-	
+
+
 	public Grade() {
 		super();
 	}
@@ -22,7 +23,8 @@ public class Grade {
 		this.grade = grade;
 		this.examDate = examDate;
 		this.gradeId = student.passedGradeID;
-		
+//		student.addPassedExam(this);
+
 	}
 
 	public Grade(Student student, Subject subject) {
@@ -41,10 +43,10 @@ public class Grade {
 	public void setGradeId() {
 		this.gradeId = student.passedGradeID;
 	}
-	
+
 	public void setGradeId(int i) {
 		this.gradeId=i;
-		
+
 	}
 
 	public Student getStudent() {
@@ -81,8 +83,22 @@ public class Grade {
 		this.examDate = examDate;
 	}
 
-	
-	
-	
-	
+	public static void assignPassedGrades(ArrayList<Grade> grades) {
+		for (Grade g: grades) {
+			Student s=g.getStudent();
+			s.addPassedExam(g);
+		}
+	}
+
+	public static void assignFailedGrades(ArrayList<Grade> grades) {
+		for (Grade g: grades) {
+			Student s=g.getStudent();
+			s.addFailedExam(g);
+		}
+	}
+
+
+
+
+
 }

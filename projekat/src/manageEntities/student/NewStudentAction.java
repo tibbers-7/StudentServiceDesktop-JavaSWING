@@ -15,10 +15,12 @@ public class NewStudentAction implements ActionListener {
 		sD.currentStudyYear.setSelectedItem("I (prva)");
 
 		sD.ispisDijaloga(1);
-		
+
 		ShowTable.refreshStudTable();
-		MainFrame.updateTableStud();
-		
+		ShowTable.updateTableStud();
+
+		MainFrame.refreshTP(1);
+
 	}
 
 }

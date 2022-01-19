@@ -1,29 +1,31 @@
 package manageEntities.subject;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JTable;
 
 import gui.MainFrame;
 import gui.ShowTable;
 
 public class EditSubjectAction implements ActionListener{
 
-	public static int selRow=0;
-	private JTable tableNew=new JTable();
+
+	public static String key;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Dobavljanje kliknutog reda i dalji rad s njom
-		
-			selRow=MainFrame.selRowSubj+1;
-			System.out.printf("selRow= "+selRow);
-			
-			SubjectDialog sp=EditSubjectDialogUpdate.editClick(selRow);
+
+		key=(String)ShowTable.getSubjTable().getValueAt(MainFrame.selRowSubj,0);
+		System.out.printf("\n"+key);
+
+		SubjectDialog sp=EditSubjectDialogUpdate.editClick(Integer.parseInt(key));
 			if (sp!=null) {
 				sp.ispisDijaloga(2);
 			}
-			
-			MainFrame.updateTableSubj();
-			
+
+		ShowTable.refreshSubjTable();
+		ShowTable.updateTableSubj();
+
+		MainFrame.refreshTP(2);
+
 	}
 
 }

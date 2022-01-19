@@ -50,7 +50,7 @@ public class Department {
 	public void setDepartmentProfessors(List<Professor> departmentProfessors) {
 		this.departmentProfessors = departmentProfessors;
 	}
-	
-	
-	
+
+
+
 }
