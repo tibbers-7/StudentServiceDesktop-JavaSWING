@@ -14,19 +14,18 @@ import javax.swing.table.DefaultTableModel;
 
 import gui.controller.ClassNameHere;
 import gui.controller.databases.SubjectDatabase;
-import gui.controller.student.StudentDialog;
-import gui.model.Grade;
 import gui.model.Professor;
 import gui.model.Student;
 import gui.model.Subject;
 
 public class SubjectPanel extends JPanel{
+	private static final long serialVersionUID = -361824035697803994L;
 
 	private static JTable tableInstance=null;
 
 	JButton bAdd=new JButton();
 	JButton bDlt=new JButton();
-	public static JComboBox newSubj=new JComboBox();
+	public static JComboBox<String> newSubj=new JComboBox<String>();
 
 
 	protected String string;
@@ -52,7 +51,7 @@ public class SubjectPanel extends JPanel{
 	public
 	SubjectPanel(Professor p) {
 		bAdd=new JButton("Dodaj predmet");
-		bDlt=new JButton("Obriši predmet");
+		bDlt=new JButton("ObriÅ¡i predmet");
 
 
 		 //Akcija za brisanje predmeta s prof
@@ -64,7 +63,6 @@ public class SubjectPanel extends JPanel{
 								//zapamti vrednosti
 		//						ProfessorDialog.subjectTable=p.getSubjectTable();
 								int selKeep=ProfessorDialog.selRowSubject;
-								JTable myPTable=ProfessorDialog.subjectTable;
 								String hStr=(String)ProfessorDialog.subjectTable.getValueAt(selKeep, 0);
 		
 								//nadji predmet
@@ -74,13 +72,14 @@ public class SubjectPanel extends JPanel{
 								((DefaultTableModel)ProfessorDialog.subjectTable.getModel()).removeRow(selKeep);
 		
 								//TODO: unesi u opcije
-		
+								String subjStr=subj.getSubjectKey()+"-"+subj.getName();
+								newSubj.addItem(subjStr);
 		
 								//unesi u bazu
 								p.removeSubject(subj);
 		
-								string="Uspesno poništen predmet!";
-								ClassNameHere.infoBox(string, "Obaveštenje");
+								string="Uspesno poniÅ¡ten predmet!";
+								ClassNameHere.infoBox(string, "ObaveÅ¡tenje");
 		
 								ProfessorDialog.updateTable();
 		
@@ -92,7 +91,7 @@ public class SubjectPanel extends JPanel{
 		   //Dijalog za dodavanje
 		   addSubj=new JPanel();
 		   String[] subjOptions=p.getUnaffiliatedSubj();
-		   newSubj=new JComboBox(subjOptions);
+		   newSubj=new JComboBox<String>(subjOptions);
 		   addSubj.add(newSubj);
 
 		   
@@ -114,8 +113,8 @@ public class SubjectPanel extends JPanel{
 							 //dodaj ga u tabelu
 							 int size=ProfessorDialog.subjectTable.getRowCount(); //dobavi velicinu tabele
 							((DefaultTableModel)ProfessorDialog.subjectTable.getModel()).insertRow(size,new Object[] {subj.getSubjectKey(),subj.getName(),subj.getYear(),subj.getSemester()});
-							 string="Uspešno dodat predmet";
-							ClassNameHere.infoBox(string, "Obaveštenje");
+							 string="UspeÅ¡no dodat predmet";
+							ClassNameHere.infoBox(string, "ObaveÅ¡tenje");
 
 							//Izmeni combobox
 							newSubj.removeItem(strSubj);

@@ -14,29 +14,14 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import gui.*;
 import gui.MyApp;
-import gui.controller.ShowTable;
-import gui.controller.databases.Database;
-import gui.controller.databases.ProfessorDatabase;
-import gui.controller.databases.StudentDatabase;
-import gui.controller.department.DepartmentDialog;
-import gui.controller.department.EditDepartmentAction;
-import gui.controller.department.MyDepartmentActions;
-import gui.controller.professor.EditProfessorAction;
-import gui.controller.professor.MyProfessorActions;
-import gui.controller.professor.ProfessorDialog;
-import gui.controller.student.DeleteStudentAction;
-import gui.controller.student.EditStudentAction;
-import gui.controller.student.MyStudentActions;
-import gui.controller.student.NewStudentAction;
-import gui.controller.student.StudentDialog;
-import gui.controller.student.TableSorter;
-import gui.controller.subject.EditSubjectAction;
-import gui.controller.subject.MySubjectActions;
-import gui.controller.subject.NewSubjectAction;
-import gui.model.Professor;
-import gui.model.Student;
+import gui.controller.*;
+import gui.controller.student.*;
+import gui.controller.professor.*;
+import gui.controller.subject.*;
+import gui.controller.department.*;
+import gui.controller.databases.*;
+import gui.model.*;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -46,7 +31,8 @@ public class MainFrame extends JFrame {
 	public static ToolBar toolbar;
 	public static MenuBar menu;
 	public static JTabbedPane tp=new JTabbedPane();
-
+	public static StatusBar sb=new StatusBar();
+	
 	public static JPanel p1=new JPanel();
 	public static JPanel p2=new JPanel();
 	public static JPanel p3=new JPanel();
@@ -109,44 +95,44 @@ public class MainFrame extends JFrame {
 		menu = MenuBar.getInstance();
 		setJMenuBar(menu);
 
-//-------PANELS
 
-		MyStudentActions.actionsStudent(); //pocetne akcije
+//Podesavanja
 		ShowTable.updateTableStud(); //update model tabele
 
-		//akcije 
-		lsStudent=new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				selRowStud=ShowTable.getStudTable().getSelectedRow();
-				Student s=StudentDatabase.findByID(selRowStud+1);
-				StudentDialog.updatePassedPanel(s,1);
-			}
-		};
-
-		lsSubject=new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				selRowSubj=ShowTable.getSubjTable().getSelectedRow();
-			}
-		};
-
-		lsProfessor=new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				selRowProf=ShowTable.getProfTable().getSelectedRow();
-				Professor p=ProfessorDatabase.findByID(selRowProf+1);
-				ProfessorDialog.updateSubjectPanel(p);
-			}
-		};
+		//akcije
 		
-		lsDepartment=new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				selRowDep=ShowTable.getDepTable().getSelectedRow();
-			}
-			
-		};
+				lsStudent=new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						selRowStud=ShowTable.getStudTable().getSelectedRow();
+						Student s=StudentDatabase.findByID(selRowStud+1);
+						StudentDialog.updatePassedPanel(s,1);
+					}
+				};
+		
+				lsSubject=new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						selRowSubj=ShowTable.getSubjTable().getSelectedRow();
+					}
+				};
+		
+				lsProfessor=new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						selRowProf=ShowTable.getProfTable().getSelectedRow();
+						Professor p=ProfessorDatabase.findByID(selRowProf+1);
+						ProfessorDialog.updateSubjectPanel(p);
+					}
+				};
+				
+				lsDepartment=new ListSelectionListener() {
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						selRowDep=ShowTable.getDepTable().getSelectedRow();
+					}
+					
+				};
 
 		//podesavanje tabele da reaguje na promenu selektovanog reda
 		ShowTable.getStudTable().getSelectionModel().addListSelectionListener(lsStudent);
@@ -160,6 +146,7 @@ public class MainFrame extends JFrame {
 		ShowTable.getDepTable().setAutoCreateRowSorter(true);
 		TableSorter.getSorter();
 
+//-------PANELS
 		p1.add(new JScrollPane(ShowTable.getStudTable()));
 		p2.add(new JScrollPane(ShowTable.getSubjTable()));
 		p3.add(new JScrollPane(ShowTable.getProfTable()));
@@ -174,6 +161,8 @@ public class MainFrame extends JFrame {
 	    tp.add("katedra",p4);
 
 
+		MyStudentActions.actionsStudent(); //pocetne akcije
+
 	    //sta se desi kad se promeni tab
 	    tp.addChangeListener(new ChangeListener() {
 
@@ -181,48 +170,21 @@ public class MainFrame extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				if (e.getSource() instanceof JTabbedPane) {
                     JTabbedPane pane = (JTabbedPane) e.getSource();
-                    int sel=pane.getSelectedIndex();
-                    switch(sel) {
-                    	case 0:
-                    		p1.revalidate();
-                    		p1.repaint();
-                    		MyStudentActions.actionsStudent();
-                    		ShowTable.updateTableStud();
-                    		break;
-                    	case 1:
-                    		p2.revalidate();
-                    		p2.repaint();
-                    		MySubjectActions.actionsSubject();
-                    		ShowTable.updateTableSubj();
-                    		break;
-                    	case 2:
-                    		p3.revalidate();
-                    		p3.repaint();
-                    		MyProfessorActions.actionsProfessor();
-                    		ShowTable.updateTableProf();
-                    		break;
-                    	case 3:
-                    		p4.revalidate();
-                    		p4.repaint();
-                    		MyDepartmentActions.actionsDepartment();
-                    		ShowTable.updateTableDep();
-                    		break;
-                    }
+                    int sel=pane.getSelectedIndex()+1;
+                    switchTP(sel);
 				}
 			}
 
 	    });
 
-
 		add(tp);
-
+	    add(sb,BorderLayout.SOUTH);
 	}
 
 
 
 
 	public static void refreshTP(int entityID) {
-//		MyApp.f.remove(tp);
 		tp.remove(p1);
 		tp.remove(p2);
 		tp.remove(p3);
@@ -249,26 +211,49 @@ public class MainFrame extends JFrame {
 		tp.add("katedra",p4);
 		tp.revalidate();
 
-
-		switch(entityID) {
-			case 1:
-				tp.setSelectedIndex(0);
-				MyStudentActions.actionsStudent();
-				break;
-			case 2:
-				tp.setSelectedIndex(1);
-				MySubjectActions.actionsSubject();
-				break;
-			case 3:
-				tp.setSelectedIndex(2);
-				MyProfessorActions.actionsProfessor();
-				break;
-			case 4:
-				tp.setSelectedIndex(3);
-				MyDepartmentActions.actionsDepartment();
-				break;
-		}
+		switchTP(entityID);
+		
 		MyApp.f.repaint();
+	}
+
+
+
+	//promena taba 
+	private static void switchTP(int sel) {
+		
+		sb.tab.setText("Tab "+sel);
+		switch(sel) {
+		 
+     	case 1:
+     		p1.revalidate();
+     		p1.repaint();
+     		tp.setSelectedIndex(0);
+     		MyStudentActions.actionsStudent();
+     		ShowTable.updateTableStud();
+     		break;
+     	case 2:
+     		p2.revalidate();
+     		p2.repaint();
+     		tp.setSelectedIndex(1);
+     		MySubjectActions.actionsSubject();
+     		ShowTable.updateTableSubj();
+     		break;
+     	case 3:
+     		p3.revalidate();
+     		p3.repaint();
+     		tp.setSelectedIndex(2);
+     		MyProfessorActions.actionsProfessor();
+     		ShowTable.updateTableProf();
+     		break;
+     	case 4:
+     		p4.revalidate();
+     		p4.repaint();
+     		tp.setSelectedIndex(3);
+     		MyDepartmentActions.actionsDepartment();
+     		ShowTable.updateTableDep();
+     		break;
+     	default: break;
+     }
 	}
 
 
@@ -276,7 +261,4 @@ public class MainFrame extends JFrame {
 
 
 
-
-
-
-}
+};

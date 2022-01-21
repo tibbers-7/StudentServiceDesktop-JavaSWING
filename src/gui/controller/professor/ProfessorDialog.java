@@ -21,14 +21,13 @@ import gui.controller.ClassNameHere;
 import gui.controller.ShowTable;
 import gui.controller.databases.ProfessorDatabase;
 import gui.controller.databases.SubjectDatabase;
-import gui.model.Grade;
 import gui.model.Professor;
-import gui.model.Student;
 import gui.model.Subject;
 import gui.view.MainFrame;
 
 public class ProfessorDialog extends JPanel{
-
+	private static final long serialVersionUID = -3249013597273580110L;
+	
 	//pomocna polja
 	public static final String[] titles= {"Docent","Redovni profesor","Vanredni profesor"};
 	private boolean isEmpty=true;
@@ -43,29 +42,9 @@ public class ProfessorDialog extends JPanel{
 	//polja za unos
 	protected JTextField name=new JTextField();
 	protected JTextField surname= new JTextField();
-	public static JComboBox title= new JComboBox(titles);
+	public static JComboBox<?> title= new JComboBox<String>(titles);
 	protected JTextField email= new JTextField();
 
-
-	public void setName(JTextField name) {
-		this.name = name;
-	}
-
-	public JTextField getSurname() {
-		return surname;
-	}
-
-	public void setSurname(JTextField surname) {
-		this.surname = surname;
-	}
-
-	public JTextField getEmail() {
-		return email;
-	}
-
-	public void setEmail(JTextField email) {
-		this.email = email;
-	}
 
 	//table
 	public static JTable subjectTable;
@@ -93,13 +72,13 @@ public class ProfessorDialog extends JPanel{
 			//Ako su sva polja popunjena:
 
 				if(CheckValidity.checkValidityProfessor(p,name.getText(),surname.getText(),email.getText(),(String)title.getSelectedItem())) {
-
+					if (option!=0) return;
 					switch(sel) {
 						//Ako je dugme new
 						case 1:
 								ProfessorDatabase.addProfessor(p);
-								string="Uspe�no unet profesor!";
-					    		ClassNameHere.infoBox(string, "Obave�tenje");
+								string="Uspešno unet profesor!";
+					    		ClassNameHere.infoBox(string, "Obaveštenje");
 					    		int size=ShowTable.getStudTable().getRowCount();
 					    		ShowTable.tableModelProf.insertRow(size,new Object[] {p.getProfessorId(),p.getName(),p.getSurname(),p.getEmail(),(String)title.getSelectedItem()});
 
@@ -111,8 +90,8 @@ public class ProfessorDialog extends JPanel{
 				               int key = (int)ShowTable.getProfTable().getValueAt(MainFrame.selRowProf,0);
 				               ProfessorDatabase.changeProfessor(p,key-1);
 
-				               string="Uspe�no izmenjen profesor!";
-					    		ClassNameHere.infoBox(string, "Obavestenje");
+				               string="Uspešno izmenjen profesor!";
+					    		ClassNameHere.infoBox(string, "Obaveštenje");
 
 					    		ShowTable.tableModelProf.setValueAt(p.getName(), key-1, 1);
 					    		ShowTable.tableModelProf.setValueAt(p.getSurname(), key-1, 2);
@@ -172,11 +151,11 @@ public class ProfessorDialog extends JPanel{
 		   String nazivDijaloga=null;
 			 switch(sel) {
 			 case 1:
-				 nazivDijaloga="Dodavanje Studenta";
+				 nazivDijaloga="Dodavanje Profesora";
 				 option = JOptionPane.showConfirmDialog(null, message, nazivDijaloga, JOptionPane.OK_CANCEL_OPTION);
 				 break;
 			 case 2:
-				 nazivDijaloga="Izmena Studenta";
+				 nazivDijaloga="Izmena Profesora";
 				 option = JOptionPane.showConfirmDialog(null, tp, nazivDijaloga, JOptionPane.OK_CANCEL_OPTION);
 				 break;
 			 }
@@ -255,5 +234,24 @@ public class ProfessorDialog extends JPanel{
 		}
 
 
+	 public void setName(JTextField name) {
+			this.name = name;
+		}
+
+		public JTextField getSurname() {
+			return surname;
+		}
+
+		public void setSurname(JTextField surname) {
+			this.surname = surname;
+		}
+
+		public JTextField getEmail() {
+			return email;
+		}
+
+		public void setEmail(JTextField email) {
+			this.email = email;
+		}
 
 }

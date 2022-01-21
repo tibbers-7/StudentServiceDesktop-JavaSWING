@@ -10,7 +10,7 @@ public class SubjectDatabase extends Subject{
 	private static ArrayList<Object> subjects=new ArrayList<>();
 	public static int rowNum=0;
 	static Object[][] profSubjList;
-	private static ArrayList<Subject> subjWProf=new ArrayList<>();
+	public static ArrayList<Subject> subjWProf=new ArrayList<>();
 
 
 		public static ArrayList<Object> getListOfEntites() {
@@ -21,6 +21,11 @@ public class SubjectDatabase extends Subject{
 			rowNum++;
 			s.setSubjectId(rowNum);
 	   	 	subjects.add(s);
+	   	 	
+	   	 	if(s.getProfessorId()!=0) {
+	   	 		Database.id_subj.add(rowNum);
+	   	 		Database.id_prof.add(s.getProfessorId());
+	   	 	}
 		}
 
 		public static Subject findByID(int id) {
@@ -81,22 +86,21 @@ public class SubjectDatabase extends Subject{
 			}
 		}
 
-		public static void initList() {
-			int i=0;
-			for (Object o:subjects) {
-				Subject subj=(Subject) o;
-				if (subj.getProfessor()!=null) {
-					subjWProf.add(subj);
+		
+		public static void assignSubjects(Professor p) {
+			ArrayList<Integer> subjList=Database.id_subj;
+			ArrayList<Integer> profList=Database.id_prof;
+			int subjIndex;
+			int profIndex;
+			for(int i=0;i<subjList.size();i++) {
+				subjIndex=subjList.get(i);
+				profIndex=profList.get(i);
+				if(p.getProfessorId()==profIndex) {
+					p.addSubject(SubjectDatabase.findByID(subjIndex));
 				}
 			}
-//			profSubjList=new String[subjWProf.size()][2];
-			for (Subject s:subjWProf) {
-				Professor p=s.getProfessor();
-//				profSubjList[i][0]=s;
-//				profSubjList[i][1]=p;
-				p.addSubject(s);
-				i++;
-			}
+			
+			
 		}
 
 }

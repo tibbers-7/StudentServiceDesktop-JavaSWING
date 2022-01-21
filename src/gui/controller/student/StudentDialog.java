@@ -53,8 +53,8 @@ import gui.view.MainFrame;
 
 //Panel za rukovanje studentima
 public class StudentDialog  extends JPanel{
-	public static final String[] studyYears= {"I (prva)","II (druga)","III (treca)","IV (cetvrta)"};
-	public static final String[] finansije= {"Budzet","Samofinansiranje"};
+	public static final String[] studyYears= {"I (prva)","II (druga)","III (treća)","IV (četvrta)"};
+	public static final String[] finansije= {"Budžet","Samofinansiranje"};
 	public static final String[] gradesS= {"6","7","8","9","10"};
 
 	protected Student s=new Student();
@@ -62,17 +62,17 @@ public class StudentDialog  extends JPanel{
 	//TextFields
 	protected JTextField name=new JTextField();
 	protected JTextField surname= new JTextField();
-	protected JTextField birthDate= new JTextField("01.01.1960.");
-	protected JTextField passDate= new JTextField("01.01.1960");
-	protected JTextField address= new JTextField("Ulica,Broj,Grad,Drzava");
+	protected JTextField birthDate= new JTextField("01.01.2000.");
+	protected JTextField passDate= new JTextField("01.01.2000");
+	protected JTextField address= new JTextField("Ulica,Broj,Grad,Država");
 	protected JTextField phoneNumber= new JTextField();
 	protected JTextField email= new JTextField();
 	protected JTextField index= new JTextField("SMER broj/godina");
 	protected JTextField enrollmentYear= new JTextField();
-	public  JComboBox currentStudyYear= new JComboBox(studyYears);
-	public JComboBox status= new JComboBox(finansije);
-	public static JComboBox newSubj=new JComboBox();
-	public static JComboBox grades=new JComboBox(gradesS);
+	public  JComboBox<String> currentStudyYear= new JComboBox<String>(studyYears);
+	public JComboBox<String> status= new JComboBox<String>(finansije);
+	public static JComboBox<String> newSubj=new JComboBox<String>();
+	public static JComboBox<String> grades=new JComboBox<String>(gradesS);
 
 
 	//Tables
@@ -97,12 +97,6 @@ public class StudentDialog  extends JPanel{
 
 
 
-//	public static StudentDialog getInstance() {
-//		if(instance==null) {
-//			instance=new StudentDialog();
-//		}
-//		return instance;
-//	}
 
 	//Konstruktor
 		public StudentDialog(){
@@ -120,7 +114,7 @@ public class StudentDialog  extends JPanel{
 		    			while(isEmpty) {
 		    				if(option==0) {
 		    					String string="Nisu unesene sve potrebne vrednosti!";
-		    					ClassNameHere.infoBox(string, "Greska");
+		    					ClassNameHere.infoBox(string, "Greška");
 
 		    					this.dialog(sel);
 		    				}else break;
@@ -130,29 +124,30 @@ public class StudentDialog  extends JPanel{
 //
 
 		    			//Ako su sva polja popunjena:
-
+		    				if(option!=0) return;
 		    				if(CheckValidity.checkValidityStudent(s,name.getText(),surname.getText(),birthDate.getText(),
 		    							 address.getText(),phoneNumber.getText(),email.getText(),
 		    							 index.getText(),enrollmentYear.getText(),
-		    							 (String)currentStudyYear.getSelectedItem(),(String)status.getSelectedItem())) {
+		    							 (String)currentStudyYear.getSelectedItem(),(String)status.getSelectedItem(), sel)) {
 
 		    					switch(sel) {
 		    						//Ako je dugme new
 		    						case 1:
 		    							if(StudentDatabase.indexExists(s.getIndex())){
-		    								string="Vec postoji student sa unetim indeksom!";
-		    					    		ClassNameHere.infoBox(string, "Greska");
+		    								string="Već postoji student sa unetim indeksom!";
+		    					    		ClassNameHere.infoBox(string, "Greška");
 		    					    		this.dialog(sel);
 
 		    							} else {
 		    								StudentDatabase.addStudent(s);
-		    								string="Uspesno unet student!";
-								    		ClassNameHere.infoBox(string, "Obavestenje");
+		    								string="Uspešno unet student!";
+								    		ClassNameHere.infoBox(string, "Obaveštenje");
 								    		int size=ShowTable.getStudTable().getRowCount();
 								    		ShowTable.tableModelStud.insertRow(size,new Object[] {s.getStudentId(),index.getText(),name.getText(),surname.getText()
 								    				,s.getCurrentStudyYear(),s.getStatus()});
 
 								    		ShowTable.updateTableStud();
+								    		MainFrame.refreshTP(1);
 								    		break loop;
 		    							}
 		    							break;
@@ -163,22 +158,21 @@ public class StudentDialog  extends JPanel{
 
 
 							    		//Kad se sortira ne moze vise da se trazi preko oznacenog reda nego mora da se dobavlja kljuc (studID)
-							               String key1 = (String)ShowTable.getStudTable().getValueAt(MainFrame.selRowStud,0);
+							               String key1 = (String)ShowTable.getStudTable().getValueAt(EditStudentAction.selRow,0);
 							               int key=Integer.parseInt(key1);
 
 							               int keyStud=0;
 
 							               for (int i = ShowTable.tableModelStud.getRowCount() - 1; i >= 0; --i) {
 							                       if (ShowTable.tableModelStud.getValueAt(i, 0).equals(Integer.toString(key))) {
-							                           // what if value is not unique?
 							                           keyStud= i;
 							                       }
 
 							               }
 							               StudentDatabase.changeStudent(s,key-1);
 
-							               string="Uspesno izmenjen student!";
-								    		ClassNameHere.infoBox(string, "Obavestenje");
+							               string="Uspešno izmenjen student!";
+								    		ClassNameHere.infoBox(string, "Obaveštenje");
 
 								    		ShowTable.tableModelStud.setValueAt(key1, keyStud, 0);
 								    		ShowTable.tableModelStud.setValueAt(index.getText(), keyStud, 1);
@@ -187,6 +181,7 @@ public class StudentDialog  extends JPanel{
 								    		ShowTable.tableModelStud.setValueAt(s.getCurrentStudyYear(), keyStud, 4);
 								    		ShowTable.tableModelStud.setValueAt(s.getStatus(), keyStud, 5);
 								    		ShowTable.updateTableStud();
+								    		MainFrame.refreshTP(1);
 							    		break loop;
 		    					}
 
@@ -226,15 +221,17 @@ public class StudentDialog  extends JPanel{
 		      tp=new JTabbedPane();
 		      JPanel info=informations();
 		      tp.add("Informacije",info);
+		      
 
 		      //Panel za polozene ispite
 		      Student s=StudentDatabase.findByID(MainFrame.selRowStud+1);
+		      
+		      if(s!=null) {
 		    	  passedTable=s.getPassedTable();
 		    	  passedTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 					   @Override
 					public void valueChanged(ListSelectionEvent e) {
 							selRowPassed=passedTable.getSelectedRow();
-							System.out.printf("\n\nselRowPassed="+selRowPassed+"\n\n");
 						}
 				   });
 
@@ -254,7 +251,7 @@ public class StudentDialog  extends JPanel{
 			      tp.add("Nepoloženi ispiti",fS);
 		      
 
-
+		      }
 
 		   String nazivDijaloga=null;
 			 switch(sel) {
@@ -355,15 +352,11 @@ public class StudentDialog  extends JPanel{
 		   if(s==null) {
 			   return;
 		   }
-//		   System.out.printf("\nStudentDialog 359: ");
-		   s.writePassedGrades();
 		   tp.remove(pS);
 		   tp.remove(fS);
 
 		   
 		   PassedPanel.refreshTable(s);
-//		   System.out.printf("\nStudentDialog 364: ");
-		   s.writePassedGrades();
 		   pS=new PassedPanel(s);
 		   pS.remove(PassedPanel.b);
 		   pS.remove(PassedPanel.avgGrade);

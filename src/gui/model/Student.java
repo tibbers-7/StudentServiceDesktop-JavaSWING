@@ -1,5 +1,7 @@
 package gui.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -10,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 
 import enums.StatusEnum;
 import gui.controller.CheckValidity;
-import gui.controller.databases.AddressDatabase;
 import gui.controller.databases.StudentDatabase;
 import gui.controller.databases.SubjectDatabase;
 import gui.controller.student.StudentDialog;
@@ -77,6 +78,14 @@ public class Student{
 	}
 
 
+	public void setPassedExams(ArrayList<Grade> passedExams) {
+		this.passedExams = passedExams;
+	}
+
+	public void setFailedExams(ArrayList<Grade> failedExams) {
+		this.failedExams = failedExams;
+	}
+
 	public void addPassedExam(Grade g) {
 		passedGradeID++;
 		this.passedExams.add(g);
@@ -92,13 +101,10 @@ public class Student{
 	// Ukupno ESPB
 	public int getEspb() {
 		int sum=0;
-		int i=1;
 		for (Grade g: this.passedExams) {
 			Subject subj=g.getSubject();
 			int espb=subj.getEspbPoints();
 			sum+=espb;
-//			System.out.printf("\nIndex:"+i+" espb:"+espb+" ocena:"+g.getGrade()+" avg="+averageGrade);
-			i++;
 		}
 		return sum;
 	}
@@ -395,10 +401,14 @@ public class Student{
 			count++;
 		}
 		if(count==0) {
-			this.averageGrade=0.0;
+			averageGrade=0.0;
 		} else
-			this.averageGrade=(double)gradeSum/(double)count;
-		return averageGrade;
+			averageGrade=(double)gradeSum/(double)count;
+		
+
+	    BigDecimal bd = BigDecimal.valueOf(averageGrade);
+	    bd = bd.setScale(2, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 
 	public void setAverageGrade(double averageGrade) {

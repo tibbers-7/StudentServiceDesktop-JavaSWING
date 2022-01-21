@@ -1,18 +1,20 @@
 package gui.controller.student;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import gui.controller.ShowTable;
 
 public class TableSorter {
-
+	 public static TableRowSorter<TableModel> sorter1 = new TableRowSorter<TableModel>();
 	    public static void getSorter() {
-	    	Comparator cID=new Comparator() {
+	    	
+	    	//sortiranje prema ciframa
+	    	Comparator<?> cID=new Comparator<Object>() {
 
 				@Override
 				public int compare(Object oo1, Object oo2) {
@@ -22,7 +24,8 @@ public class TableSorter {
 	    		
 	    	};
 	    	
-	    	Comparator cIndex=new Comparator() {
+	    	//sortiranje prema ciframa u indeksu
+	    	Comparator<?> cIndex=new Comparator<Object>() {
 
 				@Override
 				public int compare(Object oo1, Object oo2) {
@@ -42,18 +45,18 @@ public class TableSorter {
 	    		
 	    	};
 	    	
-	    	TableRowSorter sorter1 = new TableRowSorter();
+	    	
 	    	ShowTable.getStudTable().setRowSorter(sorter1);
 	    	sorter1.setModel(ShowTable.getStudTable().getModel());
 	    	sorter1.setComparator(0,cID);
 	    	sorter1.setComparator(1, cIndex);
 	    	
-	    	TableRowSorter sorter2 = new TableRowSorter();
+	    	TableRowSorter<TableModel> sorter2 = new TableRowSorter<TableModel>();
 	    	ShowTable.getSubjTable().setRowSorter(sorter2);
 	    	sorter2.setModel(ShowTable.getSubjTable().getModel());
 	    	sorter2.setComparator(0,cID);
 			
-	    	TableRowSorter sorter3 = new TableRowSorter();
+	    	TableRowSorter<TableModel> sorter3 = new TableRowSorter<TableModel>();
 			ShowTable.getProfTable().setRowSorter(sorter3);
 			sorter3.setModel(ShowTable.getProfTable().getModel());
 			sorter3.setComparator(0,cID);

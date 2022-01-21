@@ -28,7 +28,6 @@ public class EditSubjectDialogUpdate {
 			sSP.setName(name);
 			sSP.setYear(year);
 			sSP.setEspb(espb);
-			sSP.setProf(new JTextField("X"));
 
 
 

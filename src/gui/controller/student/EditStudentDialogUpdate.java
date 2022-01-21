@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import javax.swing.JTextField;
 
 import enums.StatusEnum;
-import gui.controller.ClassNameHere;
 import gui.controller.databases.StudentDatabase;
 import gui.model.Student;
 
@@ -14,10 +13,9 @@ import gui.model.Student;
 
 public class EditStudentDialogUpdate {
 
-
+	
 	public static StudentDialog editClick(int studentId) {
 		Student s=StudentDatabase.findByID(studentId);
-		s.writePassedGrades();
 
 		StudentDialog.updatePassedPanel(s, 1);
 		StudentDialog sOp=new StudentDialog();
@@ -43,7 +41,7 @@ public class EditStudentDialogUpdate {
 
 			StatusEnum status=s.getStatus();
 			if (status==StatusEnum.BUDGET) {
-				sOp.status.setSelectedItem("Budzet");
+				sOp.status.setSelectedItem("Budžet");
 			}else sOp.status.setSelectedItem("Samofinansiranje");
 
 			int year=s.getCurrentStudyYear();
@@ -57,10 +55,10 @@ public class EditStudentDialogUpdate {
 				sOp.currentStudyYear.setSelectedItem("II (druga)");
 				break;
 			case 3:
-				sOp.currentStudyYear.setSelectedItem("III (treca)");
+				sOp.currentStudyYear.setSelectedItem("III (treća)");
 				break;
 			case 4:
-				sOp.currentStudyYear.setSelectedItem("IV (cetvrta)");
+				sOp.currentStudyYear.setSelectedItem("IV (četvrta)");
 				break;
 			}
 
@@ -74,15 +72,7 @@ public class EditStudentDialogUpdate {
 			sOp.setIndex(index);
 			sOp.setEnrollmentYear(enrollmentYear);
 
-
-			return sOp;
-
-
-        } else {
-        	String string="Student nije pronadjen";
-			ClassNameHere.infoBox(string, "Greska");
-			return null;
-        }
+        } return sOp;
 	}
 
 

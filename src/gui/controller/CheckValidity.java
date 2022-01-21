@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import enums.SemesterEnum;
 import enums.StatusEnum;
 import enums.TitleEnum;
+import gui.controller.databases.ProfessorDatabase;
+import gui.controller.databases.StudentDatabase;
 import gui.model.Address;
 import gui.model.Professor;
 import gui.model.Student;
@@ -27,8 +29,9 @@ public class CheckValidity {
 	public static boolean checkValidityStudent(Student s,String name,String surname,String birthDate,
 			String address,String phoneNumber,String email,
 			String index,String enrollmentYear,String currentStudyYear,
-			String status) {
+			String status,int sel) {
 
+				
 				s.setName(name);
 				s.setSurname(surname);
 				s.setIndex(index);
@@ -62,7 +65,7 @@ public class CheckValidity {
 				if(mEmail.find()) {
 					s.setEmail(email);
 				}else {
-					string="Pogre�no unet mail!";
+					string="Pogrešno unet mail!";
 					ClassNameHere.infoBox(string, "Greska");
 					return false;
 				}
@@ -73,7 +76,7 @@ public class CheckValidity {
 				if(mIndex.find()) {
 					s.setIndex(index);
 				} else {
-					string="Pogre�no unet index!\nFormat indeksa: RA 100/2020";
+					string="Pogrešno unet index!\nFormat indeksa: RA 100/2020";
 					ClassNameHere.infoBox(string, "Greska");
 					return false;
 				}
@@ -82,12 +85,18 @@ public class CheckValidity {
 				if (phoneCheck(phoneNumber)){
 					s.setPhoneNumber(phoneNumber);
 				} else {
-					string="Broj telefona mora biti formata 000/00000-0000!";
-					ClassNameHere.infoBox(string, "Greska");
+					string="Broj telefona mora biti formata 000/00000-0000 \n(\\ i - se mogu izostaviti)!";
+					ClassNameHere.infoBox(string, "Greška");
 					return false;
 				}
 
 				s.setEnrollmentYear(Integer.parseInt(enrollmentYear));
+				
+				if(sel!=1) {
+					Student s1=StudentDatabase.findByIndex(index);
+					s.setPassedExams(s1.getPassedExams());
+					s.setFailedExams(s1.getFailedExams());
+				}
 
 				//Dobavljanje statusa
 
@@ -104,10 +113,10 @@ public class CheckValidity {
 				case "II (druga)":
 					s.setCurrentStudyYear(2);
 					break;
-				case "III (treca)":
+				case "III (treća)":
 					s.setCurrentStudyYear(3);
 					break;
-				case "IV (cetvrta)":
+				case "IV (četvrta)":
 					s.setCurrentStudyYear(4);
 					break;
 				}
@@ -119,6 +128,7 @@ public class CheckValidity {
 			   String name,String year, String professor,
 			   String espbPoints,String sem) {
 
+		if(espbPoints.equals("")) return false;
 			s.setSubjectKey(subjectKey);
 			s.setName(name);
 			s.setEspbPoints(Integer.parseInt(espbPoints));
@@ -128,7 +138,7 @@ public class CheckValidity {
 				s.setSemester(SemesterEnum.WINTER);
 			} else s.setSemester(SemesterEnum.SUMMER);
 
-			Professor p=new Professor();
+			Professor p=ProfessorDatabase.getProfRegex(professor);
 			//TREBA IMPLEMENTIRATI
 			s.setProfessor(p);
 
@@ -137,16 +147,20 @@ public class CheckValidity {
 
 	public static boolean checkValidityProfessor(Professor p, String name, String surname, String email,
 			String title) {
+		
 		p.setName(name);
 		p.setSurname(surname);
 		Matcher mEmail = pEmail.matcher(email);
 		if(mEmail.find()) {
 			p.setEmail(email);
 		}else {
-			string="Pogre�no unet mail!";
+			string="Pogrešno unet mail!";
 			ClassNameHere.infoBox(string, "Greska");
 			return false;
 		}
+		
+		Professor p1=ProfessorDatabase.findByEmail(email);
+		p.setSubjects(p1.getSubjects());
 
 		switch(title) {
 			case "Docent": {
@@ -166,21 +180,8 @@ public class CheckValidity {
 	}
 
 
-	public static boolean isNumeric(CharSequence cs) {
-		if (cs == null) {
-            return false;
-        }
-        int sz = cs.length();
-        for (int i = 0; i < sz; i++) {
-            if (!Character.isDigit(cs.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-	}
-
 	public static boolean phoneCheck(String num) {
-		Pattern p = Pattern.compile("^(\\d{3})/(\\d+)-(\\d+)");
+		Pattern p = Pattern.compile("^(\\d{3}/?\\d+-?\\d+)");
 		Matcher m = p.matcher(num);
 
 		if(m.find()) {

@@ -16,12 +16,16 @@ import javax.swing.table.DefaultTableModel;
 
 import gui.controller.CheckValidity;
 import gui.controller.ClassNameHere;
+import gui.controller.ShowTable;
 import gui.controller.databases.SubjectDatabase;
 import gui.model.Grade;
 import gui.model.Student;
 import gui.model.Subject;
 
 public class FailedPanel extends JPanel{
+	private static final long serialVersionUID = -612676529939486582L;
+
+
 	public static final String[] gradesS= {"6","7","8","9","10"};
 
 
@@ -30,7 +34,7 @@ public class FailedPanel extends JPanel{
 	public static JButton delSubject=new JButton();
 	public static JButton passSubject=new JButton();
 	public static   JPanel addSubj=new JPanel();
-	public static JComboBox newSubj=new JComboBox();
+	public static JComboBox<String> newSubj=new JComboBox<String>();
 	public static ActionListener addSubjAction;
 	public static ActionListener delSubjAction;
 	public static ActionListener passSubjAction;
@@ -39,8 +43,8 @@ public class FailedPanel extends JPanel{
 	protected JTable failedTable=new JTable();
 	protected String string;
 	protected int selRowFailed=-1;
-	protected JTextField passDate= new JTextField("01.01.1960.");
-	public static JComboBox grades=new JComboBox(gradesS);
+	protected JTextField passDate= new JTextField("01.01.2000.");
+	public static JComboBox<String> grades=new JComboBox<String>(gradesS);
 	private int option;
 
 
@@ -48,18 +52,18 @@ public class FailedPanel extends JPanel{
 
 
 	public FailedPanel(Student s) {
-//		setLayout((LayoutManager) new BoxLayout(pF, BoxLayout.PAGE_AXIS));
-//
 
 		   controls = new JPanel(new FlowLayout(FlowLayout.CENTER,5,5));
 		   addSubject=new JButton("Dodaj");
-		   delSubject=new JButton("Obri�i");
+		   delSubject=new JButton("Obriši");
 		   passSubject=new JButton("Polaganje");
 
 		   //Dijalog za dodavanje predmeta
 		   addSubj=new JPanel();
 		   String[] subjOptions=s.getUnaffiliatedSubj();
-		   newSubj=new JComboBox(subjOptions);
+		   if(subjOptions.length!=0) {
+			   newSubj=new JComboBox<String>(subjOptions);
+		   }
 		   addSubj.add(newSubj);
 
 		   //Akcija za dodavanje predmeta
@@ -77,15 +81,17 @@ public class FailedPanel extends JPanel{
 
 							 Subject subj=g.getSubject();
 							 int size=StudentDialog.failedTable.getRowCount(); //dobavi velicinu tabele
+							 
 							 //i dodaj ga u tabelu nepolozenih
 							 StudentDialog.dtm2.insertRow(size,new Object[] {subj.getSubjectKey(),subj.getName(),subj.getEspbPoints(),subj.getSemester()});
-							 string="Uspe�no dodat predmet";
-							ClassNameHere.infoBox(string, "Obave�tenje");
+							 string="Uspešno dodat predmet";
+							ClassNameHere.infoBox(string, "Obaveštenje");
 
 							//Izmeni combobox
 							newSubj.removeItem(strSubj);
 
 							StudentDialog.updateExamTable();
+							
 						 }
 					}
 
@@ -102,8 +108,9 @@ public class FailedPanel extends JPanel{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							if(StudentDialog.selRowFailed==-1) {
-								string="Problem s selekcijom";
-								ClassNameHere.infoBox(string, "Obavestenje");
+								string="Ispit nije izabran!";
+								ClassNameHere.infoBox(string, "Obaveštenje");
+								return;
 							} else {
 
 								//dobavi kljuc iz selektovanog reda tabele nepolozenih
@@ -115,11 +122,10 @@ public class FailedPanel extends JPanel{
 
 								//Dodaj sada obrisani predmet u combobox da bi ga mogao ponovo dodati
 								strSubj=s2.getSubjectKey()+"-"+s2.getName();
-								System.out.printf("\n strSbj:"+strSubj+"\n");
 								newSubj.addItem(strSubj);
 
 								string="Obrisan predmet";
-								ClassNameHere.infoBox(string, "Obavestenje");
+								ClassNameHere.infoBox(string, "Obaveštenje");
 								StudentDialog.updateExamTable();
 
 							}
@@ -140,17 +146,23 @@ public class FailedPanel extends JPanel{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
+						if(StudentDialog.selRowFailed==-1) {
+							string="Ispit nije izabran!";
+							ClassNameHere.infoBox(string, "Obaveštenje");
+							return;
+						}
 						String nazivDijaloga="Unesite ocenu i datum:";
 						 option = JOptionPane.showConfirmDialog(null, passSubjPanel, nazivDijaloga, JOptionPane.OK_CANCEL_OPTION);
 						 int selKeep=StudentDialog.selRowFailed;
+						 if(selKeep==-1) return;
 						int size=StudentDialog.passedTable.getRowCount();
 						JTable myFTable=StudentDialog.failedTable;
+						
 						//dobavi predmet na osnovu selektovanog
 						String key=(String)StudentDialog.failedTable.getValueAt(selKeep, 0);
 						Subject subj=SubjectDatabase.findByKey(key);
 
-						//dobavljanje ocene koja vise ne treba da se nalazi u nepolozenim
-
+						//brisanje iz baze
 						s.removeFailedGrade(subj);
 
 						//Dobavljanje novih polja za taj predmet da bi se mogao ubaciti u polozene
@@ -169,7 +181,8 @@ public class FailedPanel extends JPanel{
 
 						   StudentDialog.updateExamTable();
 						   StudentDialog.updatePassedPanel(s,2);
-
+							ShowTable.refreshStudTable();
+							ShowTable.updateTableStud();
 
 
 						   }
