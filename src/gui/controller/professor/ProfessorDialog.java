@@ -19,7 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import gui.controller.CheckValidity;
 import gui.controller.ClassNameHere;
 import gui.controller.ShowTable;
-import gui.controller.subject.SubjectDatabase;
+import gui.controller.databases.ProfessorDatabase;
+import gui.controller.databases.SubjectDatabase;
 import gui.model.Grade;
 import gui.model.Professor;
 import gui.model.Student;
@@ -31,7 +32,7 @@ public class ProfessorDialog extends JPanel{
 	//pomocna polja
 	public static final String[] titles= {"Docent","Redovni profesor","Vanredni profesor"};
 	private boolean isEmpty=true;
-	private static JTabbedPane tp=new JTabbedPane();
+	public static JTabbedPane tp=new JTabbedPane();
 	public static JPanel pS=new JPanel();
 	private static int option=-1;
 	protected Professor p=new Professor();
@@ -136,7 +137,7 @@ public class ProfessorDialog extends JPanel{
 
 		   ArrayList<JTextField> options=new ArrayList<>();
 
-		   //Dijalog za dodavanje novog studenta
+//		   Dijalog za dodavanje novog studenta
 		      Object[] message = {
 		    		    "Ime* ", this.name,
 		    		    "Prezime* ", this.surname,
@@ -144,7 +145,7 @@ public class ProfessorDialog extends JPanel{
 		    		    "E-mail adresa* ",this.email,
 		    		};
 
-		      //Panel za edit
+		      //Panel za info
 		      tp=new JTabbedPane();
 		      JPanel info=informations();
 		      tp.add("Informacije",info);
@@ -214,14 +215,14 @@ public class ProfessorDialog extends JPanel{
 		      return subjPan;
 	   }
 
-	public static void updateExamTable() {
+	public static void updateTable() {
 		   dtm.fireTableDataChanged();
 	   }
 
 	public static void updateSubjectPanel(Professor p) {
 		   tp.remove(pS);
 		   
-
+		   if(p==null) return;
 		   
 		   subjectTable=p.getSubjectTable();
 		   subjectTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -232,10 +233,7 @@ public class ProfessorDialog extends JPanel{
 		   });
 		   
 		   pS=new SubjectPanel(p);
-
-
 	       tp.add("Predmeti",pS);
-	       tp.setSelectedIndex(1);
 	   }
 	
 	

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import gui.controller.professor.ProfessorDatabase;
-import gui.controller.student.StudentDatabase;
-import gui.controller.subject.SubjectDatabase;
+import gui.controller.databases.DepartmentDatabase;
+import gui.controller.databases.ProfessorDatabase;
+import gui.controller.databases.StudentDatabase;
+import gui.controller.databases.SubjectDatabase;
+import gui.model.Department;
 import gui.model.Professor;
 import gui.model.Student;
 import gui.model.Subject;
@@ -33,11 +35,13 @@ public class ShowTable{
 	private static JTable studInstance=null;
 	private static JTable subjInstance=null;
 	private static JTable profInstance=null;
+	private static JTable depInstance=null;
 
 
 	public static DefaultTableModel tableModelStud=new DefaultTableModel();
 	public static DefaultTableModel tableModelSubj=new DefaultTableModel();
 	public static DefaultTableModel tableModelProf=new DefaultTableModel();
+	public static DefaultTableModel tableModelDep=new DefaultTableModel();
 
 	public static JTable getStudTable() {
 		if (studInstance==null) {
@@ -55,6 +59,12 @@ public class ShowTable{
 		if (profInstance==null) {
 			profInstance=showEntityTable(3);
 		} return profInstance;
+	}
+	
+	public static JTable getDepTable() {
+		if (depInstance==null) {
+			depInstance=showEntityTable(4);
+		} return depInstance;
 	}
 
 	public static void refreshStudTable() {
@@ -77,13 +87,13 @@ public class ShowTable{
 	    Student s= new Student();
 	    Professor p=new Professor();
 	    Subject subj=new Subject();
+	    Department d=new Department();
 
 	    //Zavisi od toga koja tabela je upaljena
 	    switch(index) {
 	    case 1: //STUDENT
 	    	entities= StudentDatabase.getListOfEntites();
 		    cols= s.getColumns();
-
 		    break;
 	    case 2: //PREDMET
 	    	entities=SubjectDatabase.getListOfEntites();
@@ -93,6 +103,9 @@ public class ShowTable{
 	    	entities=ProfessorDatabase.getListOfEntities();
 	    	cols= p.getColumns();
 		    break;
+		case 4:
+			entities=DepartmentDatabase.getListOfEntities();
+			cols=d.getColumns();
 	    }
 
 
@@ -115,6 +128,10 @@ public class ShowTable{
 	    			break;
 	    		case 3:
 	    			entityData=Professor.getData(It);
+	    			break;
+	    		case 4:
+	    			entityData=Department.getData(It);
+	    			break;
 	    	}
 
 
@@ -152,6 +169,11 @@ public class ShowTable{
 			tableModelProf=new DefaultTableModel(rowData,cols);
 	    	table.setModel(tableModelProf);
 		    break;
+		case 4: //KATEDRA
+			tableModelDep=new DefaultTableModel(rowData,cols);
+			table.setModel(tableModelDep);
+			break;
+		    
 	    }
 	    table.setRowSelectionAllowed(true);
 		return table;
@@ -168,6 +190,10 @@ public class ShowTable{
 
 	public static void updateTableProf() {
 		tableModelProf.fireTableDataChanged();
+	}
+	
+	public static void updateTableDep() {
+		tableModelDep.fireTableDataChanged();
 	}
 
 

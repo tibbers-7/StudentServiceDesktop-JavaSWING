@@ -2,6 +2,8 @@ package gui.model;
 
 import java.util.List;
 
+import gui.controller.databases.ProfessorDatabase;
+
 public class Department {
 	private int departmentId;
 	private String departmentKey; //sifra katedre
@@ -11,14 +13,12 @@ public class Department {
 	public Department() {
 		super();
 	}
-	public Department(int departmentId, String departmentKey, String name, Professor departmentManager,
-			List<Professor> departmentProfessors) {
+	public Department(String departmentKey, String name, Professor departmentManager) {
 		super();
-		this.departmentId = departmentId;
 		this.departmentKey = departmentKey;
 		this.name = name;
+		
 		this.departmentManager = departmentManager;
-		this.departmentProfessors = departmentProfessors;
 	}
 	public int getDepartmentId() {
 		return departmentId;
@@ -51,10 +51,10 @@ public class Department {
 		this.departmentProfessors = departmentProfessors;
 	}
 
-	public static Object getData(Object o) {
+	public static Object[] getData(Object o) {
 		Department d=(Department) o;
 		Object index=Integer.toString(d.getDepartmentId());
-		Object managerName=d.getDepartmentManager().getName()+" "+d.getDepartmentManager().getSurname();
+		Object managerName=d.getDepartmentManager().getProfForDep();
 		
 		Object[] rowData= {index,d.getDepartmentKey(),d.getName(),managerName};
 		return rowData;
@@ -62,7 +62,7 @@ public class Department {
 
 	public Object[] getColumns() {
 
-		Object[] colNames={"ID", "äifra", "Ime", "Menadûer"};
+		Object[] colNames={"ID", "≈†ifra", "Ime", "Menad≈æer"};
 		return colNames;
 	}
 

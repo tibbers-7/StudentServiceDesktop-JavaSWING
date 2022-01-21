@@ -1,4 +1,4 @@
-package gui.controller.subject;
+package gui.controller.databases;
 
 import java.util.ArrayList;
 

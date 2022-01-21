@@ -2,6 +2,7 @@ package gui.controller.subject;
 import javax.swing.JTextField;
 
 import gui.controller.ClassNameHere;
+import gui.controller.databases.SubjectDatabase;
 import gui.model.Subject;
 
 

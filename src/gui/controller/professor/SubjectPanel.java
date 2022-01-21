@@ -13,8 +13,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import gui.controller.ClassNameHere;
+import gui.controller.databases.SubjectDatabase;
 import gui.controller.student.StudentDialog;
-import gui.controller.subject.SubjectDatabase;
 import gui.model.Grade;
 import gui.model.Professor;
 import gui.model.Student;
@@ -55,7 +55,7 @@ public class SubjectPanel extends JPanel{
 		bDlt=new JButton("Obriši predmet");
 
 
-		 //Akcija za ponistavanje ocene
+		 //Akcija za brisanje predmeta s prof
 		   ActionListener invSubject=new ActionListener() {
 
 					@Override
@@ -82,10 +82,7 @@ public class SubjectPanel extends JPanel{
 								string="Uspesno poništen predmet!";
 								ClassNameHere.infoBox(string, "Obaveštenje");
 		
-		
-		
-								ProfessorDialog.updateExamTable();
-								ProfessorDialog.updateSubjectPanel(p);
+								ProfessorDialog.updateTable();
 		
 							}
 
@@ -122,8 +119,9 @@ public class SubjectPanel extends JPanel{
 
 							//Izmeni combobox
 							newSubj.removeItem(strSubj);
+							ProfessorDialog.updateTable();
 
-							ProfessorDialog.updateSubjectPanel(p);;
+							
 						}
 					}
 			   

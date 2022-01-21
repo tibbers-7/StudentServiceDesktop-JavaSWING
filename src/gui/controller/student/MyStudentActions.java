@@ -6,6 +6,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import gui.controller.RemoveActions;
 import gui.controller.ShowTable;
 import gui.view.MainFrame;
 
@@ -33,13 +34,7 @@ public class MyStudentActions{
 
 
 		//Brisanje nepozeljnih akcija
-		MainFrame.toolbar.getBtnNew().removeActionListener(MainFrame.aNSubj);
-		MainFrame.toolbar.getBtnEdit().removeActionListener(MainFrame.aESubj);
-//		MainFrame.toolbar.getBtnDelete().removeActionListener(MainFrame.aDSubj);
-
-		MainFrame.menu.get_new().removeActionListener(MainFrame.aNSubj);
-		MainFrame.menu.get_edit2().removeActionListener(MainFrame.aNSubj);
-//		MainFrame.menu._delete.removeActionListener(MainFrame.aDSubj);
+		RemoveActions.removeActions();
 
 //----------------------------------------------------------------------
 		//Dodavanje novih akcija

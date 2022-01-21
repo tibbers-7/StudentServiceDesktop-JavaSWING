@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import gui.controller.CheckValidity;
 import gui.controller.ClassNameHere;
 import gui.controller.ShowTable;
+import gui.controller.databases.SubjectDatabase;
 import gui.model.Subject;
 import gui.view.MainFrame;
 

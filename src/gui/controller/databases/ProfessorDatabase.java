@@ -1,6 +1,8 @@
-package gui.controller.professor;
+package gui.controller.databases;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import gui.model.Professor;
 
@@ -55,6 +57,36 @@ public class ProfessorDatabase extends Professor{
 
 		profesori.remove(id);
 		rowNum--;
+	}
+	
+	public static String[] getProfList() {
+		String[] profs=new String[profesori.size()];
+		String data;
+		
+		int i=0;
+		for(Object o:profesori) {
+			Professor p=(Professor) o;
+			data=p.getProfForDep();
+			profs[i]=data;
+			i++;
+		}
+		
+		return profs;
+	}
+	
+	public static Professor getProfRegex(String s) {
+		Pattern p = Pattern.compile("^(\\d+).*");
+		Matcher m = p.matcher(s);
+
+		if(m.find()) {
+			int index=Integer.parseInt(m.group(1));
+			Professor prof=ProfessorDatabase.findByID(index);
+			return prof;
+
+		} else {
+			System.out.printf("Ne radi regex");
+			return null;
+		}
 	}
 
 

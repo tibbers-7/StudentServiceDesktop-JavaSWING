@@ -73,7 +73,7 @@ public class CheckValidity {
 				if(mIndex.find()) {
 					s.setIndex(index);
 				} else {
-					string="Pogrešno unet index!\nFormat indeksa: RA100-2020";
+					string="Pogrešno unet index!\nFormat indeksa: RA 100/2020";
 					ClassNameHere.infoBox(string, "Greska");
 					return false;
 				}
@@ -82,7 +82,7 @@ public class CheckValidity {
 				if (phoneCheck(phoneNumber)){
 					s.setPhoneNumber(phoneNumber);
 				} else {
-					string="Broj telefona sme da sadrzi samo cifre!";
+					string="Broj telefona mora biti formata 000/00000-0000!";
 					ClassNameHere.infoBox(string, "Greska");
 					return false;
 				}
