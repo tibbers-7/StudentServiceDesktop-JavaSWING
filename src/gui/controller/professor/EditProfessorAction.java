@@ -7,7 +7,7 @@ import gui.controller.ShowTable;
 import gui.view.MainFrame;
 
 public class EditProfessorAction implements ActionListener {
-	public static int key;
+	private static int key;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

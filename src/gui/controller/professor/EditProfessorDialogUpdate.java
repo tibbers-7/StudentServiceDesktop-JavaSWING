@@ -4,6 +4,7 @@ import javax.swing.JTextField;
 
 import enums.TitleEnum;
 import gui.controller.ClassNameHere;
+import gui.controller.databases.ProfessorDatabase;
 import gui.model.Professor;
 
 public class EditProfessorDialogUpdate {

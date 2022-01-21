@@ -3,6 +3,7 @@ package gui.controller.student;
 import javax.swing.JOptionPane;
 
 import gui.controller.ClassNameHere;
+import gui.controller.databases.StudentDatabase;
 
 
 public class DeleteStudentDialog {

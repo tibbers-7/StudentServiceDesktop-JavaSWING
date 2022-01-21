@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gui.controller.ShowTable;
+import gui.controller.databases.StudentDatabase;
 import gui.view.MainFrame;
 
 public class EditStudentAction implements ActionListener {

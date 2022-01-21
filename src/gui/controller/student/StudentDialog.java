@@ -20,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import gui.controller.CheckValidity;
 import gui.controller.ClassNameHere;
 import gui.controller.ShowTable;
-import gui.controller.subject.SubjectDatabase;
+import gui.controller.databases.StudentDatabase;
+import gui.controller.databases.SubjectDatabase;
 import gui.model.Grade;
 import gui.model.Student;
 import gui.model.Subject;
@@ -354,14 +355,14 @@ public class StudentDialog  extends JPanel{
 		   if(s==null) {
 			   return;
 		   }
-		   System.out.printf("\nStudentDialog 359: ");
+//		   System.out.printf("\nStudentDialog 359: ");
 		   s.writePassedGrades();
 		   tp.remove(pS);
 		   tp.remove(fS);
 
 		   
 		   PassedPanel.refreshTable(s);
-		   System.out.printf("\nStudentDialog 364: ");
+//		   System.out.printf("\nStudentDialog 364: ");
 		   s.writePassedGrades();
 		   pS=new PassedPanel(s);
 		   pS.remove(PassedPanel.b);

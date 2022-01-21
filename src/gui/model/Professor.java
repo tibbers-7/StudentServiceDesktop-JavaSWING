@@ -8,8 +8,8 @@ import javax.swing.table.DefaultTableModel;
 
 import enums.TitleEnum;
 import gui.controller.databases.AddressDatabase;
+import gui.controller.databases.SubjectDatabase;
 import gui.controller.professor.ProfessorDialog;
-import gui.controller.subject.SubjectDatabase;
 
 public class Professor {
 	protected int professorId;
@@ -29,19 +29,17 @@ public class Professor {
 	public Professor() {
 		super();
 	}
-	public Professor(int personalId,String surname, String name, Date birthDate, int address, String phoneNumber,
-			String email, int officeAddress, TitleEnum title, int trailYears) {
+	public Professor(int personalId,String surname, String name, Date birthDate, Address address, String phoneNumber,
+			String email, Address officeAddress, TitleEnum title, int trailYears) {
 		super();
 		this.personalId=personalId;
 		this.surname = surname;
 		this.name = name;
 		this.birthDate = birthDate;
-		Address a1=AddressDatabase.findByID(address);
-		this.address = a1;
+		this.address = address;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
-		Address a2=AddressDatabase.findByID(officeAddress);
-		this.officeAddress = a2;
+		this.officeAddress = officeAddress;
 		this.title = title;
 		this.trailYears = trailYears;
 	}
@@ -220,5 +218,29 @@ public class Professor {
 
 		return res;
 	}
+	
+	public String getProfForDep() {
+		String s=Integer.toString(professorId)+". "+name+" "+surname;
+		return s;
+	}
+	
+	public static TitleEnum getTitleEnum(String s) {
+		TitleEnum title;
+		switch(s) {
+		case "REDOVNI_PROFESOR":
+			title=TitleEnum.REDOVNI_PROFESOR;
+			break;
+		case "VANREDNI_PROFESOR":
+			title=TitleEnum.VANREDNI_PROFESOR;
+			break;
+		default:
+			title=TitleEnum.DOCENT;
+
+		}
+		
+		return title;
+	}
+	
+	
 
 }

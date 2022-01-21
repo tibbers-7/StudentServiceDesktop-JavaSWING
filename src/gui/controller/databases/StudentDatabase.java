@@ -1,4 +1,4 @@
-package gui.controller.student;
+package gui.controller.databases;
 
 import java.util.ArrayList;
 

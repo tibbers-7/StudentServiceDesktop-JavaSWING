@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import gui.controller.CheckValidity;
 import gui.controller.ClassNameHere;
-import gui.controller.subject.SubjectDatabase;
+import gui.controller.databases.SubjectDatabase;
 import gui.model.Grade;
 import gui.model.Student;
 import gui.model.Subject;

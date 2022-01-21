@@ -3,11 +3,11 @@ package gui.model;
 import java.util.List;
 
 import enums.SemesterEnum;
-import gui.controller.professor.ProfessorDatabase;
+import gui.controller.databases.ProfessorDatabase;
 
-public class Subject{
+public class Subject {
 	private int subjectId;
-	private String subjectKey; // slika 8. ovo je sifra predmeta
+	private String subjectKey;
 	private String name;
 	private SemesterEnum semester;
 	private int year; // Godina studija u kojoj se predmet izvodi
@@ -15,44 +15,32 @@ public class Subject{
 	private int espbPoints;
 	private List<Student> studentsPassed;
 	private List<Student> studentsNotPassed;
-	protected static int numProfs=0;
-
-
-//	protected static int rowNum=0;
-
+	protected static int numProfs = 0;
 
 	public Subject() {
 		super();
 	}
 
-	public Subject(String subjectKey, String name, SemesterEnum semester, int year,
-			int professorId, int espbPoints) {
+	public Subject(String subjectKey, String name, SemesterEnum semester, int year, int professorId, int espbPoints) {
 		super();
 		this.subjectKey = subjectKey;
 		this.name = name;
 		this.semester = semester;
 		this.year = year;
 
-		if(professorId==0) {
+		if (professorId == 0) {
 			numProfs++;
 		} else {
-//			System.out.printf("\nprofID="+professorId);
-			Professor p=ProfessorDatabase.findByID(professorId);
+			Professor p = ProfessorDatabase.findByID(professorId);
 
 			this.professor = p;
 		}
 		this.espbPoints = espbPoints;
-//		this.studentsPassed = studentsPassed;
-//		this.studentsNotPassed = studentsNotPassed;
 	}
 
 	public int getSubjectId() {
 		return subjectId;
 	}
-
-//	public void setSubjectId() {
-//		this.subjectId = rowNum;
-//	}
 
 	public void setSubjectId(int id) {
 		this.subjectId = id;
@@ -80,11 +68,24 @@ public class Subject{
 
 	public String getSemesterString() {
 		String s;
-		if (semester==SemesterEnum.WINTER) {
-			s="Zimski";
-		} else s="Letnji";
+		if (semester == SemesterEnum.WINTER) {
+			s = "Zimski";
+		} else
+			s = "Letnji";
 
 		return s;
+	}
+
+	
+	public static SemesterEnum semFromString(String s) {
+		
+		SemesterEnum sem;
+		if (s.equals("ZIMSKI")) {
+			sem=SemesterEnum.WINTER;
+		} else
+			sem=SemesterEnum.SUMMER;
+		
+		return sem;
 	}
 
 	public void setSemester(SemesterEnum semester) {
@@ -131,44 +132,27 @@ public class Subject{
 		this.studentsNotPassed = studentsNotPassed;
 	}
 
-
 	public String subjStringified() {
-		String s=name+subjectKey;
+		String s = name + subjectKey;
 		return s;
 	}
 
 	public Object[] getColumns() {
-//		Šifra predmeta subjectKey
-//		Naziv predmeta name
-//		Broj ESPB bodova espbPoints
-//		Godina na kojoj se predmet izvodi year
-//		Semestar u kome se predmet izvodi semester
-		Object[] cols= {"ID","Sifra","Naziv","ESPB","Godina","Semestar"};
+		Object[] cols = { "ID", "Å ifra", "Naziv", "ESPB", "Godina", "Semestar" };
 
 		return cols;
 	}
 
 	public static Object[] getData(Object o) {
-		Subject s=(Subject) o;
-		String id=Integer.toString(s.getSubjectId());
-		String sifra=s.getSubjectKey();
-		String espb=Integer.toString(s.espbPoints);
-		String year=Integer.toString(s.getYear());
-		SemesterEnum sem=s.getSemester();
-		String semester=sem.name();
-		Object[] rowData= {id,sifra,s.getName(),espb,year,semester};
+		Subject s = (Subject) o;
+		String id = Integer.toString(s.getSubjectId());
+		String sifra = s.getSubjectKey();
+		String espb = Integer.toString(s.espbPoints);
+		String year = Integer.toString(s.getYear());
+		SemesterEnum sem = s.getSemester();
+		String semester = sem.name();
+		Object[] rowData = { id, sifra, s.getName(), espb, year, semester };
 		return rowData;
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 }

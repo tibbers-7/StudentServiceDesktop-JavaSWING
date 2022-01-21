@@ -26,15 +26,17 @@ public class MenuBar extends JMenuBar {
 
 	public static MenuBarActionStudent aStud=new MenuBarActionStudent();
 	public static MenuBarActionSubject aSubj=new MenuBarActionSubject();
-	private JMenuItem _new = new JMenuItem("New");
-	private JMenuItem _edit2 = new JMenuItem("Edit");
-	private JMenuItem _delete = new JMenuItem();
-	private JMenu _file = new JMenu("File");
-	private JMenu _edit = new JMenu("Edit");
-	private JMenu _help = new JMenu("Help");
-	private JMenuItem _save = new JMenuItem();
-	private JMenu _open = new JMenu();	//ima submenu
-	private JMenuItem _close = new JMenuItem();
+	private JMenuItem _new = new JMenuItem("Novo");
+	private JMenuItem _edit2 = new JMenuItem("Izmena");
+	private JMenuItem _delete = new JMenuItem("Brisanje");
+	private JMenu _file = new JMenu("Fajl");
+	private JMenu _edit = new JMenu("Izmena");
+	private JMenu _help = new JMenu("Pomoć");
+	private JMenuItem _save = new JMenuItem("Snimi");
+	private JMenu _open = new JMenu("Otvori");	//ima submenu
+	private JMenuItem _close = new JMenuItem("Zatvori");
+	private JMenuItem _help2 = new JMenuItem("Pomoć");
+	private JMenuItem _about = new JMenuItem("O aplikaciji");
 
 	public JMenu get_file() {
 		return _file;
@@ -233,8 +235,7 @@ public class MenuBar extends JMenuBar {
 		add(_edit);
 
 //HELP
-		JMenuItem _help2 = new JMenuItem("Help");
-		JMenuItem _about = new JMenuItem("About");
+		
 
 		_help2.setMnemonic(KeyEvent.VK_H);
 		_about.setMnemonic(KeyEvent.VK_A);

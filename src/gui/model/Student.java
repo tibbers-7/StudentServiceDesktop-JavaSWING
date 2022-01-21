@@ -11,9 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import enums.StatusEnum;
 import gui.controller.CheckValidity;
 import gui.controller.databases.AddressDatabase;
-import gui.controller.student.StudentDatabase;
+import gui.controller.databases.StudentDatabase;
+import gui.controller.databases.SubjectDatabase;
 import gui.controller.student.StudentDialog;
-import gui.controller.subject.SubjectDatabase;
 
 public class Student{
 	protected int studentId;
@@ -38,13 +38,13 @@ public class Student{
 
 	}
 
-	public Student(String surname, String name, Date birthDate, int addressId, String phoneNumber,
+	public Student(String surname, String name, Date birthDate, Address address, String phoneNumber,
 			String email, String index, int enrollmentYear, int currentStudyYear, StatusEnum status) {
 		super();
 		this.surname = surname;
 		this.name = name;
 		this.birthDate = birthDate;
-		this.address = AddressDatabase.findByID(addressId);
+		this.address = address;
 
 
 		this.phoneNumber = phoneNumber;
@@ -141,8 +141,19 @@ public class Student{
 	// Dobavi sve ispite koji nisu ni polozeni ni nepolozeni
 	public String[] getUnaffiliatedSubj() {
 
-		//Pravim listu svih asociranih predmeta
-		ArrayList<Object> subjectsStud=SubjectDatabase.getListOfEntites();
+		//Svi predmeti i privremena lista
+		ArrayList<Object> subjAll=SubjectDatabase.getListOfEntites();
+		ArrayList<Object> subjectsStud=new ArrayList<>();
+		
+		//filtriranje onih koji nisu na trenutnoj godini studija
+		for(Object o:subjAll) {
+			Subject ss=(Subject) o;
+			if (ss.getYear()==this.currentStudyYear) {
+				subjectsStud.add(ss);
+			}
+		}
+		
+		//krajnja lista i ocene
 		ArrayList<Subject> subjectsNew=new ArrayList<>();
 		ArrayList<Grade> grades=new ArrayList<>(failedExams);
 		grades.addAll(passedExams);
@@ -178,10 +189,6 @@ public class Student{
 			res[i]=currSubj;
 			i++;
 		}
-
-
-
-
 		return res;
 	}
 
