@@ -48,6 +48,17 @@ public class StudentDatabase extends Student {
 		}
 		return null;
 	}
+	
+	public static Student findByIndex(String index) {
+		for(Object it:studenti) {
+			Student s=(Student) it;
+			if (s.getIndex().equals(index)) {
+				return s;
+			}
+		}
+		return null;
+	}
+
 
 
 	public static void changeStudent(Student sNew,int id) {

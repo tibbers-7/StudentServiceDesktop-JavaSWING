@@ -21,8 +21,9 @@ import gui.model.Subject;
 
 		//Klasa za dobavljanje potrebne tabele putem metode showEntityTable(int sel)
 		// sel=1 - STUDENT
-		// sel=2 - PROFESOR (napravi iste metode za dobavljanje podataka za tabelu kao u klasi student i predmet
+		// sel=2 - PROFESOR 
 		// sel=3 - PREDMET
+		// sel=4 - KATEDRA
 
 		// Tabele se instanciraju da bi se koristila samo jedna kroz ceo kod
 

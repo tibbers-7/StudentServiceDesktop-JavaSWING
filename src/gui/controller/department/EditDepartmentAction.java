@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gui.controller.ShowTable;
-import gui.controller.professor.EditProfessorDialogUpdate;
 import gui.view.MainFrame;
 
 public class EditDepartmentAction implements ActionListener{

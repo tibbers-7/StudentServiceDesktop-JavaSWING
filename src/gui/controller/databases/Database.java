@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,9 +24,13 @@ public class Database {
 	private static int i=0;
 	private static ArrayList<Grade> gradesPassed=new ArrayList<>();
 	private static ArrayList<Grade> gradesFailed=new ArrayList<>();
+	public static ArrayList<Integer> id_subj=new ArrayList<Integer>();
+	public static ArrayList<Integer> id_prof=new ArrayList<Integer>();
+	
 	public static void readFromFile() {
 //--------------------------------------------------------------------------------		
 // STUDENTI
+		
 		try {
 		      File studFile = new File("files/students.txt");
 		      Scanner studReader = new Scanner(studFile);
@@ -59,7 +62,6 @@ public class Database {
 		    		
 		    	}
 		      
-			SubjectDatabase.initList();
 		     subjReader.close();
 		} catch (FileNotFoundException e) {
 		      System.out.println("An error occurred.");
@@ -80,6 +82,7 @@ public class Database {
 		    		
 		    	}
 		      
+		    
 			profReader.close();
 		} catch (FileNotFoundException e) {
 		      System.out.println("An error occurred.");
@@ -342,7 +345,11 @@ public class Database {
 					depId=Integer.parseInt(m.group(11));
 					dep=DepartmentDatabase.findByID(depId);
 				}
-				Professor prof=new Professor(personalId,m.group(3),m.group(2),d,ad,m.group(6),m.group(7),adOf,title,trailYears);
+				Professor prof=new Professor(personalId,m.group(3),m.group(2),d,ad,m.group(6),m.group(7),adOf,title,trailYears,dep);
+				ProfessorDatabase.rowNum++;
+				
+				prof.setProfessorId(ProfessorDatabase.rowNum);
+				SubjectDatabase.assignSubjects(prof);
 				ProfessorDatabase.addProfessor(prof);
 
 			}else {
@@ -387,7 +394,7 @@ public class Database {
 		}
 	}
 
-	public static void readPGrade(String data) {
+	private static void readPGrade(String data) {
 //id_student	id_predmet	vrednost_ocene	datum polaganja
 		String r1="(\\d+)\\t";
 		String r2="(\\d{2}.\\d{2}.\\d{4}.)";
@@ -407,7 +414,7 @@ public class Database {
 			}
 	}
 	
-	public static void readFGrade(String data) {
+	private static void readFGrade(String data) {
 		//id_studenta	id_predmeta
 		String r1=("^(\\d+)\\t");
 		String r2=("(\\d+)");

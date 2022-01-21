@@ -2,8 +2,6 @@ package gui.model;
 
 import java.util.List;
 
-import gui.controller.databases.ProfessorDatabase;
-
 public class Department {
 	private int departmentId;
 	private String departmentKey; //sifra katedre
@@ -19,6 +17,7 @@ public class Department {
 		this.name = name;
 		
 		this.departmentManager = departmentManager;
+		departmentManager.setDep(this);
 	}
 	public int getDepartmentId() {
 		return departmentId;

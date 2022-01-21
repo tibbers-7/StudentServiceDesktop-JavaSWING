@@ -3,7 +3,6 @@ package gui.model;
 import java.util.List;
 
 import enums.SemesterEnum;
-import gui.controller.databases.ProfessorDatabase;
 
 public class Subject {
 	private int subjectId;
@@ -11,12 +10,13 @@ public class Subject {
 	private String name;
 	private SemesterEnum semester;
 	private int year; // Godina studija u kojoj se predmet izvodi
+	private int professorId;
 	private Professor professor;
 	private int espbPoints;
 	private List<Student> studentsPassed;
 	private List<Student> studentsNotPassed;
-	protected static int numProfs = 0;
 
+	
 	public Subject() {
 		super();
 	}
@@ -28,13 +28,7 @@ public class Subject {
 		this.semester = semester;
 		this.year = year;
 
-		if (professorId == 0) {
-			numProfs++;
-		} else {
-			Professor p = ProfessorDatabase.findByID(professorId);
-
-			this.professor = p;
-		}
+		this.professorId=professorId;
 		this.espbPoints = espbPoints;
 	}
 
@@ -153,6 +147,14 @@ public class Subject {
 		String semester = sem.name();
 		Object[] rowData = { id, sifra, s.getName(), espb, year, semester };
 		return rowData;
+	}
+
+	public int getProfessorId() {
+		return professorId;
+	}
+
+	public void setProfessorId(int professorId) {
+		this.professorId = professorId;
 	}
 
 }

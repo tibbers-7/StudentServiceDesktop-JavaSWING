@@ -15,8 +15,6 @@ public class ProfessorDatabase extends Professor{
 	}
 
 	public static void addProfessor(Professor p) {
-		rowNum++;
-		p.setProfessorId(rowNum);
 		profesori.add(p);
 	}
 
@@ -87,6 +85,16 @@ public class ProfessorDatabase extends Professor{
 			System.out.printf("Ne radi regex");
 			return null;
 		}
+	}
+	
+	public static Professor findByEmail(String email) {
+		for(Object it:profesori) {
+			Professor p=(Professor) it;
+			if (p.getEmail().equals(email)) {
+				return p;
+			}
+		}
+		return null;
 	}
 
 

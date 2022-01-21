@@ -69,7 +69,7 @@ public class ToolBar extends JToolBar {
 				btnNew=new JButton();
 				btnNew.setToolTipText("New");
 				btnNew.setPreferredSize(new Dimension(25,25));
-				btnNew.setIcon(new ImageIcon("src/images/new1.png"));
+				btnNew.setIcon(new ImageIcon("src/images/new.png"));
 				add(btnNew);
 				addSeparator();
 			//Edit

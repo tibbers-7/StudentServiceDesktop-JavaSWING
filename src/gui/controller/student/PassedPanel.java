@@ -15,10 +15,10 @@ import gui.controller.databases.SubjectDatabase;
 import gui.model.Grade;
 import gui.model.Student;
 import gui.model.Subject;
-
+//Panel polozenih ispita
 public class PassedPanel extends JPanel{
 
-	private static PassedPanel instance=null;
+	private static final long serialVersionUID = 1819271889090868805L;
 	private static JTable tableInstance=null;
 
 	public static JButton b=new JButton();
@@ -26,15 +26,8 @@ public class PassedPanel extends JPanel{
 	protected boolean found=false;
 	public static JLabel avgGrade=new JLabel();
 	public static JLabel espbSum=new JLabel();
-	ActionListener invGrade;
 	public static JScrollPane jsp=new JScrollPane();
 
-//	public static PassedPanel getInstance(Student s) {
-//		if(instance==null) {
-//			instance=new PassedPanel(s);
-//			
-//		} return instance;
-//	}
 
 	public static JTable getInstanceTable(Student s) {
 		if (tableInstance==null) {
@@ -51,11 +44,11 @@ public class PassedPanel extends JPanel{
 	}
 
 	public PassedPanel(Student s) {
-		b=new JButton("Poni�ti ocenu");
+		b=new JButton("Poništi ocenu");
 		jsp=new JScrollPane(StudentDialog.passedTable);
 		add(jsp);
 		
-		
+		s.writePassedGrades();
 		 //Akcija za ponistavanje ocene
 		   ActionListener invGrade=new ActionListener() {
 
@@ -63,8 +56,8 @@ public class PassedPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 
 				if(StudentDialog.selRowPassed==-1) {
-					string="Problem s selekcijom";
-					ClassNameHere.infoBox(string, "Obavestenje");
+					string="Ispit nije izabran!";
+					ClassNameHere.infoBox(string, "Obaveštenje");
 					return;
 				}
 						//zapamti vrednosti
@@ -85,13 +78,15 @@ public class PassedPanel extends JPanel{
 						s.addFailedExam(fGrade);
 						
 
-						string="Uspesno poni�ten ispit!";
-						ClassNameHere.infoBox(string, "Obave�tenje");
+						string="Uspesno poništen ispit!";
+						ClassNameHere.infoBox(string, "Obaveštenje");
 						((DefaultTableModel)StudentDialog.passedTable.getModel()).removeRow(selKeep);
 
-
+						
 						StudentDialog.updateExamTable();
 						StudentDialog.updatePassedPanel(s,1);
+//						ShowTable.refreshStudTable();
+//						ShowTable.updateTableStud();
 
 					}
 

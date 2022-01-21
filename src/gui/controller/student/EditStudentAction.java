@@ -4,21 +4,24 @@ import java.awt.event.ActionListener;
 
 import gui.controller.ShowTable;
 import gui.controller.databases.StudentDatabase;
+import gui.model.Student;
 import gui.view.MainFrame;
 
 public class EditStudentAction implements ActionListener {
 	public static String key;
+	public static int selRow=-1;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-
-//		ShowTable.refreshStudTable();
 		if(MainFrame.selRowStud==-1) {
 			return;
 		}
+		selRow=MainFrame.selRowStud;
+		Student s=StudentDatabase.findByID(selRow+1);
+		s.writePassedGrades();
 		key=(String)ShowTable.getStudTable().getValueAt(MainFrame.selRowStud,0);
-		StudentDialog.updatePassedPanel(StudentDatabase.findByID(MainFrame.selRowStud), 1);
+		StudentDialog.updatePassedPanel(StudentDatabase.findByID(Integer.parseInt(key)), 1);
 		
 		
 		
@@ -27,10 +30,8 @@ public class EditStudentAction implements ActionListener {
 		if (MainFrame.spEdit!=null) {
 			MainFrame.spEdit.ispisDijaloga(2);
 		}
-//		//1
-		System.out.printf("\n EditStudentAction l30:");
-		StudentDatabase.findByID(Integer.parseInt(key)).writePassedGrades();
-	
+		
+		s.writePassedGrades();
 		ShowTable.updateTableStud();
 		ShowTable.getStudTable().setRowSelectionAllowed(true);
 

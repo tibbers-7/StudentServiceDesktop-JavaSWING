@@ -7,10 +7,15 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import gui.controller.student.MenuBarActionStudent;
 import gui.controller.subject.MenuBarActionSubject;
@@ -36,7 +41,7 @@ public class MenuBar extends JMenuBar {
 	private JMenu _open = new JMenu("Otvori");	//ima submenu
 	private JMenuItem _close = new JMenuItem("Zatvori");
 	private JMenuItem _help2 = new JMenuItem("Pomoć");
-	private JMenuItem _about = new JMenuItem("O aplikaciji");
+	private JMenuItem _about = new JMenuItem("O autoru");
 
 	public JMenu get_file() {
 		return _file;
@@ -252,9 +257,32 @@ public class MenuBar extends JMenuBar {
 			Image _aaboutImg = _aboutImg.getScaledInstance(20,20, 4);
 			Icon _aboutIcon = new ImageIcon(_aaboutImg);
 			_about.setIcon(_aboutIcon);
+			
+			
+		HelpPanel hp=new HelpPanel();
+		ActionListener helpAction=new ActionListener() {
 
-
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,hp);
+			}
+			
+		};
+		_help2.addActionListener(helpAction);
 		_help.add(_help2);
+		
+		JPanel aboutPanel=new JPanel();
+		JLabel author=new JLabel("Anja Dmitrović RA41-2019");
+		aboutPanel.add(author);
+		_about.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,aboutPanel);
+			}
+			
+		});
+		
 		_help.add(_about);
 
 		add(_help);
